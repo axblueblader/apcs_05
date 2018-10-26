@@ -4,3 +4,7 @@
 *.dll
 *.so
 *.dylib
+
+# Nodejs
+node_modules/
+
