@@ -1,0 +1,35 @@
+'use strict';
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const logger = require('morgan');
+const path = require('path');
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// __dirname = base directory name
+// path.join creates a path from string input
+app.use(express.static(path.join(__dirname, 'public')));
+
+// REPLACE THIS WITH ROUTERS DEFINITION LATER
+// const aRoute = require('./routes/aRoute');
+// app.use('/aRoute',aRoute);
+app.use('/home', function (req, res) {
+    res.send('HOME ROUTE');
+})
+
+// 404 ERROR HANDLER
+app.use(function (req, res, next) {
+    res.status(404).sendFile(path.join(__dirname, 'public/views','error404.html'));
+});
+
+
+
+
+module.exports = app;
