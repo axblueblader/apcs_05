@@ -15,13 +15,33 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // __dirname = base directory name
 // path.join creates a path from string input
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
-// REPLACE THIS WITH ROUTERS DEFINITION LATER
+// REPLACE THIS WITH ROUTERS DEFINITION
+// EXAMPLE:
 // const aRoute = require('./routes/aRoute');
 // app.use('/aRoute',aRoute);
-app.use('/home', function (req, res) {
-    res.send('HOME ROUTE');
+app.use('/api', function (req, res) {
+    res.send('API ROUTE');
+})
+
+const searchRoute = require('./routes/searchRoute');
+app.use('/search',searchRoute);
+
+const allowed = [
+    '.js',
+    '.css',
+    '.png',
+    '.jpg'
+  ];
+
+app.get('*', function (req,res) {
+    if (allowed.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
+        res.sendFile(path.resolve(`../dist/${req.url}`));
+    }
+    else {
+        res.sendFile(path.join(__dirname,'../dist/index.html'));
+    }
 })
 
 // 404 ERROR HANDLER
