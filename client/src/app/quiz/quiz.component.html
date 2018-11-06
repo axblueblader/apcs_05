@@ -1,0 +1,5 @@
+<app-quizdo *ngIf="state ==='do'; else result"></app-quizdo>
+
+<ng-template #result>
+  <app-quizresult></app-quizresult>
+</ng-template>
