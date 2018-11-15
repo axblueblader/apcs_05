@@ -25,6 +25,10 @@ app.use('/api', function (req, res) {
     res.send('API ROUTE');
 })
 
+//QUIZZ ROUTE
+const quizzRoute=require('../server/routes/quizzRouter');
+app.use('/quizz',quizzRoute);
+
 const searchRoute = require('./routes/searchRoute');
 app.use('/search',searchRoute);
 
