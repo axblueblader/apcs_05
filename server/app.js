@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // __dirname = base directory name
 // path.join creates a path from string input
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 // REPLACE THIS WITH ROUTERS DEFINITION
 // EXAMPLE:
@@ -32,8 +32,20 @@ app.use('/chat', function (req,res,next) {
     res.sendFile(path.join(__dirname, 'public/views','chat.html'));
 })
 
-app.use('*', function (req,res,next) {
-    res.sendFile(path.join(__dirname, 'public/views','home.html'));
+const allowed = [
+    '.js',
+    '.css',
+    '.png',
+    '.jpg'
+  ];
+
+app.get('*', function (req,res) {
+    if (allowed.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
+        res.sendFile(path.resolve(`../dist/${req.url}`));
+    }
+    else {
+        res.sendFile(path.join(__dirname,'../dist/index.html'));
+    }
 })
 
 
