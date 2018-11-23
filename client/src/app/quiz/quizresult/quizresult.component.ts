@@ -10,11 +10,13 @@ export class QuizresultComponent implements OnInit {
 
   private quizList;
   private resultList;
+  private partnerRes;
   constructor(private quizDataService: QuizdataService) { }
 
   ngOnInit() {
     this.quizList = this.quizDataService.getList();
     this.resultList = this.quizDataService.getResult();
+    this.partnerRes = this.quizDataService.getPartnerRes();
   }
 
 }
