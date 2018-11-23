@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {QuizdataService} from '../quizdata.service';
 
 @Component({
   selector: 'app-quizresult',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuizresultComponent implements OnInit {
 
-  constructor() { }
+  private quizList;
+  private resultList;
+  constructor(private quizDataService: QuizdataService) { }
 
   ngOnInit() {
+    this.quizList = this.quizDataService.getList();
+    this.resultList = this.quizDataService.getResult();
   }
 
 }

@@ -1,4 +1,4 @@
-<app-quizdo *ngIf="state ==='do'; else result"></app-quizdo>
+<app-quizdo *ngIf="state ==='do'; else result" (changeState)="swapComp()"></app-quizdo>
 
 <ng-template #result>
   <app-quizresult></app-quizresult>

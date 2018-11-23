@@ -7,12 +7,14 @@
   <div class="row flex-row">
     <div class="col-md d-flex justify-content-center">
       <div class="answer">
-        <img  class="img-fluid" src="http://homepages.neiu.edu/~ejgore/cs300/images/red.png" (click)="imgClick('red') ">
+         <img  class="img-fluid" src="{{quizList[currQuest].left}}" (click)="imgClick('left') ">
+        <!--<input type="image" src="http://homepages.neiu.edu/~ejgore/cs300/images/red.png" (click)="imgClick('red')">-->
       </div>
     </div>
     <div class="col-md d-flex justify-content-center">
       <div class="answer">
-        <img class="img-fluid" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Blue_%28film%29.jpg" style="max-height: 300px; max-width: 300px; object-fit: cover" (click)="imgClick('blue')">
+         <img class="img-fluid" src="{{quizList[currQuest].right}}" (click)="imgClick('right')">
+        <!--<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Blue_%28film%29.jpg" (click)="imgClick('blue')">-->
       </div>
     </div>
   </div>
