@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
   MatExpansionModule,
+  MatListModule,
   MatRadioModule,
   MatSliderModule
 } from '@angular/material';
@@ -23,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatButtonModule,
     MatExpansionModule,
+    MatListModule,
     MatRadioModule,
     MatSliderModule
   ],

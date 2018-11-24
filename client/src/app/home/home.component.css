@@ -1,6 +1,6 @@
 .parent {
   text-align: center;
-  padding: 20px;
+  padding-bottom: 40px;
 }
 
 .raised-button {
@@ -18,22 +18,20 @@
   width: 50%;
 }
 
-.title {
-  float: left;
-  font-style: italic;
-  height: 50px;
-  line-height: 50px;
-  vertical-align: center;
-  padding-right: 20px;
+#search-option {
+  margin: auto;
+  text-shadow: 0 1px gray;
 }
 
-.group {
-  clear: left;
+.space {
+  height: 1px;
+}
+
+.title {
+  font-style: italic;
+  padding-right: 50px;
 }
 
 .radio-button {
-  padding-right: 20px;
-  height: 50px;
-  line-height: 50px;
-  vertical-align: center;
+  padding-right: 50px;
 }
