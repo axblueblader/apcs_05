@@ -13,6 +13,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//conect the db
+
+const mongoose=require('mongoose');
+mongoose.connect("mongodb://localhost:27017/quizzDB")
+
+
 // __dirname = base directory name
 // path.join creates a path from string input
 //app.use(express.static(path.join(__dirname, 'public')));

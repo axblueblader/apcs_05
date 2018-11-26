@@ -1,8 +1,8 @@
 const mongoose=require('mongoose');
-
-const quizzSchema = mongoose.Schema({
+let schema= mongoose.Schema;
+let quizzSchemas=new schema({
     userID: String,
     userAns: String
 })
+module.exports=mongoose.model("Quizz Schemas",quizzSchemas);
 
-module.exports = mongoose.model("QuizzAnswerModel",quizzSchema);
