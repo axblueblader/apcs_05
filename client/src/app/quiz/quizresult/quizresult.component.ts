@@ -16,7 +16,9 @@ export class QuizresultComponent implements OnInit {
   ngOnInit() {
     this.quizList = this.quizDataService.getList();
     this.resultList = this.quizDataService.getResult();
+    console.log(this.resultList);
     this.partnerRes = this.quizDataService.getPartnerRes();
+    console.log(this.partnerRes);
   }
 
 }

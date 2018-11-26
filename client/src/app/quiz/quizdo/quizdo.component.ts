@@ -26,6 +26,7 @@ export class QuizdoComponent implements OnInit {
       this.currQuest++;
       this.quizDataService.addResult(color);
     } else {
+      this.quizDataService.addResult(color);
       this.changeState.emit();
     }
 
