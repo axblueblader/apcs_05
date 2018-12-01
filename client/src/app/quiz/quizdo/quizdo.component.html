@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row flex-row">
+    <div class="col-md">
+      <h3 class="text-center">Current question</h3>
+    </div>
+  </div>
+  <div class="row flex-row">
+    <div class="col-md d-flex justify-content-center">
+      <div class="answer">
+         <img  class="img-fluid" src="{{quizList[currQuest].left}}" (click)="imgClick('left') ">
+        <!--<input type="image" src="http://homepages.neiu.edu/~ejgore/cs300/images/red.png" (click)="imgClick('red')">-->
+      </div>
+    </div>
+    <div class="col-md d-flex justify-content-center">
+      <div class="answer">
+         <img class="img-fluid" src="{{quizList[currQuest].right}}" (click)="imgClick('right')">
+        <!--<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Blue_%28film%29.jpg" (click)="imgClick('blue')">-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style type="text/css">
+  .answer{
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+  }
+
+  .answer img{
+    width: 100%;
+    height: 100%;
+  }
+</style>
