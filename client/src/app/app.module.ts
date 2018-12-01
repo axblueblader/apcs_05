@@ -14,11 +14,15 @@ import { QuizComponent } from './quiz/quiz.component';
 import { QuizdoComponent } from './quiz/quizdo/quizdo.component';
 import { QuizresultComponent } from './quiz/quizresult/quizresult.component';
 import { HomeComponent } from './home/home.component';
+import { ChatComponent } from './chat/chat.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
+    ChatComponent,
     QuizComponent,
     QuizdoComponent,
     QuizresultComponent,
