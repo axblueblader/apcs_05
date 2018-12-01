@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //conect the db
 
 const mongoose=require('mongoose');
-mongoose.connect("mongodb://localhost:27017/quizzDB")
+mongoose.connect("mongodb://localhost:27017/TEST")
 
 
 // __dirname = base directory name
@@ -32,11 +32,16 @@ app.use('/api', function (req, res) {
 })
 
 //QUIZZ ROUTE
-const quizzRoute=require('../server/routes/quizzRouter');
+const quizzRoute=require('../server/routes/quizzRoute');
 app.use('/quizz',quizzRoute);
 
 const searchRoute = require('./routes/searchRoute');
 app.use('/search',searchRoute);
+
+
+
+const user=require('./routes/authenciation');
+app.use('/user',user);
 
 const allowed = [
     '.js',

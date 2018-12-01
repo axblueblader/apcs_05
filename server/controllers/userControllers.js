@@ -1,52 +1,38 @@
 const mongoose=require('mongoose');
-let userSchema= require('../models/usersSchema');
-exports.signin=(req,res,next)=>{
-    res.send("Running Sign in")
+const service=require('../services/UserService');
+exports.signin=async function (req,res,next){
+   // res.send("Running Sign in")
     //console.log(req.body.phoneNumber)
-    userSchema.find({userPhone:req.body.phoneNumber})
-  .then((doc)=> { 
-     if (doc) {//user already signed up
-       //check the passwords
-        //console.log(doc);
-        console.log(doc[0].userPasswords);
-       if(doc[0].userPasswords==req.body.userPass)
-       {
-           //set the global ID
-           console.log("Checking passwords");
-           GLOBALUserID=doc[0]._id;
-           console.log("Login successfully with ID: "+GLOBALUserID)
-       }
-       else{
-           console.log("Wrong passwords!")
-       }
-         } else {
-       console.log("No data exist for this users");
-     }
-    })        
+    console.log("Running Sign in - CONTROLLERS")
+    let userNumber = req.body.userPhone;
+    let userPassword=req.body.userPass;
+    const output= await service.CheckForSignIn(userNumber,userPassword);   
+    console.log("Back to the CONTROLLERS");
+    console.log("Output - CONTROLLERS");
+    console.log(output);
+    return res.json(output);     
 }
 
-exports.signup=(req,res,next)=>{
+exports.signup= async function (req,res,next){
     //tìm trong data rồi mới cho sign up
-   res.send("Running Sign up - controllers")
+   //res.send("Running Sign up - controllers")
     let Name=req.body.userName;
     let Phone=req.body.userPhone;
     let Pass=req.body.userPass;
-
-    let newUser= new userSchema({
-        id: mongoose.Types.ObjectId(),
-        userName:Name,
-        userPhone:Phone,
-        userPasswords:Pass
-    });
-    console.log("Sign up successfully!");
-    newUser.save();
-    //res.send("Added")
+    const output=await service.UserSignUp(Name,Phone,Pass);
+    
+    return res.json(output);
 }
 
 
-exports.changePassword=(req,res,next)=>{
-    res.send("Running Changing Passwords")
-    userSchema.findOneAndUpdate({userPhone:req.body.userPhone},{$set:{userPasswords:req.body.newPasswords}},{new:true})
+exports.changePassword= async function (req,res,next){
+    //res.send("Running Changing Passwords")
+    let newPasswords=req.body.newPasswords;
+    let userPhone=req.body.userPhone;
+    const output= await service.changePasswords(userPhone,newPasswords);
+    
+    return res.json(output);
+    //nếu có update: thì thêm pass cũ vào rồi mới cho check.
 }
 
 
