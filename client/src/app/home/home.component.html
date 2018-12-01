@@ -1,1 +1,28 @@
-<h1>This is new home</h1>
+<div class="parent">
+  <h1>Home</h1>
+  <button mat-raised-button class="raised-button" (click) = "onClick()">{{clicked ? "×" : "+"}}</button>
+</div>
+
+<div id="search">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <p id="search-option">Searching options</p>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item class="list-item">
+          <p class="title">Gender</p>
+          <mat-radio-group>
+              <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
+              <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
+          </mat-radio-group>
+        </mat-list-item>
+        <p class="space"></p>
+        <mat-list-item>
+          <p class="title">Age</p>
+          <mat-slider thumbLabel min="10" max="90"></mat-slider>
+        </mat-list-item>
+       </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
