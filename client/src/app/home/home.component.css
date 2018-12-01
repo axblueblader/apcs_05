@@ -1,0 +1,37 @@
+.parent {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.raised-button {
+  text-align: center;
+  margin: auto;
+  width: 160px;
+  height: 160px;
+  line-height: 160px;
+  font-size: 100px;
+  border-radius: 50%;
+}
+
+#search {
+  margin: auto;
+  width: 50%;
+}
+
+#search-option {
+  margin: auto;
+  text-shadow: 0 1px gray;
+}
+
+.space {
+  height: 1px;
+}
+
+.title {
+  font-style: italic;
+  padding-right: 50px;
+}
+
+.radio-button {
+  padding-right: 50px;
+}
