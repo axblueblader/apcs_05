@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {QuizdataService} from '../quizdata.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-quizdo',
@@ -11,7 +12,9 @@ export class QuizdoComponent implements OnInit {
   private currQuest: number;
   @Output() private changeState = new EventEmitter<void>();
 
-  constructor(private quizDataService: QuizdataService) { }
+  constructor(private quizDataService: QuizdataService,
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.quizList  = this.quizDataService.getList();
@@ -27,7 +30,7 @@ export class QuizdoComponent implements OnInit {
       this.quizDataService.addResult(color);
     } else {
       this.quizDataService.addResult(color);
-      this.changeState.emit();
+      this.router.navigate(['../result'], {relativeTo: this.route});
     }
 
   }
