@@ -21,10 +21,19 @@ class Conversation{
         return 'Conversation deleted'
     }
 
-    deliverMessageFor(socket_id, msg){
-        socket = this.Conversations.get(socket_id)
+    deliverMessageFor(sender_socket_id, msg){
+        socket = this.Conversations.get(sender_socket_id)
         socket.emit('new message', msg)
 
         return 'message delivered'
     }
+
+    messageSeen(sender_socket_id){
+        socket = this.Conversations.get(sender_socket_id);
+        socket.emit('message seen')
+
+        return 'seen message sent'
+    }
 }
+
+module.exports.Conversation

@@ -8,11 +8,11 @@ class SocketManager{
         var ret;
         if (!this.ActiveConnection.has(userID)){
             this.ActiveConnection.set(userID, socketID)
-            ret = "sucess"
+            ret = 'sucess'
         }
         else{
         //already there
-            ret = "existed"
+            ret = 'existed'
         }
         return ret;
     }
@@ -21,10 +21,10 @@ class SocketManager{
         var ret;
         if (this.ActiveConnection.has(userID)){
             this.ActiveConnection.delete(userID)
-            ret = "sucess"
+            ret = 'sucess'
         }
         else{
-            ret = "not exist"
+            ret = 'not exist'
         }
         return ret
     }
@@ -38,6 +38,7 @@ class SocketManager{
             ret = null
         }
         return ret
-            
     }
 }
+
+module.exports.SocketManager
