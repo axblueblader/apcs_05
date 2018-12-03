@@ -1,13 +1,13 @@
 var socketIo = require('socket.io');
 
-const Conversation = require('../pairing-service/Conversation')
-var conversations = new Conversation();
-
-const NormalQueue = require('../pairing-service/NormalQueue')
-var normalQueue = new NormalQueue();
 
 const SocketManager = require('../pairing-service/SocketManager');
 var socketManager= new SocketManager();
+
+const Conversation = require('../pairing-service/Conversation')
+var conversations = new Conversation(socketManager);
+var normalQueue = new normalQueue();
+
 
 const initialize = function (server) {
     var io = socketIo(server);
@@ -19,25 +19,44 @@ const initialize = function (server) {
             console.log(socketManager.addActiveConnection(userID,this));
         })
 
-        socket.on('queue',(userID)=>{
-            normalQueue.join(userID);
+        /*
+            data {
+                'userid': userid,
+                'queueType': quick | malemale | malefemale | femalemale | femalefemale
+            }
+        */
+        socket.on('start search',(data)=>{
+            pair = queueManager.joinQueue(data);
             // call pairing service
-            // socket.emit('queueSuccess')
-            // matched
+            if (pair != null) {
+                // if match success, pair will be a pair of userid from pairing serive
+                conversations.newConversation(pair.userid1,pair.userid2);
+            }
+            else{
+                // waiting in queue
+                socket.emit('waiting in queue')
+            }
         })
 
-        socket.on('recieved',(userID)=>{
-            // socketManager.seenBy(userID)
+        socket.on('stop search',(userID)=>{
+            normalQueue.leaveQueue(userID);
         })
 
-        
+        socket.on('message recieved',(userID)=>{
+            conversations.seenBy(userID);
+        })
 
-        socket.on('newMessage',(msg)=>{
+        socket.on('send message',(msg)=>{
             console.log('Socket: ',this.id,' sent: ',msg);
             console.log(conversations.deliverMessageFor(this.id,msg));
         })
 
+        socket.on('leave chat',(userID) => {
+            console.log(conversations.userLeaveChat(userID));
+        })
+
         socket.on('disconnect',(userID)=>{
+            normalQueue.leaveQueue(userID);
             socketManager.removeConnection(userID);
         })
     })        

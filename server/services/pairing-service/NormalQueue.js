@@ -13,10 +13,13 @@ class NormalQueue {
             
         }
     }
+
+    leaveQueue(userID){
+        if (this.queue.) {
+            remove
+        }
+    }
 }
 
-<<<<<<< HEAD:server/modules/pairing-service/NormalQueue.js
-module.exports.NormalQueue
-=======
-module.exports = NormalQueue;
->>>>>>> 9652c79a4be0b418c916b87be2ed37235ba81ab0:server/services/pairing-service/NormalQueue.js
+const _NormalQueue = NormalQueue;
+export { _NormalQueue as NormalQueue };

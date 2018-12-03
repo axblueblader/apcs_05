@@ -1,45 +1,67 @@
 //noob implementation
 
 class Conversation{
-    constructor(){
+    constructor(_SocketManager){
         this.Conversations = new Map();
+        this.socketManager = _SocketManager;
     }
 
-    newConversation(socket1, socket2){
+    newConversation(userid1, userid2){
         //map the user to the socket by the other user
 
-        this.Conversations.set(socket1.id, socket2)
-        this.Conversations.set(socket2.id, socket1)
+        this.Conversations.set(userid1, userid2)
+        this.Conversations.set(userid2, userid1)
         
         return 'Conversation added'
     }
 
-    removeConversation(socket_id1, socket_id2){
-        this.Conversations.delete(socket_id1)
-        this.Conversations.delete(socket_id2)
+    removeConversation(userid1, userid2){
+        this.Conversations.delete(userid1)
+        this.Conversations.delete(userid2)
 
         return 'Conversation deleted'
     }
 
-    deliverMessageFor(sender_socket_id, msg){
-        socket = this.Conversations.get(sender_socket_id)
+    userLeaveChat(userid_who_leaves){
+        // get the other user
+        other_user = this.Conversations.get(userid_who_leaves)
+
+        //get the other user socket
+        socket = this.socketManager.getSocketByID(other_user)
+
+        // emit event left chat
+        socket.emit('left chat', userid_who_leaves)
+
+        //remove the conversation
+        this.removeConversation(userid_who_leaves, other_user)
+    }
+
+    deliverMessageFor(sender_userid, msg){
+        // get the other user
+        recv_userid = this.Conversations.get(sender_userid)
+
+        //get the other user socket
+        socket = this.socketManager.getSocketByID(recv_userid)
+
+        // send message to other user
         socket.emit('new message', msg)
 
         return 'message delivered'
     }
-<<<<<<< HEAD:server/modules/pairing-service/Conversation.js
 
-    messageSeen(sender_socket_id){
-        socket = this.Conversations.get(sender_socket_id);
-        socket.emit('message seen')
+    messageSeenByUser(userid_who_seen){
+        // get the message sender
+        sender_userid = this.Conversations.get(userid_who_seen)
+
+        // get the sender socket
+        socket = this.socketManager.getSocketByID(sender_userid)
+
+        //emit event to the sender
+        socket.emit('message seen', userid_who_seen)
 
         return 'seen message sent'
     }
 }
 
-module.exports.Conversation
-=======
-}
-
-module.exports = Conversation;
->>>>>>> 9652c79a4be0b418c916b87be2ed37235ba81ab0:server/services/pairing-service/Conversation.js
+const _Conversation = Conversation;
+export { _Conversation as Conversation };

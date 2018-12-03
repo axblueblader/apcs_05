@@ -29,7 +29,7 @@ class SocketManager{
         return ret
     }
     
-    getSocketByID(userID){
+    socketOfUser(userID){
         var ret;
         if (this.ActiveConnection.has(userID)){
             ret = this.ActiveConnection.get(userID)
@@ -41,5 +41,4 @@ class SocketManager{
     }
 }
 
-const _SocketManager = SocketManager;
-export { _SocketManager as SocketManager };
+module.exports.SocketManager

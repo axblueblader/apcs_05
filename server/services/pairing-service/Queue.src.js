@@ -69,4 +69,5 @@ function Queue(){
 
 }
 
-module.exports.Queue
+const _Queue = Queue;
+export { _Queue as Queue };
