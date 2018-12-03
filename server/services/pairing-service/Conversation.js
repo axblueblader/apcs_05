@@ -28,3 +28,5 @@ class Conversation{
         return 'message delivered'
     }
 }
+
+module.exports = Conversation;

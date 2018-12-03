@@ -9,3 +9,5 @@ class NormalQueue {
         }
     }
 }
+
+module.exports = NormalQueue;
