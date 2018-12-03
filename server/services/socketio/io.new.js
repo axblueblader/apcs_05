@@ -3,14 +3,13 @@ var socketIo = require('socket.io');
 const Conversation = require('../pairing-service/Conversation')
 var conversations = new Conversation();
 
-//const NormalQueue = require('../pairing-service/NormalQueue')
-
+const NormalQueue = require('../pairing-service/NormalQueue')
+var normalQueue = new NormalQueue();
 
 const SocketManager = require('../pairing-service/SocketManager');
 var socketManager= new SocketManager();
 
 const initialize = function (server) {
-    var socketHolder = {};
     var io = socketIo(server);
 
     io.on('connection', function (socket) {
@@ -20,20 +19,28 @@ const initialize = function (server) {
             console.log(socketManager.addActiveConnection(userID,this));
         })
 
-        // Matched emit when user choose to join chat after quiz
-        socket.on('matched',(pair)=>{
-            // Dummy API
-            let id1 = pair.userID1;
-            let id2 = pair.userID2;        
-            console.log('Matching: ',pair);
-            console.log(conversations.newConversation(id1,id2));
+        socket.on('queue',(userID)=>{
+            normalQueue.join(userID);
+            // call pairing service
+            // socket.emit('queueSuccess')
+            // matched
         })
+
+        socket.on('recieved',(userID)=>{
+            // socketManager.seenBy(userID)
+        })
+
+        
 
         socket.on('newMessage',(msg)=>{
             console.log('Socket: ',this.id,' sent: ',msg);
             console.log(conversations.deliverMessageFor(this.id,msg));
         })
-    }        
+
+        socket.on('disconnect',(userID)=>{
+            socketManager.removeConnection(userID);
+        })
+    })        
 }
 
 module.exports = initialize;

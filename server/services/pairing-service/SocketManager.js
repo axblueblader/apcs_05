@@ -41,4 +41,8 @@ class SocketManager{
     }
 }
 
+<<<<<<< HEAD:server/modules/pairing-service/SocketManager.js
 module.exports.SocketManager
+=======
+module.exports = SocketManager;
+>>>>>>> 9652c79a4be0b418c916b87be2ed37235ba81ab0:server/services/pairing-service/SocketManager.js

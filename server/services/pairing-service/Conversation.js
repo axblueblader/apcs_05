@@ -27,6 +27,7 @@ class Conversation{
 
         return 'message delivered'
     }
+<<<<<<< HEAD:server/modules/pairing-service/Conversation.js
 
     messageSeen(sender_socket_id){
         socket = this.Conversations.get(sender_socket_id);
@@ -37,3 +38,8 @@ class Conversation{
 }
 
 module.exports.Conversation
+=======
+}
+
+module.exports = Conversation;
+>>>>>>> 9652c79a4be0b418c916b87be2ed37235ba81ab0:server/services/pairing-service/Conversation.js
