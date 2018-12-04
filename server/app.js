@@ -38,10 +38,12 @@ app.use('/quizz',quizzRoute);
 const searchRoute = require('./routes/searchRoute');
 app.use('/search',searchRoute);
 
-
-
 const user=require('./routes/authenciation');
 app.use('/user',user);
+
+app.use('/chat', function (req,res,next) {
+    res.sendFile(path.join(__dirname, 'public/views','chat.html'));
+})
 
 const allowed = [
     '.js',
@@ -58,6 +60,8 @@ app.get('*', function (req,res) {
         res.sendFile(path.join(__dirname,'../dist/index.html'));
     }
 })
+
+
 
 // 404 ERROR HANDLER
 app.use(function (req, res, next) {
