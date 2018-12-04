@@ -20,9 +20,6 @@ $(function () {
     socket.emit('register', userid);
   })
 
-
-
-
   $('#sendMess').click(function () {
     if (inChat == true) {
       $('#messages').append($('<li>').text($('#m').val()))
