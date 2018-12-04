@@ -14,6 +14,7 @@ class NormalQueue {
         else{
             // there is no one waiting, make him wait
             this.userid_who_waiting = userid_who_joining
+            console.log('User in queue: ',this.userid_who_waiting)
             //return nothing
             return undefined
         }

@@ -24,16 +24,16 @@ class Conversation{
 
     userLeaveChat(userid_who_leaves){
         // get the other user
-        other_user = this.Conversations.get(userid_who_leaves)
+        let other_user = this.Conversations.get(userid_who_leaves)
 
         //get the other user socket
-        socket = this.socketManager.getSocketByID(other_user)
+        let socket = this.socketManager.getSocketByID(other_user)
 
         // emit event left chat
         socket.emit('left chat', userid_who_leaves)
 
         //remove the conversation
-        this.removeConversation(userid_who_leaves, other_user)
+        console.log(this.removeConversation(userid_who_leaves, other_user))
     }
 
     deliverMessageFor(sender_userid, msg){
@@ -53,10 +53,10 @@ class Conversation{
 
     messageSeenByUser(userid_who_seen){
         // get the message sender
-        sender_userid = this.Conversations.get(userid_who_seen)
+        let sender_userid = this.Conversations.get(userid_who_seen)
 
         // get the sender socket
-        socket = this.socketManager.getSocketByID(sender_userid)
+        let socket = this.socketManager.getSocketByID(sender_userid)
 
         //emit event to the sender
         socket.emit('message seen', userid_who_seen)

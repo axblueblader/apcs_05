@@ -57,17 +57,20 @@ const initialize = function (server) {
         })
 
         socket.on('message recieved',(userID)=>{
-            conversations.seenBy(userID);
+            // inside: emit('message seen',userid_who_seen)
+            conversations.messageSeenByUser(userID);
         })
 
         socket.on('send message',(data)=>{
             console.log(data);
             console.log('User: ',data.userid,' sent: ',data.msg);
+            // inside: emit('new message',msg);
             console.log(conversations.deliverMessageFor(data.userid,data.msg));
         })
 
         socket.on('leave chat',(userID) => {
-            console.log(conversations.userLeaveChat(userID));
+            // inside: emit('left chat',userid_who_leaves)
+            conversations.userLeaveChat(userID);
         })
 
         socket.on('disconnect',(userID)=>{
