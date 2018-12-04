@@ -4,10 +4,7 @@ $(function () {
   var inChat = false;
   var socket = io();
   var finding = false;
-
-  // TODO add userid
-
-
+  
   // register socket into manager
   var userid = undefined;
 
