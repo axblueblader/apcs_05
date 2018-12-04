@@ -6,7 +6,7 @@ var socketManager= new SocketManager();
 
 const Conversation = require('../pairing-service/Conversation')
 var conversations = new Conversation(socketManager);
-var normalQueue = new normalQueue();
+var normalQueue = new NormalQueue();
 
 
 const initialize = function (server) {
