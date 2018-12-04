@@ -13,6 +13,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//conect the db
+
+const mongoose=require('mongoose');
+mongoose.connect("mongodb://localhost:27017/TEST")
+
+
 // __dirname = base directory name
 // path.join creates a path from string input
 //app.use(express.static(path.join(__dirname, 'public')));
@@ -25,8 +31,15 @@ app.use('/api', function (req, res) {
     res.send('API ROUTE');
 })
 
+//QUIZZ ROUTE
+const quizzRoute=require('../server/routes/quizzRoute');
+app.use('/quizz',quizzRoute);
+
 const searchRoute = require('./routes/searchRoute');
 app.use('/search',searchRoute);
+
+const user=require('./routes/authenciation');
+app.use('/user',user);
 
 app.use('/chat', function (req,res,next) {
     res.sendFile(path.join(__dirname, 'public/views','chat.html'));
