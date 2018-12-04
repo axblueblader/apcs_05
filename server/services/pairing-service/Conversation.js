@@ -38,12 +38,14 @@ class Conversation{
 
     deliverMessageFor(sender_userid, msg){
         // get the other user
-        recv_userid = this.Conversations.get(sender_userid)
+        let recv_userid = this.Conversations.get(sender_userid)
 
         //get the other user socket
-        socket = this.socketManager.getSocketByID(recv_userid)
+        let socket = this.socketManager.getSocketByID(recv_userid)
 
         // send message to other user
+        console.log('Recieving socket:',socket.id)
+
         socket.emit('new message', msg)
 
         return 'message delivered'
@@ -63,5 +65,4 @@ class Conversation{
     }
 }
 
-const _Conversation = Conversation;
-export { _Conversation as Conversation };
+module.exports = Conversation;

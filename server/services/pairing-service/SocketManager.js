@@ -3,43 +3,37 @@ class SocketManager{
         this.ActiveConnection = new Map()
     }
 
-    addActiveConnection(userID, socketID){
+    addActiveConnection(userid, socket){
         //if the map did not has this user token
-        var ret;
-        if (!this.ActiveConnection.has(userID)){
-            this.ActiveConnection.set(userID, socketID)
-            ret = 'sucess'
+        /*let ret = 'existed';
+        if (!this.ActiveConnection.has(userid)){
+            this.ActiveConnection.set(userid, socketID)
+            ret = 'success'
         }
-        else{
-        //already there
-            ret = 'existed'
-        }
-        return ret;
+
+        return ret;*/
+
+        this.ActiveConnection.set(userid, socket)
+        //console.log(this.ActiveConnection);
+        return 'active connection added'
     }
 
-    removeConnection(userID){
-        var ret;
-        if (this.ActiveConnection.has(userID)){
-            this.ActiveConnection.delete(userID)
-            ret = 'sucess'
-        }
-        else{
-            ret = 'not exist'
+    removeConnection(userid){
+        let ret = 'not exist';
+        if (this.ActiveConnection.has(userid)){
+            this.ActiveConnection.delete(userid)
+            ret = 'success'
         }
         return ret
     }
     
-    getSocketByID(userID){
-        var ret;
-        if (this.ActiveConnection.has(userID)){
-            ret = this.ActiveConnection.get(userID)
-        }
-        else {
-            ret = null
+    getSocketByID(userid){
+        let ret = undefined;
+        if (this.ActiveConnection.has(userid)){
+            ret = this.ActiveConnection.get(userid)
         }
         return ret
     }
 }
 
-const _SocketManager = SocketManager;
-export { _SocketManager as SocketManager };
+module.exports = SocketManager;

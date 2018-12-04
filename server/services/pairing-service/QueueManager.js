@@ -1,8 +1,8 @@
-
+const NormalQueue = require('../pairing-service/NormalQueue')
 
 class QueueManager{
     constructor(){
-        quickQueue = new NormalQueue();
+        this.quickQueue = new NormalQueue();
     }
 
     joinQueue(data){
@@ -15,3 +15,5 @@ class QueueManager{
         return this.quickQueue.leaveQueue(data.userid)
     }
 }
+
+module.exports = QueueManager;

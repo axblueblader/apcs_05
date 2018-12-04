@@ -17,14 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // path.join creates a path from string input
 //app.use(express.static(path.join(__dirname, 'public')));
 
-// REPLACE THIS WITH ROUTERS DEFINITION
-// EXAMPLE:
-// const aRoute = require('./routes/aRoute');
-// app.use('/aRoute',aRoute);
-app.use('/api', function (req, res) {
-    res.send('API ROUTE');
-})
-
 const searchRoute = require('./routes/searchRoute');
 app.use('/api/search',searchRoute);
 

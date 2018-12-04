@@ -5,15 +5,30 @@ $(function () {
     var socket = io();
     var finding = false;
 
-    // Dummy test
-    const userid = 'viet'
+    // TODO add userid
+    
 
     // register socket into manager
-    socket.emit('register',userid);
+    var userid = undefined;
+
+    console.log(socket);
+
+    socket.emit('get token');
+    socket.on('recieve token',(token)=>{
+      console.log("Token: ",token);
+      userid =token;
+      socket.emit('register',userid);
+    })
+
+
+    
 
     $('form').submit(function(){
-      socket.emit('send message', $('#m').val());
       $('#messages').append($('<li>').text($('#m').val()))
+      socket.emit('send message', {
+        'userid':userid,
+        'msg': $('#m').val()
+      });
       $('#m').val('');
       return false;
     });

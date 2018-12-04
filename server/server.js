@@ -4,7 +4,7 @@ const server = require('http').createServer(app);
 
 const port = process.env.PORT || 3000;
 
-const io = require('./modules/socketio/io');
+const io = require('./services/socketio/io.new');
 
 io(server);
 

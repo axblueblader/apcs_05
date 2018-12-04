@@ -1,8 +1,11 @@
+const uuidv1 = require('uuid/v1');
+
 class TokenGenerator{
     constructor(){
-        //nothing
     }
-    getToken(socket){
-        return socket.id
+    getToken(){
+        return uuidv1()
     }
 }
+
+module.exports = TokenGenerator
