@@ -1,7 +1,0 @@
-exports.SIGNED_IN="Signed in"
-exports.WRONG_PASSWORDS="Wrong password"
-exports.NO_ACCOUNTS="No accounts"
-exports.SIGN_UP_SUCCESSFULLY="Sign up successfully"
-exports.CHANGE_PASS="Change passwords"
-exports.USER_ACCESS="User"
-exports.ADMIN_ACCESS="Admin"
