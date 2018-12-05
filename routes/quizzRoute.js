@@ -33,5 +33,5 @@ route.use(bodyParser.urlencoded({ extended: false }))
 route.get('/startquizz',UserMiddlewares.AlreadySignedIn,controllers.getGrades);
 route.post('/updatedatabase',UserMiddlewares.AlreadySignedIn,UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
 route.get('/loadquestion',UserMiddlewares.AlreadySignedIn,controllers.loadQuestions);
-
+route.put('/terminatequizz',UserMiddlewares.AlreadySignedIn,controllers.TerminateQuizz)
 module.exports=route;
