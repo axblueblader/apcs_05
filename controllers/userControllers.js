@@ -28,8 +28,9 @@ exports.signup= async function (req,res,next){
 exports.changePassword= async function (req,res,next){
     //res.send("Running Changing Passwords")
     let newPasswords=req.body.newPasswords;
+    let oldPasswords=req.body.oldPasswords;
     let userPhone=req.body.userPhone;
-    const output= await service.changePasswords(userPhone,newPasswords);
+    const output= await service.changePasswords(userPhone,newPasswords,oldPasswords);
     return res.json(output);
     //nếu có update: thì thêm pass cũ vào rồi mới cho check.
 }

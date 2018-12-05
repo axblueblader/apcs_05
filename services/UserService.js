@@ -64,11 +64,20 @@ exports.UserSignUp= async function (Name,Phone,Pass)
 
 }
 
-exports.changePasswords=async function(userPhone,newPasswords)
+exports.changePasswords=async function(userPhone,newPasswords,oldPasswords)
 {
-    const userUpdated=await userSchema.findOneAndUpdate({userPhone},{$set:{userPasswords:newPasswords}},{new:true})  
+    const userUpdated=await userSchema.findOne({userPhone : userPhone});
+    if(userUpdated.userPasswords===oldPasswords)
+    {
+        userUpdated=await userSchema.findOneAndUpdate({userPhone},{$set:{userPasswords:newPasswords}},{new:true})  
     let result={Status: userStatus.CHANGE_PASS,UserInfo:userUpdated};
-    return result; 
+    return result;
+
+    }
+    else{
+        let result = {Status: "Wrong passwords",UserInfo: userUpdated};
+        return result;
+    }
 }
 
 

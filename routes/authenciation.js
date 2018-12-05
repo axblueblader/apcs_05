@@ -38,7 +38,7 @@ const UserMiddlewares=require('../middlewares/UserMiddlewares')
 
 route.post('/signup',controllers.signup);
 route.put('/signin',controllers.signin);
-route.put('/changepass',UserMiddlewares.AlreadySignedIn,controllers.changePassword);
+route.put('/changepass',controllers.changePassword);
 route.put('/logout',UserMiddlewares.AlreadySignedIn,controllers.logout);
 
 module.exports=route;
