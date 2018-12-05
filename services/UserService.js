@@ -1,7 +1,10 @@
-let userSchema= require('../models/usersSchema');
+let userSchema= require('../schemas/usersSchema');
 let userStatus=require('../models/UserStatus');
 const mongoose=require('mongoose')
-const GLOBAL=require('../Global');
+const QuestionSchema=require('../schemas/QuestionModel');
+const QuizzResultSchema=require('../schemas/QuizzResultsModel');
+const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
+
 
      /**    Json returned type
             {
@@ -26,6 +29,8 @@ exports.CheckForSignIn= async function(userphone,userPass)
              console.log("Login successfully with User:");
              console.log(user)
              status=userStatus.SIGNED_IN;
+             user.userStatus=userStatus.ONLINE;
+             await userSchema.update({_id:user._id},{$set:{userStatus:userStatus.ONLINE}});
          }
          else{
              console.log("Wrong passwords!")
@@ -39,8 +44,7 @@ exports.CheckForSignIn= async function(userphone,userPass)
        }
 
        //return the json file
-       let result={Status: status, UserInfo: user};
-       GLOBAL.UserInfo=user;
+       let result={Status: status, UserInfo: user}; 
        return result;
       
 }
@@ -68,4 +72,47 @@ exports.changePasswords=async function(userPhone,newPasswords)
 }
 
 
+exports.getGrades=async function(userid,userans,partnerID){
+    console.log("Running Get grades - SERVICES")
+    console.log("User Id: "+userid);
+    console.log("User ans: "+userans);
+    console.log("Partner ID: "+partnerID);
+
+    let grade=0;
+    const partner= await QuizzResultSchema.findOne({userID: partnerID});
+    console.log(partner)
+    if(partner)
+    {
+        //start grading
+        for (let i=0;i<5;i++){
+            if (userans[i]==partner.userAns[i])
+            {
+                grade++;
+            }
+        }
+        console.log("SERVICE - Grades=  "+grade)
+        //create json file
+        let result={userId: userid, partnerId:partnerID,grades:grade}
+        return result;
+
+    }
+    else{
+        //save the user into the dbççç
+        let user= new QuizzResultSchema({
+            userID: userid,
+            userAns: userans
+        });
+        await user.save();
+        let result={Status:"Waiting for your Partner",YourAnsInfo:user}
+        return result
+    }
+}
+
+
+exports.logout=async function(userID)
+{
+    const user= await userSchema.update({_id:userID},{$set:{userStatus:userStatus.OFFLINE}});
+    let json={Status:"Log out sucessfully",UserInfo: user};
+    return json;
+}
 

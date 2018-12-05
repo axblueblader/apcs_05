@@ -1,8 +1,8 @@
 const express=require('express');
 let route=express.Router();
-const quizzControllers = require('../controllers/quizzControllers')
+const controllers = require('../controllers/quizzControllers')
 const bodyParser=require('body-parser'); 
-
+const UserMiddlewares=require('../middlewares/UserMiddlewares')
 let multer = require('multer');
 
 const storage=multer.diskStorage({//định dạng công cụ lưu
@@ -28,13 +28,10 @@ const upload=multer({storage: storage,//công cụ lưu
 )
 
 route.use(upload.any());
-
 route.use(bodyParser.urlencoded({ extended: false }))
 
-route.get('/loadDatabase',quizzControllers.loadQuestions);
-
-route.get('/getgrades',quizzControllers.getGrades)
-
-route.post('/uploadDatabase',quizzControllers.uploadQuestions);
+route.get('/startquizz',UserMiddlewares.AlreadySignedIn,controllers.getGrades);
+route.post('/updatedatabase',UserMiddlewares.AlreadySignedIn,UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
+route.get('/loadquestion',UserMiddlewares.AlreadySignedIn,controllers.loadQuestions);
 
 module.exports=route;

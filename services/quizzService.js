@@ -1,12 +1,12 @@
 const mongoose=require('mongoose')
-const QuestionSchema=require('../models/QuestionModel');
-const QuizzResultSchema=require('../models/QuizzResultsModel');
-const ImgQuestionSchema=require('../models/ImgQuestionModel');
+const QuestionSchema=require('../schemas/QuestionModel');
+const QuizzResultSchema=require('../schemas/QuizzResultsModel');
+const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
 var fs = require('fs');
 
 exports.loadDatabase= async function(){
     console.log("Running Load database - SERVICE")
-    let result= await QuestionSchema.find({});
+    let result= await ImgQuestionSchema.find({});
     console.log("Throw back the RESULTS - SERVICE with "+result)
     return result;
 
@@ -31,6 +31,9 @@ exports.getGrades=async function(userid,userans,partnerID){
             }
         }
         console.log("SERVICE - Grades=  "+grade)
+        //after get grades -> delete the db
+        await QuizzResultSchema.remove({_id:partnerID});
+        await QuizzResultSchema.remove({_id:userid});
         //create json file
         let result={userId: userid, partnerId:partnerID,grades:grade}
         return result;
@@ -43,6 +46,8 @@ exports.getGrades=async function(userid,userans,partnerID){
             userAns: userans
         });
         await user.save();
+        let result={Status:"Waiting for your Partner",YourAnsInfo:user}
+        return result
     }
 }
 
@@ -55,15 +60,7 @@ exports.uploadQuestions=async function(picArr)
      **/
 
     //cứ 2 hình trong picArr thì tạo 1 câu hỏi rồi cho vào Database mongoose
-    if(GLOBAL.UserInfo._id){
-        //LOGGED IN
-        if (GLOBAL.UserInfo.accessmethod===UserStatus.ADMIN_ACCESS)
-        {//allowed as ADMIN
-            return {Err:403}
-        }
-        else
-        { 
-
+    
     let result=[]
     for (let i=0;i<picArr.length;i+=2)
     {
@@ -82,12 +79,8 @@ exports.uploadQuestions=async function(picArr)
     }
     return result
 
-        }
+        
 
-    }
-    else{
-        return {Err: "No user found"}
-
-    }
+    
 
 }

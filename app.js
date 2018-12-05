@@ -16,8 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //conect the db
 
 const mongoose=require('mongoose');
-mongoose.connect("mongodb://admin:admin123@ds247430.mlab.com:47430/talechattest")
+//mongoose.connect("mongodb://admin:admin123@ds247430.mlab.com:47430/talechattest")
 
+mongoose.connect("mongodb://localhost:27017/quizzDB")
 
 // __dirname = base directory name
 // path.join creates a path from string input

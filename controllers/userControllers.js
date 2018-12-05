@@ -30,9 +30,17 @@ exports.changePassword= async function (req,res,next){
     let newPasswords=req.body.newPasswords;
     let userPhone=req.body.userPhone;
     const output= await service.changePasswords(userPhone,newPasswords);
-    
     return res.json(output);
     //nếu có update: thì thêm pass cũ vào rồi mới cho check.
 }
+
+
+exports.logout=async function (req,res,next){
+    console.log("Running log out - CONTROLLERS")
+    let userID=req.body.userID;
+    const output= await service.logout(userID);
+    return res.json(output);
+}
+
 
 
