@@ -52,15 +52,23 @@ exports.getGrades=async function(userid,userans,partnerID){
 
     }
     else{
-        //save the user into the dbççç
-        let user= new QuizzResultSchema({
-            userID: userid,
-            userAns: userans,
-            partnerID: partnerID
-        });
-        await user.save();
-        let result={Status:"Waiting for your Partner",YourAnsInfo:user}
-        return result
+        //check if already exist - else inserted
+        const alreadyexist= await QuizzResultSchema.findOne({userID: userid, partnerID: partnerID})
+        if (alreadyexist===null){
+            console.log("Insert to the db")
+            let user= new QuizzResultSchema({
+                userID: userid,
+                userAns: userans,
+                partnerID: partnerID
+            });
+            await user.save();
+            let result={Status:quizzStatus.WAIT_FOR_PARTNER,YourAnsInfo:user}
+            return result
+        }
+        else{
+            let result={Status: quizzStatus.ALREADY_EXIST,data: alreadyexist}
+            return result;
+        }
     }
 }
 
