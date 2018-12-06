@@ -89,7 +89,7 @@ class LinkedList {
 
             --this.length
         }
-        
+
         return ret
     }
 
@@ -112,3 +112,5 @@ class LinkedList {
         return ret
     }
 }
+
+module.exports = LinkedList
