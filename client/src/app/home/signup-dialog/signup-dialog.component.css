@@ -1,0 +1,12 @@
+#dialog-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#dialog-content> * {
+  width: 100%;
+}
+
+#dialog-actions {
+  margin: auto;
+}

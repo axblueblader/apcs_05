@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
   MatExpansionModule,
-  MatListModule,
   MatRadioModule,
-  MatSliderModule
+  MatSliderModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatInputModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,17 +18,18 @@ import { QuizresultComponent } from './quiz/quizresult/quizresult.component';
 import { HomeComponent } from './home/home.component';
 import { ChatComponent } from './chat/chat.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    SignupDialogComponent,
     ChatComponent,
     QuizComponent,
     QuizdoComponent,
-    QuizresultComponent,
-    HomeComponent
+    QuizresultComponent
   ],
   imports: [
     BrowserModule,
@@ -34,10 +37,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatButtonModule,
     MatExpansionModule,
-    MatListModule,
     MatRadioModule,
-    MatSliderModule
+    MatSliderModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
+  entryComponents: [SignupDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

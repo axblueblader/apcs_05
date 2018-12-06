@@ -1,28 +1,53 @@
-<div class="parent">
-  <h1>Home</h1>
-  <button mat-raised-button class="raised-button" (click) = "onClick()">{{clicked ? "×" : "+"}}</button>
+<div id="first-line">
+  <table id="table1">
+    <tr>
+      <td id="col1"><button mat-flat-button color="accent" class="flbutton">≡</button></td>
+      <td id="col2">Tales</td>
+      <td id="col3"><button mat-flat-button color="accent" class="flbutton" (click)="openDialog()">Sign Up</button></td>
+    </tr>
+  </table>
 </div>
 
-<div id="search">
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <p id="search-option">Searching options</p>
-      </mat-expansion-panel-header>
-      <mat-list>
-        <mat-list-item class="list-item">
-          <p class="title">Gender</p>
-          <mat-radio-group>
-              <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
-              <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
-          </mat-radio-group>
-        </mat-list-item>
-        <p class="space"></p>
-        <mat-list-item>
-          <p class="title">Age</p>
-          <mat-slider thumbLabel min="10" max="90"></mat-slider>
-        </mat-list-item>
-       </mat-list>
-    </mat-expansion-panel>
-  </mat-accordion>
-</div>
+<body>
+  <div id="search-button">
+    <button mat-raised-button color="accent" class="raised-button" (click) = "onClick()">{{clicked ? "×" : "+"}}</button>
+  </div>
+
+  <div id="search">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <p id="search-option">Searching options</p>
+        </mat-expansion-panel-header>
+        <table id="table2">
+          <tr>
+            <td class="title">Your gender</td>
+            <td>
+              <mat-radio-group>
+                  <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
+                  <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
+              </mat-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td class="title">Gender you search for</td>
+            <td>
+              <mat-radio-group>
+                  <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
+                  <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
+              </mat-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td class="title">Age</td>
+            <td>
+              <mat-radio-group>
+                <mat-slider thumbLabel min="10" max="90"></mat-slider>
+              </mat-radio-group>
+            </td>
+          </tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</body>

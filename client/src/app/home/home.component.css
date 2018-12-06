@@ -1,6 +1,39 @@
-.parent {
+#first-line {
+  background-color: #ff4081;
+}
+
+#table1 {
+  margin: auto;
+  width: 70%;
+  table-layout: fixed;
+}
+
+.flbutton {
+  height: 3.4em;
+}
+
+#col1 {
+  text-align: left;
+}
+
+#col2 {
   text-align: center;
-  padding-bottom: 40px;
+  color: white;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 2em;
+}
+
+#col3 {
+  text-align: right;
+}
+
+body {
+  background-color: lavenderblush;
+}
+
+#search-button {
+  text-align: center;
+  padding: 40px 0;
 }
 
 .raised-button {
@@ -11,25 +44,31 @@
   line-height: 160px;
   font-size: 100px;
   border-radius: 50%;
+  color: white;
 }
 
 #search {
   margin: auto;
-  width: 50%;
+  width: 40%;
 }
 
 #search-option {
   margin: auto;
   text-shadow: 0 1px gray;
+  font-size: 20px;
+  color: #ff4081;
 }
 
-.space {
-  height: 1px;
+#table2 {
+  width: 100%;
+}
+
+#table2 td {
+  padding: 20px;
 }
 
 .title {
-  font-style: italic;
-  padding-right: 50px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .radio-button {
