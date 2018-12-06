@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-chat',
@@ -8,19 +8,34 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 
 
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('msgbox') msgbox: ElementRef;
-  msg_list: string[] = [];
-  constructor() { }
+  @ViewChild('newMsg') inputfield: ElementRef;
+  msg_list: {
+    msg: string,
+    owner: string,
+  }[] = [];
 
   ngOnInit() {
+    setInterval(
+      () => {
+        this.msg_list.push({msg: 'partner send', owner: 'partner'});
+      }
+      , 10000);
   }
 
   addMsg(value: string) {
-    this.msg_list.push(value);
-    this.msgbox.nativeElement.scrollTop = this.msgbox.nativeElement.scrollHeight;
-    console.log(this.msgbox.nativeElement);
+    this.msg_list.push({msg: value, owner: 'me'});
+    this.inputfield.nativeElement.value = '';
+    console.log( this.msgbox.nativeElement.clientHeight);
+    console.log(this.msgbox.nativeElement.scrollTop);
+    console.log(this.msgbox.nativeElement.scrollHeight);
   }
+
+  ngAfterViewChecked(): void {
+    this.msgbox.nativeElement.scrollTop = this.msgbox.nativeElement.scrollHeight - this.msgbox.nativeElement.clientHeight;
+  }
+
 }
 
 

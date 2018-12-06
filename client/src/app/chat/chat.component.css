@@ -1,8 +1,8 @@
 .msg_container{
     margin: 10px 0 10px 0 ;
     padding: 30px;
-    overflow: auto;
-    display: flex;
+    overflow-y: auto;
+    display: block;
     background: whitesmoke;
 }
 
@@ -11,5 +11,9 @@
 }
 
 .their_msg{
-  margin: 10px 0 10px 0 ;
+  background: dodgerblue;
+}
+
+.list-group{
+  display:inline-block;
 }
