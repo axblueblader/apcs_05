@@ -73,7 +73,10 @@ const initialize = function (server) {
             conversations.userLeaveChat(userID);
         })
 
-        socket.on('disconnect',(userID)=>{
+        socket.on('disconnect',()=>{
+            // TODO implement unexepected disconnect handler
+        })
+        socket.on('manual disconnect',(userID)=>{
             queueManager.leaveQueue(userID);
             socketManager.removeConnection(userID);
         })
