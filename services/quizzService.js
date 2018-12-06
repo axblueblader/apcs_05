@@ -1,5 +1,4 @@
 const mongoose=require('mongoose')
-const QuestionSchema=require('../schemas/QuestionModel');
 const QuizzResultSchema=require('../schemas/QuizzResultsModel');
 const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
 const quizzStatus=require('../models/QuizzStatus')

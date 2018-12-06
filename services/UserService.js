@@ -1,7 +1,6 @@
 let userSchema= require('../schemas/usersSchema');
 let userStatus=require('../models/UserStatus');
 const mongoose=require('mongoose')
-const QuestionSchema=require('../schemas/QuestionModel');
 const QuizzResultSchema=require('../schemas/QuizzResultsModel');
 const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
 
