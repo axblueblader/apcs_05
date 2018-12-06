@@ -35,3 +35,10 @@ route.post('/updatedatabase',UserMiddlewares.AlreadySignedIn,UserMiddlewares.Che
 route.get('/loadquestion',UserMiddlewares.AlreadySignedIn,controllers.loadQuestions);
 route.put('/terminatequizz',UserMiddlewares.AlreadySignedIn,controllers.TerminateQuizz)
 module.exports=route;
+
+//real time & trigger
+//socket io
+//body socket io
+
+//1: step by step request
+//2: all request 

@@ -69,6 +69,7 @@ exports.changePasswords=async function(userPhone,newPasswords,oldPasswords)
     if(userUpdated.userPasswords===oldPasswords)
     {
         userUpdated=await userSchema.findOneAndUpdate({userPhone},{$set:{userPasswords:newPasswords}},{new:true})  
+        await userUpdated.save();
     let result={Status: userStatus.CHANGE_PASS,UserInfo:userUpdated};
     return result;
 

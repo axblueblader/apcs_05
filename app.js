@@ -34,6 +34,9 @@ app.use('/api/search',searchRoute);
 const user=require('./routes/authenciation');
 app.use('/user',user);
 
+const block=require('./routes/BlockRoute');
+app.use('/block',block)
+
 app.use('/api/chat', function (req,res,next) {
     res.sendFile(path.join(__dirname, 'public/views','chat.html'));
 })

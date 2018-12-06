@@ -8,7 +8,8 @@ const userSchema=new schema({
     userPhone: {type: String, required: true},
     userPasswords: {type: String, required: true},
     accessmethod:{type: String, default: UserStatus.USER_ACCESS,required: true},
-    userStatus: {type: String, default: UserStatus.OFFLINE,required: true}
+    userStatus: {type: String, default: UserStatus.OFFLINE,required: true},
+   
 })
 
 module.exports=mongoose.model(Schemaname.UserSchemas,userSchema);
