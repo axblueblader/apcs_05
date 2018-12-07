@@ -1,6 +1,5 @@
 var socketIo = require('socket.io');
 
-
 const SocketManager = require('../pairing-service/SocketManager');
 var socketManager= new SocketManager();
 
