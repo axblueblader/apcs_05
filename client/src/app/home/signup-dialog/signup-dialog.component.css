@@ -1,12 +1,14 @@
-#dialog-content {
+.dialog-content {
   display: flex;
   flex-direction: column;
+  padding-top: 20px;
 }
 
-#dialog-content> * {
+.dialog-content> * {
   width: 100%;
 }
 
-#dialog-actions {
-  margin: auto;
+.dialog-actions {
+  text-align: center;
+  padding-bottom: 10px;
 }

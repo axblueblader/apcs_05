@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatExpansionModule,
@@ -7,7 +8,8 @@ import {
   MatSliderModule,
   MatDialogModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatTabsModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +35,7 @@ import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.compon
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -41,7 +44,8 @@ import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.compon
     MatSliderModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatTabsModule
   ],
   entryComponents: [SignupDialogComponent],
   providers: [],

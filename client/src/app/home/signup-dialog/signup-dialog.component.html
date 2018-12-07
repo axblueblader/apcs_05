@@ -1,21 +1,36 @@
-<h1 mat-dialog-title>Sign Up</h1>
-<div mat-dialog-content>
-  <div id="dialog-content">
-    <mat-form-field>
-      <input matInput placeholder="Username">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Phone number">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Password">
-    </mat-form-field>
-  </div>
-</div>
-<div mat-dialog-actions>
-  <div id="dialog-actions">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" (click)="save()">Sign up</button>
-  </div>
-</div>
+<mat-tab-group dynamicHeight>
+  <mat-tab label="Sign In">
+    <div class="dialog-content">
+      <mat-form-field>
+        <input matInput placeholder="Phone number" type="tel" [(ngModel)]="enteredPhonenumber1">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" [(ngModel)]="enteredPassword1">
+      </mat-form-field>
+    </div>
+    <div class="dialog-actions">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" (click)="onAccessAccount()">Sign In</button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Sign Up">
+    <div class="dialog-content">
+      <mat-form-field>
+        <input matInput placeholder="Username" type="text" [(ngModel)]="enteredUsername2">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Phone number" type="tel" [(ngModel)]="enteredPhonenumber2">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" [(ngModel)]="enteredPassword2">
+      </mat-form-field>
+    </div>
+    <div class="dialog-actions">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" (click)="onCreateAccount()">Sign Up</button>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
 
