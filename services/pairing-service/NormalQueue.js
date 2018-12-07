@@ -1,29 +1,29 @@
 class NormalQueue {
     constructor(){
-        this.userid_who_waiting = undefined;
+        this.userdata_who_waiting = null;
     }
 
-    joinQueue(userid_who_joining){
+    joinQueue(userdata_who_joining){
         // if there is someone waiting
-        if (this.userid_who_waiting != undefined){
+        if (this.userdata_who_waiting != null){
             // send both of them back
-            let tmp_userid = this.userid_who_waiting
-            this.userid_who_waiting = undefined
-            return {'userid1' : userid_who_joining, 'userid2' : tmp_userid}
+            let tmp_userid = this.userdata_who_waiting.userid
+            this.userdata_who_waiting = null
+            return {'userid1' : userdata_who_joining.userid, 'userid2' : tmp_userid}
         }
         else{
             // there is no one waiting, make him wait
-            this.userid_who_waiting = userid_who_joining
-            console.log('User in queue: ',this.userid_who_waiting)
+            this.userdata_who_waiting = userdata_who_joining
+            console.log('User in queue: ',this.userdata_who_waiting)
             //return nothing
-            return undefined
+            return null
         }
     }
 
-    leaveQueue(userid_who_leaves){
+    leaveQueue(userdata_who_leaves){
         // if he is waiting, then remove him
-        if (this.userid_who_waiting == userid_who_leaves) {
-            this.userid_who_waiting = undefined;
+        if (this.userdata_who_waiting == userdata_who_leaves) {
+            this.userdata_who_waiting = null;
         }
         return 'leave queue'
     }

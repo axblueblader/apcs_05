@@ -111,6 +111,14 @@ class LinkedList {
 
         return ret
     }
+
+    isEmpty(){
+        let ret = false;
+        if (this.root == null && this.tail == null) {
+            ret = true
+        }
+        return ret
+    }
 }
 
 module.exports = LinkedList
