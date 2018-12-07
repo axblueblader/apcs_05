@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import * as socketIo from 'socket.io-client';
+import { environment } from '../../environments/environment';
 
-//const SERVER_URL = 'http://localhost:8080';
+const SERVER_URL = environment.production? '':'http://localhost:8080';
 
-@Injectable()
+//@Injectable()
 export class SocketService {
     private socket;
 
     // Initalize the socket
     public initSocket(): void {
-        // this.socket = socketIo(SERVER_URL);
-        this.socket = socketIo();
+        this.socket = socketIo(SERVER_URL);
+        console.log('Socket client initialized');
+        console.log('Socket object:',this.socket);
+        console.log('Server url: ',SERVER_URL);
     }
 
     /*  REGISTER SOCKET SECTION
@@ -30,23 +33,25 @@ export class SocketService {
     //     userID: userID,
     //     queueType: quick | malemale | malefemale | femalemale | femalefemale
     // }
-    public startSearch(data: JSON): void {
+    public startSearch(data): void {
         this.socket.emit('start search',data);
+        console.log('Socket emit: START SEARCH with ',data);
     }
 
-    public stopSearch(userID: String): void {
-        this.socket.emit('stop search',userID);
+    public stopSearch(data): void {
+        this.socket.emit('stop search',data);
+        console.log('Socket emit: STOP SEARCH with',data);
     }
     
-    public onFoundMatch(): Observable<String> {
-        return new Observable<String>(observer => {
-            this.socket.on('found match',(data: String) => observer.next(data));
+    public onFoundMatch(): Observable<any> {
+        return new Observable<any>(observer => {
+            this.socket.on('found match',(data) => observer.next(data));
         })
     }
 
-    public onWaitingInQueue(): Observable<String> {
-        return new Observable<String>(observer => {
-            this.socket.on('waiting in queue',(data: String) => observer.next(data));
+    public onWaitingInQueue(): Observable<any> {
+        return new Observable<any>(observer => {
+            this.socket.on('waiting in queue',(data) => observer.next(data));
         })
     }
     /*  END MATCHING SECTION    */
@@ -55,24 +60,24 @@ export class SocketService {
     *   send, recieve message
     *   emit seen event and recieve seen event
     */
-    public sendMessage(message: String): void {
-        this.socket.emit('send message', message);
+    public sendMessage(data): void {
+        this.socket.emit('send message', data);
     }
 
-    public onNewMessage(): Observable<String> {
-        return new Observable<String>(observer => {
-            this.socket.on('new message', (data: String) => observer.next(data));
+    public onNewMessage(): Observable<any> {
+        return new Observable<any>(observer => {
+            this.socket.on('new message', (data) => observer.next(data));
         });
     }
 
-    public messageRecieved(userID: String): void {
+    public messageRecieved(userID): void {
         this.socket.emit('message recieved',userID);
     }
 
-    public onMessageSeen(): Observable<String> {
-        return new Observable<String>(observer => {
+    public onMessageSeen(): Observable<any> {
+        return new Observable<any>(observer => {
             // TODO: time as data
-            this.socket.on('message seen',(data: String) => observer.next(data));
+            this.socket.on('message seen',(data) => observer.next(data));
         })
     }
     /*  END MESSAGING SECTION   */
