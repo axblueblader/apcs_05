@@ -3,6 +3,7 @@ let userStatus=require('../models/UserStatus');
 const mongoose=require('mongoose')
 const QuizzResultSchema=require('../schemas/QuizzResultsModel');
 const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
+const quizzStatus=require('../models/QuizzStatus')
 
 
      /**    Json returned type
@@ -43,7 +44,7 @@ exports.CheckForSignIn= async function(userphone,userPass)
        }
 
        //return the json file
-       let result={Status: status, UserInfo: user}; 
+       let result={Status: status, data: user}; 
        return result;
       
 }
@@ -58,7 +59,7 @@ exports.UserSignUp= async function (Name,Phone,Pass)
     });
     await newUser.save();
     let status=userStatus.SIGN_UP_SUCCESSFULLY;
-    let result={Status: status,UserInfo: newUser};
+    let result={Status: status,data: newUser};
     return result;
 
 }
@@ -70,58 +71,22 @@ exports.changePasswords=async function(userPhone,newPasswords,oldPasswords)
     {
         userUpdated=await userSchema.findOneAndUpdate({userPhone},{$set:{userPasswords:newPasswords}},{new:true})  
         await userUpdated.save();
-    let result={Status: userStatus.CHANGE_PASS,UserInfo:userUpdated};
+    let result={Status: userStatus.CHANGE_PASS,data:userUpdated};
     return result;
 
     }
     else{
-        let result = {Status: "Wrong passwords",UserInfo: userUpdated};
+        let result = {Status: userStatus.WRONG_PASSWORDS,data: userUpdated};
         return result;
     }
 }
 
-
-exports.getGrades=async function(userid,userans,partnerID){
-    console.log("Running Get grades - SERVICES")
-    console.log("User Id: "+userid);
-    console.log("User ans: "+userans);
-    console.log("Partner ID: "+partnerID);
-
-    let grade=0;
-    const partner= await QuizzResultSchema.findOne({userID: partnerID});
-    console.log(partner)
-    if(partner)
-    {
-        //start grading
-        for (let i=0;i<5;i++){
-            if (userans[i]==partner.userAns[i])
-            {
-                grade++;
-            }
-        }
-        console.log("SERVICE - Grades=  "+grade)
-        //create json file
-        let result={userId: userid, partnerId:partnerID,grades:grade}
-        return result;
-
-    }
-    else{
-        //save the user into the dbççç
-        let user= new QuizzResultSchema({
-            userID: userid,
-            userAns: userans
-        });
-        await user.save();
-        let result={Status:"Waiting for your Partner",YourAnsInfo:user}
-        return result
-    }
-}
 
 
 exports.logout=async function(userID)
 {
     const user= await userSchema.update({_id:userID},{$set:{userStatus:userStatus.OFFLINE}});
-    let json={Status:"Log out sucessfully",UserInfo: user};
+    let json={Status:"Log out sucessfully",data: user};
     return json;
 }
 

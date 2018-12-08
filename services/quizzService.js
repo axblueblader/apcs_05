@@ -38,7 +38,8 @@ exports.getGrades=async function(userid,userans,partnerID){
             await QuizzResultSchema.remove({userID: userid,partnerID: partnerID});//xoá đáp án của mình
             //create json file
             let result={userId: userid, partnerId:partnerID,grades:grade}
-            return result;
+            let json={Status: quizzStatus.GET_GRADES_SUCCESS,data: result}
+            return json;
         }
         else{//hết tg chờ -> xoá đáp án của th đó luôn
             await QuizzResultSchema.remove({userID: partnerID,partnerID: userid});
@@ -61,7 +62,7 @@ exports.getGrades=async function(userid,userans,partnerID){
                 partnerID: partnerID
             });
             await user.save();
-            let result={Status:quizzStatus.WAIT_FOR_PARTNER,YourAnsInfo:user}
+            let result={Status:quizzStatus.WAIT_FOR_PARTNER,data:user}
             return result
         }
         else{
@@ -108,6 +109,6 @@ exports.uploadQuestions=async function(picArr)
 exports.TerminateQuizz= async function(userID,partnerID)
 {
     let terminateQuizzOf=  await QuizzResultSchema.update({userID: userID,partnerID: partnerID},{$set:{quizzStatus:quizzStatus.TERMINATED}})
-    let json={Status: quizzStatus.TERMINATED, QuizzInfo: terminateQuizzOf}
+    let json={Status: quizzStatus.TERMINATED, data: terminateQuizzOf}
     return json;
 }

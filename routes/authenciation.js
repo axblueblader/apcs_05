@@ -36,7 +36,7 @@ route.use(upload.any());
 route.use(urlencoded);
 const UserMiddlewares=require('../middlewares/UserMiddlewares')
 
-route.post('/signup',controllers.signup);
+route.post('/signup',UserMiddlewares.CheckPhoneNumber,controllers.signup);
 route.put('/signin',controllers.signin);
 route.put('/changepass',controllers.changePassword);
 route.put('/logout',UserMiddlewares.AlreadySignedIn,controllers.logout);

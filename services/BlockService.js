@@ -14,7 +14,7 @@ exports.BlockUser=async function(userID,blockID)
         if (blockInfo.blockList.includes(blockID)==true) //already blocked
         {
             console.log("Already blocked")
-            result={Status: BlockStatus.ALREADY_BLOCKED, blockInfo}
+            result={Status: BlockStatus.ALREADY_BLOCKED, data: blockInfo}
             return result;
         }
         else{
@@ -25,7 +25,7 @@ exports.BlockUser=async function(userID,blockID)
             await blockInfo.update({userID: userID},{$set:{blockList: newList}})
             await blockInfo.save();
             console.log(blockInfo)
-            result={Status: BlockStatus.SUCCESSFUL,blockInfo}
+            result={Status: BlockStatus.SUCCESSFUL,data: blockInfo}
             return result;
         }
        
@@ -38,7 +38,7 @@ exports.BlockUser=async function(userID,blockID)
         newblockInfo.userID=userID;
         newblockInfo.blockList.push(blockID);
         await newblockInfo.save();
-        result = {Status: BlockStatus.SUCCESSFUL, newblockInfo};
+        result = {Status: BlockStatus.SUCCESSFUL, data: newblockInfo};
         return result;
 
     }
@@ -61,18 +61,18 @@ exports.UnblockUser= async function(userID,unblockID){
                 let newList=unblockInfo.blockList
                 await unblockInfo.update({userID: userID},{$set:{blockList: newList}})
                 await unblockInfo.save();
-                result={Status: BlockStatus.SUCCESSFUL,unblockInfo}
+                result={Status: BlockStatus.SUCCESSFUL,data: unblockInfo}
                 return result;
             }
         }
         else{
-            result = {Status: BlockStatus.NOT_FOUND,unblockInfo}
+            result = {Status: BlockStatus.NOT_FOUND,data: unblockInfo}
             return result;
         }
 
     }
     else{
-        result={Status: BlockStatus.EMPTY_BLOCKLIST}
+        result={Status: BlockStatus.EMPTY_BLOCKLIST, data:BlockStatus.NO_DATA_RECEIVED}
         return result;
     }
 }
