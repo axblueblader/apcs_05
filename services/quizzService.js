@@ -1,12 +1,12 @@
 const mongoose=require('mongoose')
-const QuestionSchema=require('../models/QuestionModel');
-const QuizzResultSchema=require('../models/QuizzResultsModel');
-const ImgQuestionSchema=require('../models/ImgQuestionModel');
+const QuizzResultSchema=require('../schemas/QuizzResultsModel');
+const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
+const quizzStatus=require('../models/QuizzStatus')
 var fs = require('fs');
 
 exports.loadDatabase= async function(){
     console.log("Running Load database - SERVICE")
-    let result= await QuestionSchema.find({});
+    let result= await ImgQuestionSchema.find({});
     console.log("Throw back the RESULTS - SERVICE with "+result)
     return result;
 
@@ -18,31 +18,57 @@ exports.getGrades=async function(userid,userans,partnerID){
     console.log("User ans: "+userans);
     console.log("Partner ID: "+partnerID);
 
-    let grade=0;
-    const partner= await QuizzResultSchema.findOne({userID: partnerID});
+    
+    const partner= await QuizzResultSchema.findOne({userID: partnerID,partnerID: userid});
     console.log(partner)
-    if(partner)
+    if(partner)//partner gửi câu trả lời lên
     {
         //start grading
-        for (let i=0;i<5;i++){
-            if (userans[i]==partner.userAns[i])
-            {
-                grade++;
+        //after get grades -> delete the db 
+        if(partner.quizzStatus===quizzStatus.WAIT_FOR_PARTNER)//partner đã gửi lên và cũng đang chờ -> tính điểm, trả file, xoá khỏi db
+        {
+            let grade=0;
+            for (let i=0;i<5;i++){
+                if (userans[i]==partner.userAns[i])
+                {
+                    grade++;
+                }
             }
+            await QuizzResultSchema.remove({userID: partnerID,partnerID: userid});//xoá đáp án của partner
+            await QuizzResultSchema.remove({userID: userid,partnerID: partnerID});//xoá đáp án của mình
+            //create json file
+            let result={userId: userid, partnerId:partnerID,grades:grade}
+            let json={Status: quizzStatus.GET_GRADES_SUCCESS,data: result}
+            return json;
         }
-        console.log("SERVICE - Grades=  "+grade)
-        //create json file
-        let result={userId: userid, partnerId:partnerID,grades:grade}
-        return result;
+        else{//hết tg chờ -> xoá đáp án của th đó luôn
+            await QuizzResultSchema.remove({userID: partnerID,partnerID: userid});
+            let result={Status: quizzStatus.TIME_OUT};
+            return result;
+
+        }
+
+
 
     }
     else{
-        //save the user into the dbççç
-        let user= new QuizzResultSchema({
-            userID: userid,
-            userAns: userans
-        });
-        await user.save();
+        //check if already exist - else inserted
+        const alreadyexist= await QuizzResultSchema.findOne({userID: userid, partnerID: partnerID})
+        if (alreadyexist===null){
+            console.log("Insert to the db")
+            let user= new QuizzResultSchema({
+                userID: userid,
+                userAns: userans,
+                partnerID: partnerID
+            });
+            await user.save();
+            let result={Status:quizzStatus.WAIT_FOR_PARTNER,data:user}
+            return result
+        }
+        else{
+            let result={Status: quizzStatus.ALREADY_EXIST,data: alreadyexist}
+            return result;
+        }
     }
 }
 
@@ -55,15 +81,7 @@ exports.uploadQuestions=async function(picArr)
      **/
 
     //cứ 2 hình trong picArr thì tạo 1 câu hỏi rồi cho vào Database mongoose
-    if(GLOBAL.UserInfo._id){
-        //LOGGED IN
-        if (GLOBAL.UserInfo.accessmethod===UserStatus.ADMIN_ACCESS)
-        {//allowed as ADMIN
-            return {Err:403}
-        }
-        else
-        { 
-
+    
     let result=[]
     for (let i=0;i<picArr.length;i+=2)
     {
@@ -82,12 +100,15 @@ exports.uploadQuestions=async function(picArr)
     }
     return result
 
-        }
+        
 
-    }
-    else{
-        return {Err: "No user found"}
+    
 
-    }
+}
 
+exports.TerminateQuizz= async function(userID,partnerID)
+{
+    let terminateQuizzOf=  await QuizzResultSchema.update({userID: userID,partnerID: partnerID},{$set:{quizzStatus:quizzStatus.TERMINATED}})
+    let json={Status: quizzStatus.TERMINATED, data: terminateQuizzOf}
+    return json;
 }

@@ -27,3 +27,10 @@ const GLOBAL=require('../Global')
         return res.json(output);
     }
 
+
+    exports.TerminateQuizz= async function(req,res,next){
+        let userID=req.body.userID;
+        let partnerID=req.body.partnerID;
+        const output= await service.TerminateQuizz(userID,partnerID)
+        return res.json(output);
+    }

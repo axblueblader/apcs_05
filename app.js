@@ -16,8 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //conect the db
 
 const mongoose=require('mongoose');
-mongoose.connect("mongodb://admin:admin123@ds247430.mlab.com:47430/talechattest")
+//mongoose.connect("mongodb://admin:admin123@ds247430.mlab.com:47430/talechattest")
 
+mongoose.connect("mongodb://localhost:27017/quizzDB")
 
 // __dirname = base directory name
 // path.join creates a path from string input
@@ -32,6 +33,9 @@ app.use('/api/search',searchRoute);
 
 const user=require('./routes/authenciation');
 app.use('/user',user);
+
+const block=require('./routes/BlockRoute');
+app.use('/block',block)
 
 app.use('/api/chat', function (req,res,next) {
     res.sendFile(path.join(__dirname, 'public/views','chat.html'));

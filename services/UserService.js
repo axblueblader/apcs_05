@@ -1,7 +1,11 @@
-let userSchema= require('../models/usersSchema');
+let userSchema= require('../schemas/usersSchema');
 let userStatus=require('../models/UserStatus');
 const mongoose=require('mongoose')
-const GLOBAL=require('../Global');
+const QuizzResultSchema=require('../schemas/QuizzResultsModel');
+const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
+const quizzStatus=require('../models/QuizzStatus')
+
+
 
      /**    Json returned type
             {
@@ -19,6 +23,7 @@ exports.CheckForSignIn= async function(userphone,userPass)
          //check the passwords
           //console.log(doc);
           console.log(user.userPasswords);
+          
          if(user.userPasswords==userPass)
          {
              //set the global ID
@@ -26,6 +31,8 @@ exports.CheckForSignIn= async function(userphone,userPass)
              console.log("Login successfully with User:");
              console.log(user)
              status=userStatus.SIGNED_IN;
+             user.userStatus=userStatus.ONLINE;
+             await userSchema.update({_id:user._id},{$set:{userStatus:userStatus.ONLINE}});
          }
          else{
              console.log("Wrong passwords!")
@@ -39,33 +46,50 @@ exports.CheckForSignIn= async function(userphone,userPass)
        }
 
        //return the json file
-       let result={Status: status, UserInfo: user};
-       GLOBAL.UserInfo=user;
+       let result={Status: status, data: user}; 
        return result;
       
 }
 
-exports.UserSignUp= async function (Name,Phone,Pass)
+exports.UserSignUp= async function (Name,Phone,Pass,Gender)
 {
     let newUser= new userSchema({
         _id: mongoose.Types.ObjectId(),
         userName:Name,
         userPhone:Phone,
-        userPasswords:Pass
+        userPasswords:Pass,
+        userGender: Gender
     });
     await newUser.save();
     let status=userStatus.SIGN_UP_SUCCESSFULLY;
-    let result={Status: status,UserInfo: newUser};
+    let result={Status: status,data: newUser};
     return result;
 
 }
 
-exports.changePasswords=async function(userPhone,newPasswords)
+exports.changePasswords=async function(userPhone,newPasswords,oldPasswords)
 {
-    const userUpdated=await userSchema.findOneAndUpdate({userPhone},{$set:{userPasswords:newPasswords}},{new:true})  
-    let result={Status: userStatus.CHANGE_PASS,UserInfo:userUpdated};
-    return result; 
+    const userUpdated=await userSchema.findOne({userPhone : userPhone});
+    if(userUpdated.userPasswords===oldPasswords)
+    {
+        userUpdated=await userSchema.findOneAndUpdate({userPhone},{$set:{userPasswords:newPasswords}},{new:true})  
+        await userUpdated.save();
+    let result={Status: userStatus.CHANGE_PASS,data:userUpdated};
+    return result;
+
+    }
+    else{
+        let result = {Status: userStatus.WRONG_PASSWORDS,data: userUpdated};
+        return result;
+    }
 }
 
 
+
+exports.logout=async function(userID)
+{
+    const user= await userSchema.update({_id:userID},{$set:{userStatus:userStatus.OFFLINE}});
+    let json={Status:userStatus.SIGNED_OUT,data: user};
+    return json;
+}
 
