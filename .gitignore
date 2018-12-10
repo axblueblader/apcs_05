@@ -7,4 +7,4 @@
 
 # Nodejs
 node_modules/
-
+.idea/
