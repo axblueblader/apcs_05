@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatExpansionModule,
@@ -9,7 +9,8 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatTabsModule
+  MatTabsModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -36,6 +37,7 @@ import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.compon
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -45,7 +47,8 @@ import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.compon
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [SignupDialogComponent],
   providers: [],

@@ -1,15 +1,18 @@
 <div id="first-line">
-  <table id="table1">
+  <table id="tableTop">
     <tr>
-      <td id="col1"><button mat-flat-button color="primary" class="flbutton">≡</button></td>
-      <td id="col2">Tale</td>
-      <td id="col3"><button mat-flat-button color="primary" class="flbutton" (click)="openDialog()">Sign In</button></td>
+      <td id="colLeft"><button mat-flat-button color="primary" class="flbutton">≡</button></td>
+      <td id="colMid">Tale</td>
+      <td id="colRight"><button mat-flat-button color="primary" class="flbutton" (click)="openDialog()">Sign In</button></td>
     </tr>
   </table>
 </div>
 <body>
   <div id="search-button">
-    <button mat-raised-button color="accent" class="raised-button" (click) = "onClick()">{{clicked ? "×" : "+"}}</button>
+    <mat-spinner color="accent" diameter="200" strokeWidth="5" *ngIf="clicked"></mat-spinner>
+    <button mat-raised-button color="accent" class="raised-button" (click) = "onClick()">
+      {{clicked ? "×" : "+"}}
+    </button>
   </div>
 
   <div id="search">
@@ -18,18 +21,9 @@
         <mat-expansion-panel-header>
           <p id="search-option">Searching options</p>
         </mat-expansion-panel-header>
-        <table id="table2">
+        <table id="tableSearch">
           <tr>
-            <td class="title">Your gender</td>
-            <td>
-              <mat-radio-group>
-                  <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
-                  <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
-              </mat-radio-group>
-            </td>
-          </tr>
-          <tr>
-            <td class="title">Gender you search for</td>
+            <td class="title">Gender</td>
             <td>
               <mat-radio-group>
                   <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
@@ -41,7 +35,7 @@
             <td class="title">Age</td>
             <td>
               <mat-radio-group>
-                <mat-slider thumbLabel min="10" max="90"></mat-slider>
+                <mat-slider thumbLabel min="10" max="90" tickInterval="5"></mat-slider>
               </mat-radio-group>
             </td>
           </tr>

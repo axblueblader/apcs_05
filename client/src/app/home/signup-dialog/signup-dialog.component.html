@@ -2,11 +2,18 @@
   <mat-tab label="Sign In">
     <div class="dialog-content">
       <mat-form-field>
-        <input matInput placeholder="Phone number" type="tel" [(ngModel)]="enteredPhonenumber1">
+        <input matInput placeholder="Phone number" type="tel" [formControl]="phoneIn">
+        <mat-error *ngIf="phoneIn.invalid">{{getErrorMessagePhoneIn()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Password" type="password" [(ngModel)]="enteredPassword1">
+        <input matInput placeholder="Password" type="password" [formControl]="passwordIn">
+        <mat-error *ngIf="passwordIn.invalid">{{getErrorMessagePasswordIn()}}</mat-error>
       </mat-form-field>
+      <mat-radio-group>
+        <p id="gender">Gender</p>
+        <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
+        <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="dialog-actions">
       <button mat-button mat-dialog-close>Cancel</button>
@@ -16,13 +23,16 @@
   <mat-tab label="Sign Up">
     <div class="dialog-content">
       <mat-form-field>
-        <input matInput placeholder="Username" type="text" [(ngModel)]="enteredUsername2">
+        <input matInput placeholder="Username" type="text" [formControl]="usernameUp">
+        <mat-error *ngIf="usernameUp.invalid">{{getErrorMessageUsernameUp()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Phone number" type="tel" [(ngModel)]="enteredPhonenumber2">
+        <input matInput placeholder="Phone number" type="tel" [formControl]="phoneUp">
+        <mat-error *ngIf="phoneUp.invalid">{{getErrorMessagePhoneUp()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Password" type="password" [(ngModel)]="enteredPassword2">
+        <input matInput placeholder="Password" type="password" [formControl]="passwordUp">
+        <mat-error *ngIf="passwordUp.invalid">{{getErrorMessagePasswordUp()}}</mat-error>
       </mat-form-field>
     </div>
     <div class="dialog-actions">

@@ -1,18 +1,22 @@
 import { Component, OnInit, Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-signup-dialog',
   templateUrl: './signup-dialog.component.html',
   styleUrls: ['./signup-dialog.component.css']
 })
-export class SignupDialogComponent implements OnInit {
-  enteredPhonenumber1 = '';
-  enteredPassword1 = '';
 
-  enteredUsername2 = '';
-  enteredPhonenumber2 = '';
-  enteredPassword2 = '';
+export class SignupDialogComponent implements OnInit {
+
+  phoneIn = new FormControl('', [Validators.required]);
+  passwordIn = new FormControl('', [Validators.required]);
+
+  usernameUp = new FormControl('', [Validators.required]);
+  phoneUp = new FormControl('', [Validators.required]);
+  passwordUp = new FormControl('', [Validators.required]);
+
   constructor(public dialogRef: MatDialogRef<SignupDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -20,20 +24,39 @@ export class SignupDialogComponent implements OnInit {
   }
 
   onAccessAccount() {
-      const enteredValues1 = {
-      enteredPhonenumber: this.enteredPhonenumber1,
-      enteredPassword: this.enteredPassword1
+      const enteredValuesIn = {
+      enteredPhonenumber: this.phoneIn.setValue('enteredPhonenumberIn'),
+      enteredPassword: this.passwordIn.setValue('enteredPasswordIn')
     };
-    this.dialogRef.close(enteredValues1);
+    this.dialogRef.close(enteredValuesIn);
   }
 
   onCreateAccount() {
-      const enteredValues2 = {
-      enteredUsername: this.enteredUsername2,
-      enteredPhonenumber: this.enteredPhonenumber2,
-      enteredPassword: this.enteredPassword2
+      const enteredValuesUp = {
+      enteredUsername:  this.usernameUp.setValue('enteredPhonenumberUp'),
+      enteredPhonenumber: this.phoneUp.setValue('enteredPhonenumberUp'),
+      enteredPassword: this.passwordUp.setValue('enteredPasswordUp')
     };
-    this.dialogRef.close(enteredValues2);
+    this.dialogRef.close(enteredValuesUp);
   }
 
+  getErrorMessagePhoneIn() {
+    return this.phoneIn.hasError('required') ? 'Enter phone number' : '';
+  }
+
+  getErrorMessagePasswordIn() {
+    return this.phoneIn.hasError('required') ? 'Enter password' : '';
+  }
+
+  getErrorMessageUsernameUp() {
+    return this.usernameUp.hasError('required') ? 'Enter username' : '';
+  }
+
+  getErrorMessagePhoneUp() {
+    return this.phoneUp.hasError('required') ? 'Enter phone number' : '';
+  }
+
+  getErrorMessagePasswordUp() {
+    return this.phoneUp.hasError('required') ? 'Enter password' : '';
+  }
 }
