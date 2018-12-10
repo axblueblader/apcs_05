@@ -1,37 +1,98 @@
-.parent {
+#first-line {
+  background-color: #3f51b5;
+}
+
+#tableTop {
+  margin: auto;
+  width: 70%;
+  table-layout: fixed;
+}
+
+.flbutton {
+  height: 3.6em;
+}
+
+#colLeft {
+  text-align: left;
+}
+
+#colMid {
   text-align: center;
-  padding-bottom: 40px;
+  color: white;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 2em;
+}
+
+#colRight {
+  text-align: right;
+}
+
+body {
+  background-color: aliceblue;
+}
+
+mat-progress-bar {
+  width: 40%;
+  margin: auto;
+}
+
+#search-button {
+  text-align: center;
+  padding: 3.5em 0;
+}
+
+mat-spinner {
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-top: -24px;
+  z-index: 1;
 }
 
 .raised-button {
-  text-align: center;
-  margin: auto;
-  width: 160px;
-  height: 160px;
-  line-height: 160px;
+  width: 150px;
+  height: 150px;
   font-size: 100px;
   border-radius: 50%;
+  color: white;
+  z-index: 2;
+}
+
+mat-expansion-panel {
+  background-color: lavenderblush;
 }
 
 #search {
   margin: auto;
-  width: 50%;
+  width: 30%;
 }
 
 #search-option {
   margin: auto;
   text-shadow: 0 1px gray;
+  font-size: 20px;
+  color: #ff4081;
 }
 
-.space {
-  height: 1px;
+#tableSearch {
+  width: 100%;
+  background-color: white;
+}
+
+#tableSearch td {
+  padding: 25px;
+  border-bottom: 1px solid lavenderblush;
 }
 
 .title {
-  font-style: italic;
-  padding-right: 50px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .radio-button {
   padding-right: 50px;
+}
+
+mat-slider {
+  width: 100%;
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material';
+import { SignupDialogComponent } from './signup-dialog/signup-dialog.component';
 import { SocketService } from '../socketio/socketio.service'
 @Component({
   selector: 'app-home',
@@ -16,6 +18,19 @@ export class HomeComponent implements OnInit {
     } else {
       this.clicked = true;
     }
+  }
+
+  constructor(public dialog: MatDialog,
+              private socketService: SocketService) { }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(SignupDialogComponent, {
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+    });
   }
 
   startSearch() {
@@ -39,8 +54,6 @@ export class HomeComponent implements OnInit {
       // Show found match and navigate to quiz page
     })
   }
-
-  constructor(private socketService: SocketService) { }
 
   ngOnInit() {
     this.socketService.initSocket();
