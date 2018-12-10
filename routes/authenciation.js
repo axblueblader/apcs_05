@@ -32,10 +32,16 @@ const upload=multer({storage: storage,//công cụ lưu
 route.use(upload.any());
 
 
-
+//ADDING MIDDLEWARES
 route.use(urlencoded);
 const UserMiddlewares=require('../middlewares/UserMiddlewares')
 
+//ADDING SESSION 
+const session = require('express-session');
+route.use(session({secret:'ssshhhhh'}));
+let sess;
+
+route.get('/',controllers.displayInfo);
 route.post('/signup',UserMiddlewares.CheckPhoneNumber,controllers.signup);
 route.put('/signin',controllers.signin);
 route.put('/changepass',controllers.changePassword);

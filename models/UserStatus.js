@@ -10,3 +10,8 @@ exports.ONLINE="Online"
 exports.NO_DATA_RECEIVED="No data received"
 exports.PHONE_EXIST="Phone Number Exists"
 exports.HASHED_PASSWORDS="*********"
+exports.SIGNED_OUT="Signed Out"
+
+exports.GENDER_MALE="male"
+exports.GENDER_FEMALE="female"
+exports.GENDER_UNDEFINE="undefined"

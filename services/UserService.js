@@ -6,6 +6,7 @@ const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
 const quizzStatus=require('../models/QuizzStatus')
 
 
+
      /**    Json returned type
             {
                 Status: "SignedIn"/"WrongPassWords"/"No accounts found"
@@ -22,6 +23,7 @@ exports.CheckForSignIn= async function(userphone,userPass)
          //check the passwords
           //console.log(doc);
           console.log(user.userPasswords);
+          
          if(user.userPasswords==userPass)
          {
              //set the global ID
@@ -49,13 +51,14 @@ exports.CheckForSignIn= async function(userphone,userPass)
       
 }
 
-exports.UserSignUp= async function (Name,Phone,Pass)
+exports.UserSignUp= async function (Name,Phone,Pass,Gender)
 {
     let newUser= new userSchema({
         _id: mongoose.Types.ObjectId(),
         userName:Name,
         userPhone:Phone,
-        userPasswords:Pass
+        userPasswords:Pass,
+        userGender: Gender
     });
     await newUser.save();
     let status=userStatus.SIGN_UP_SUCCESSFULLY;
@@ -86,7 +89,7 @@ exports.changePasswords=async function(userPhone,newPasswords,oldPasswords)
 exports.logout=async function(userID)
 {
     const user= await userSchema.update({_id:userID},{$set:{userStatus:userStatus.OFFLINE}});
-    let json={Status:"Log out sucessfully",data: user};
+    let json={Status:userStatus.SIGNED_OUT,data: user};
     return json;
 }
 

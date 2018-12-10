@@ -9,7 +9,8 @@ const userSchema=new schema({
     userPasswords: {type: String, required: true},
     accessmethod:{type: String, default: UserStatus.USER_ACCESS,required: true},
     userStatus: {type: String, default: UserStatus.OFFLINE,required: true},
-   
+    userGender: {type: String, enum:[UserStatus.GENDER_MALE,UserStatus.GENDER_FEMALE,UserStatus.GENDER_UNDEFINED]} 
 })
 
 module.exports=mongoose.model(Schemaname.UserSchemas,userSchema);
+
