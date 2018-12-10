@@ -3,7 +3,7 @@ import { Observable, Observer } from 'rxjs';
 import * as socketIo from 'socket.io-client';
 import { environment } from '../../environments/environment';
 
-const SERVER_URL = environment.production? '':'http://localhost:8080';
+const SERVER_URL = environment.production? '':'http://localhost:3000';
 
 //@Injectable()
 export class SocketService {
