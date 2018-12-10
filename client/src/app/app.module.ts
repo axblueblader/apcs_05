@@ -7,6 +7,7 @@ import {
   MatRadioModule,
   MatSliderModule
 } from '@angular/material';
+import {MatInputModule} from '@angular/material/input';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +39,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatExpansionModule,
     MatListModule,
     MatRadioModule,
-    MatSliderModule
+    MatSliderModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

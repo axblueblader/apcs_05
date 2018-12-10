@@ -1,0 +1,19 @@
+.msg_container{
+    margin: 10px 0 10px 0 ;
+    padding: 30px;
+    overflow-y: auto;
+    display: block;
+    background: whitesmoke;
+}
+
+.input_field{
+    width: 100%;
+}
+
+.their_msg{
+  background: dodgerblue;
+}
+
+.list-group{
+  display:inline-block;
+}
