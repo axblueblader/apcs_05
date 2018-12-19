@@ -36,15 +36,10 @@ route.use(upload.any());
 route.use(urlencoded);
 const UserMiddlewares=require('../middlewares/UserMiddlewares')
 
-//ADDING SESSION 
-const session = require('express-session');
-route.use(session({secret:'ssshhhhh'}));
-let sess;
 
-route.get('/',controllers.displayInfo);
 route.post('/signup',UserMiddlewares.CheckPhoneNumber,controllers.signup);
 route.put('/signin',controllers.signin);
 route.put('/changepass',controllers.changePassword);
-route.put('/logout',UserMiddlewares.AlreadySignedIn,controllers.logout);
-
+route.put('/signout',UserMiddlewares.BasicAuthenciation,controllers.logout);
+route.get('/testtoken',UserMiddlewares.BasicAuthenciation)
 module.exports=route;

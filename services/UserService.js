@@ -4,6 +4,7 @@ const mongoose=require('mongoose')
 const QuizzResultSchema=require('../schemas/QuizzResultsModel');
 const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
 const quizzStatus=require('../models/QuizzStatus')
+let jwt= require('jsonwebtoken')
 
 
 
@@ -22,32 +23,45 @@ exports.CheckForSignIn= async function(userphone,userPass)
        if (user) {//user already signed up
          //check the passwords
           //console.log(doc);
-          console.log(user.userPasswords);
+         // console.log(user.userPasswords);
           
          if(user.userPasswords==userPass)
          {
-             //set the global ID
              console.log("Checking passwords");
              console.log("Login successfully with User:");
-             console.log(user)
-             status=userStatus.SIGNED_IN;
-             user.userStatus=userStatus.ONLINE;
-             await userSchema.update({_id:user._id},{$set:{userStatus:userStatus.ONLINE}});
+           //  console.log(user)
+           if(user.userStatus==userStatus.ONLINE)
+           {
+               let json={Status: userStatus.ALREADY_SIGNED_IN, token:null}
+               return json;
+           }
+             else{
+                status=userStatus.SIGNED_IN;
+                user.userStatus=userStatus.ONLINE;
+                await userSchema.update({_id:user._id},{$set:{userStatus:userStatus.ONLINE}});
+                //define payload
+                let payload={
+                    _id: user._id,
+                    
+                }
+               console.log(payload)
+                let token = jwt.sign(payload, "TEST_USER_SECRET_KEY")
+                return {Status: status,data: user, Token: token}
+             }
          }
          else{
              console.log("Wrong passwords!")
              status=userStatus.WRONG_PASSWORDS;
+             return {Status: status,Token: null}
          }
            } 
            
            else {
          console.log("No data exist for this users");
          status=userStatus.NO_ACCOUNTS
+         return {Status: status,Token: null}
        }
 
-       //return the json file
-       let result={Status: status, data: user}; 
-       return result;
       
 }
 
@@ -61,7 +75,7 @@ exports.UserSignUp= async function (Name,Phone,Pass,Gender)
         userGender: Gender
     });
     await newUser.save();
-    let status=userStatus.SIGN_UP_SUCCESSFULLY;
+    let status=userStatus.SIGN_UP_SUCCESSFULLY;``
     let result={Status: status,data: newUser};
     return result;
 

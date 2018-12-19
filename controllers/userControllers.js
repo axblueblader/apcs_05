@@ -1,4 +1,4 @@
-const mongoose=require('mongoose');
+const mongoose=require('mongoose'); 
 const service=require('../services/UserService');
 const UserStatus=require('../models/UserStatus')
 exports.signin=async function (req,res,next){
@@ -8,12 +8,6 @@ exports.signin=async function (req,res,next){
     let userNumber = req.body.userPhone;
     let userPassword=req.body.userPass;
     const output= await service.CheckForSignIn(userNumber,userPassword);
-    sess=req.session;
-    if( output.Status===UserStatus.SIGNED_IN)
-    {
-        sess.userName= output.data.userName;
-        sess.userPhone= output.data.userPhone;
-    }    
     return res.json(output);     
 }
 
@@ -43,27 +37,7 @@ exports.changePassword= async function (req,res,next){
 
 exports.logout=async function (req,res,next){
     console.log("Running log out - CONTROLLERS")
-    let userID=req.body.userID;
+    let userID=req.user._id;
     const output= await service.logout(userID);
-    if(output.Status===UserStatus.SIGNED_OUT)
-    {
-        req.session.destroy;
-    }
     return res.json(output);
 }
-
-exports.displayInfo= async function(req,res,next){
-    sess= req.session;
-    if(sess.userName !=null && sess.userPhone!=null)
-    {
-        let data={Name: sess.userName,Phone: sess.userPhone}
-        let result = {Status:"Testing",data: data }
-        res.json(result);
-    }
-    else{
-        res.json({
-            Status:"NULL"
-        })
-    }
-}
-

@@ -30,15 +30,9 @@ const upload=multer({storage: storage,//công cụ lưu
 route.use(upload.any());
 route.use(bodyParser.urlencoded({ extended: false }))
 
-route.get('/startquizz',UserMiddlewares.AlreadySignedIn,controllers.getGrades);
-route.post('/updatedatabase',UserMiddlewares.AlreadySignedIn,UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
-route.get('/loadquestion',UserMiddlewares.AlreadySignedIn,controllers.loadQuestions);
-route.put('/terminatequizz',UserMiddlewares.AlreadySignedIn,controllers.TerminateQuizz)
+route.use(UserMiddlewares.BasicAuthenciation)
+route.get('/startquizz',controllers.getGrades);
+route.post('/updatedatabase',UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
+route.get('/loadquestion',controllers.loadQuestions);
+route.put('/terminatequizz',controllers.TerminateQuizz)
 module.exports=route;
-
-//real time & trigger
-//socket io
-//body socket io
-
-//1: step by step request
-//2: all request 

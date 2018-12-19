@@ -12,7 +12,7 @@ const GLOBAL=require('../Global')
 
     exports.getGrades= async function (req,res,next){
         console.log("Running get grades")
-        let userID=req.body.userID;
+        let userID=req.user._id;
         let userAns=req.body.userAns;
         let partnerID=req.body.partnerID;
         const output= await service.getGrades(userID,userAns,partnerID);
@@ -29,7 +29,7 @@ const GLOBAL=require('../Global')
 
 
     exports.TerminateQuizz= async function(req,res,next){
-        let userID=req.body.userID;
+        let userID=req.user._id;
         let partnerID=req.body.partnerID;
         const output= await service.TerminateQuizz(userID,partnerID)
         return res.json(output);
