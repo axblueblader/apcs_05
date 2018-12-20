@@ -99,8 +99,6 @@ exports.changePasswords=async function(userPhone,newPasswords,oldPasswords)
     }
 }
 
-
-
 exports.logout=async function(userID)
 {
     const user= await userSchema.update({_id:userID},{$set:{userStatus:userStatus.OFFLINE}});
