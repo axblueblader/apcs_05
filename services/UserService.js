@@ -1,4 +1,4 @@
-let userSchema= require('../schemas/usersSchema');
+let userSchema= require('../schemas/UserSchema');
 let userStatus=require('../models/UserStatus');
 const mongoose=require('mongoose')
 const QuizzResultSchema=require('../schemas/QuizzResultsModel');

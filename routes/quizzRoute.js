@@ -1,6 +1,6 @@
 const express=require('express');
 let route=express.Router();
-const controllers = require('../controllers/quizzControllers')
+const controllers = require('../controllers/QuizzControllers')
 const bodyParser=require('body-parser'); 
 const UserMiddlewares=require('../middlewares/UserMiddlewares')
 let multer = require('multer');

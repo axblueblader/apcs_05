@@ -1,4 +1,4 @@
-const UserModel=require('../schemas/usersSchema');
+const UserModel=require('../schemas/UserSchema');
 const UserStatus=require('../models/UserStatus')
 const jwt=require('jsonwebtoken')
 const config=require('../config/config')

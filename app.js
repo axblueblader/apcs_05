@@ -31,7 +31,7 @@ app.use('/quizz',quizzRoute);
 const searchRoute = require('./routes/searchRoute');
 app.use('/api/search',searchRoute);
 
-const user=require('./routes/authenciation');
+const user=require('./routes/UserRoute');
 app.use('/user',user);
 
 const block=require('./routes/BlockRoute');
