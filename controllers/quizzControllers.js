@@ -1,4 +1,4 @@
-const service=require('../services/quizzService')
+const service=require('../services/QuizzService')
 const GLOBAL=require('../Global')
 
     exports.loadQuestions=async function (req,res,next){
