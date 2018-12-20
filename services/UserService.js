@@ -5,8 +5,9 @@ const QuizzResultSchema=require('../schemas/QuizzResultsModel');
 const ImgQuestionSchema=require('../schemas/ImgQuestionModel');
 const quizzStatus=require('../models/QuizzStatus')
 let jwt= require('jsonwebtoken')
-
-
+const config=require('../config/config')
+const AccessTokenSchema= require('../schemas/AccessTokenSchema')
+const encrypt = require('crypto')
 
      /**    Json returned type
             {
@@ -29,37 +30,37 @@ exports.CheckForSignIn= async function(userphone,userPass)
          {
              console.log("Checking passwords");
              console.log("Login successfully with User:");
-           //  console.log(user)
+             console.log(user)
            if(user.userStatus==userStatus.ONLINE)
            {
                let json={Status: userStatus.ALREADY_SIGNED_IN, token:null}
                return json;
            }
-             else{
                 status=userStatus.SIGNED_IN;
                 user.userStatus=userStatus.ONLINE;
                 await userSchema.update({_id:user._id},{$set:{userStatus:userStatus.ONLINE}});
-                //define payload
-                let payload={
-                    _id: user._id,
-                    
-                }
-               console.log(payload)
-                let token = jwt.sign(payload, "TEST_USER_SECRET_KEY")
+                //TOKEN HANDLING 
+                let token = encrypt.randomBytes(32).toString("hex");
+                //upload to database
+                 const model ={
+                     userID: user._id,
+                 }
+                 await AccessTokenSchema.remove(model);
+                 model.token=token;
+                 const userToken = new AccessTokenSchema(model);
+                 await userToken.save();
                 return {Status: status,data: user, Token: token}
              }
+             else{
+                console.log("Wrong passwords!")
+                status=userStatus.WRONG_PASSWORDS;
+                return {Status: status,Token: null}
+            }
          }
-         else{
-             console.log("Wrong passwords!")
-             status=userStatus.WRONG_PASSWORDS;
-             return {Status: status,Token: null}
-         }
-           } 
-           
            else {
-         console.log("No data exist for this users");
-         status=userStatus.NO_ACCOUNTS
-         return {Status: status,Token: null}
+            console.log("No data exist for this users");
+            status=userStatus.NO_ACCOUNTS
+            return {Status: status,Token: null}
        }
 
       

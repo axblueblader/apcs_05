@@ -17,6 +17,3 @@ exports.ERROR_MUST_LOGOUT="Other Account is avaiable , Please LOG OUT first"
 exports.GENDER_MALE="male"
 exports.GENDER_FEMALE="female"
 exports.GENDER_UNDEFINE="undefined"
-
-exports.INVALID_TOKEN="Invalid Token"
-exports.NO_TOKEN_FOUND="No Token Found"

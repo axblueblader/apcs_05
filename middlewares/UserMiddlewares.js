@@ -1,6 +1,9 @@
 const UserModel=require('../schemas/usersSchema');
 const UserStatus=require('../models/UserStatus')
 const jwt=require('jsonwebtoken')
+const config=require('../config/config')
+const AccessTokenSchema= require('../schemas/AccessTokenSchema')
+const tokenStatus=require('../models/TokenStatus')
     exports.AlreadySignedIn=async function (req,res,done) {
         console.log("Run AlreadySignedIn()")
         console.log("Find user")
@@ -57,28 +60,25 @@ const jwt=require('jsonwebtoken')
 
     exports.BasicAuthenciation = async function (req,res,done){
     // check header for the token
-    let token = req.body.token;
-    let id;
-    if (token) {
-      // verifies secret and checks if the token is expired
-      jwt.verify(token, "TEST_USER_SECRET_KEY", (err, decoded) =>{      
-        if (err) {
-          res.json({ Status: UserStatus.INVALID_TOKEN });    
-        } 
-          else{
-        // if everything is good, save to request for use in other routes
-          console.log("Decoded:") 
-          console.log(decoded)
-          id=decoded._id
-          console.log("-----")
-          }
-          //If received non-null token -> ALREADY SIGNED IN -> Query User info in the token containing the ID. 
-          //QUERY the user 
-        
-      });
-      if(id)
+    //req.user 
+
+    //VERIFY TOKEN
+    console.log(req.headers['token'])
+    let userToken = await AccessTokenSchema.findOne({token: req.headers['token']});
+    if (userToken) {
+      // USER TOKEN IS NOT NULL
+      console.log("TOKEN:",userToken)
+      console.log("TOKEN_EXPRIED: ", Math.round((Date.now() - userToken.createdDate)/1000));
+      if (Math.round((Date.now() - userToken.createdDate)/1000) > config.TOKEN_LIFE)  
       {
-        let currentuser=  await UserModel.findOne({_id: id});
+        res.send({Status:tokenStatus.EXPIRED})
+      }
+      console.log("User token: ")
+      console.log(userToken)
+      let userID = userToken.userID;
+      if(userID)
+      {
+        let currentuser=  await UserModel.findOne({_id: userID});
         req.user=currentuser
         done();
       }
