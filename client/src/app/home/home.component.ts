@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import { SignupDialogComponent } from './signup-dialog/signup-dialog.component';
-import { SocketService } from '../socketio/socketio.service'
+import { SocketService } from '../socketio/socketio.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -34,11 +35,11 @@ export class HomeComponent implements OnInit {
   }
 
   startSearch() {
-    var data = {
+    const data = {
       userid: this.userID, // userid from db
       queueType: 'quick'  // queueType from options chose in screen
-    }
-    this.socketService.startSearch(data)
+    };
+    this.socketService.startSearch(data);
   }
 
   stopSearch() {
@@ -46,19 +47,18 @@ export class HomeComponent implements OnInit {
   }
 
   initSocketEventHandler() {
-    this.socketService.onWaitingInQueue().subscribe((data)=>{
+    this.socketService.onWaitingInQueue().subscribe((data) => {
       // Show waiting animation and message
-    })
+    });
 
-    this.socketService.onFoundMatch().subscribe((data)=>{
+    this.socketService.onFoundMatch().subscribe((data) => {
       // Show found match and navigate to quiz page
-    })
+    });
   }
 
   ngOnInit() {
     this.socketService.initSocket();
     this.initSocketEventHandler();
-    
   }
 
 }
