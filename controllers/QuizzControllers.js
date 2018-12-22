@@ -1,17 +1,11 @@
 const service=require('../services/QuizzService')
-const GLOBAL=require('../Global')
 
-    exports.loadQuestions=async function (req,res,next){
-        console.log("Running load question - CONTROLLERS")
+exports.loadQuestions=async function (req,res,next){
         const output= await service.loadDatabase();
-        console.log("Here is the output:");
-        console.log(output)
-        console.log("return the json output")
         return res.json(output)
     }
 
     exports.getGrades= async function (req,res,next){
-        console.log("Running get grades")
         let userID=req.user._id;
         let userAns=req.body.userAns;
         let partnerID=req.body.partnerID;
@@ -21,7 +15,6 @@ const GLOBAL=require('../Global')
 
 
     exports.uploadQuestions=async function (req,res,next){
-        console.log("Running upload questions - CONTROLLERS");
         let picArr=req.files;
         const output= await service.uploadQuestions(picArr);
         return res.json(output);

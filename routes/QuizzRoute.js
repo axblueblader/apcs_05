@@ -36,3 +36,4 @@ route.post('/updatedatabase',UserMiddlewares.CheckForPemission,controllers.uploa
 route.get('/loadquestion',controllers.loadQuestions);
 route.put('/terminatequizz',controllers.TerminateQuizz)
 module.exports=route;
+

@@ -1,4 +1,3 @@
-const BlockSchema= require('../schemas/BlockSchema')
 const service=require('../services/BlockService')
 exports.BlockUser = async function(req,res,next){
     let userID= req.user._id;

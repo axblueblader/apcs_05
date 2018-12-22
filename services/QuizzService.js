@@ -34,8 +34,6 @@ exports.getGrades=async function(userid,userans,partnerID){
                     grade++;
                 }
             }
-            await QuizzResultSchema.remove({userID: partnerID,partnerID: userid});//xoá đáp án của partner
-            await QuizzResultSchema.remove({userID: userid,partnerID: partnerID});//xoá đáp án của mình
             //create json file
             let result={userId: userid, partnerId:partnerID,userAns: userans,partnerAns:partner.userAns ,grades:grade}
             let json={Status: quizzStatus.GET_GRADES_SUCCESS,data: result}

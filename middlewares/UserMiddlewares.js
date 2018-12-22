@@ -1,6 +1,5 @@
 const UserModel=require('../schemas/UserSchema');
 const UserStatus=require('../models/UserStatus')
-const jwt=require('jsonwebtoken')
 const config=require('../config/config')
 const AccessTokenSchema= require('../schemas/AccessTokenSchema')
 const tokenStatus=require('../models/TokenStatus')
@@ -30,11 +29,7 @@ const tokenStatus=require('../models/TokenStatus')
     }
 
     exports.CheckForPemission= async function (req,res,done){
-        //console.log("Run CheckForPermission")
-        //console.log("Find user")
-        //let currentuser=  await UserModel.findOne({_id: req.body.userID});
         let currentuser=  req.user;
-        console.log(currentuser);
         if (currentuser.accessmethod==UserStatus.USER_ACCESS)
         {
             let json={Error:"User are NOT ALLOWED",currentuser}
@@ -45,7 +40,6 @@ const tokenStatus=require('../models/TokenStatus')
     }
 
     exports.CheckPhoneNumber= async function (req,res,done){
-        console.log("Run Check Phone Number")
         let user= await UserModel.findOne({userPhone: req.body.userPhone});
         if (user)// phone number already exists
         {
@@ -59,15 +53,8 @@ const tokenStatus=require('../models/TokenStatus')
     }
 
     exports.BasicAuthenciation = async function (req,res,done){
-    // check header for the token
-    //req.user 
-    //VERIFY TOKEN
-    console.log(req.headers['token'])
     let userToken = await AccessTokenSchema.findOne({token: req.headers['token']});
     if (userToken) {
-      // USER TOKEN IS NOT NULL
-      console.log("TOKEN:",userToken)
-      console.log("TOKEN_EXPRIED: ", Math.round((Date.now() - userToken.createdDate)/1000));
       if (Math.round((Date.now() - userToken.createdDate)/1000) > config.TOKEN_LIFE)  
       {
         res.send({Status:tokenStatus.TOKEN_EXPIRED})
