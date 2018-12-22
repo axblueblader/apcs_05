@@ -12,61 +12,66 @@ exports.loadDatabase= async function(){
 
 }
 
-exports.getGrades=async function(userid,userans,partnerID){
+exports.getGrades=async function(userid,userans,partnerid){
     console.log("Running Get grades - SERVICES")
     console.log("User Id: "+userid);
     console.log("User ans: "+userans);
-    console.log("Partner ID: "+partnerID);
+    console.log("Partner ID: "+partnerid);
 
-    
-    const partner= await QuizzResultSchema.findOne({userID: partnerID,partnerID: userid});
-    console.log(partner)
-    if(partner)//partner gửi câu trả lời lên
+    //Find the Result Info 
+    //Check if our partner sent their ans
+    let infoResult = await QuizzResultSchema.findOne({userID: partnerid,partnerID: userid})
+    if(infoResult)
     {
-        //start grading
-        //after get grades -> delete the db 
-        if(partner.quizzStatus===quizzStatus.WAIT_FOR_PARTNER)//partner đã gửi lên và cũng đang chờ -> tính điểm, trả file, xoá khỏi db
+        //They sent their ans
+        if(infoResult==quizzStatus.TERMINATED)//TIME OUT
         {
-            let grade=0;
-            for (let i=0;i<5;i++){
-                if (userans[i]==partner.userAns[i])
-                {
-                    grade++;
-                }
-            }
-            //create json file
-            let result={userId: userid, partnerId:partnerID,userAns: userans,partnerAns:partner.userAns ,grades:grade}
-            let json={Status: quizzStatus.GET_GRADES_SUCCESS,data: result}
-            return json;
-        }
-        else{//hết tg chờ -> xoá đáp án của th đó luôn
-            await QuizzResultSchema.remove({userID: partnerID,partnerID: userid});
-            let result={Status: quizzStatus.TIME_OUT};
+            await infoResult.remove();
+            let result = {Status: quizzStatus.TIME_OUT}
             return result;
-
-        }
-
-
-
-    }
-    else{
-        //check if already exist - else inserted
-        const alreadyexist= await QuizzResultSchema.findOne({userID: userid, partnerID: partnerID})
-        if (alreadyexist===null){
-            console.log("Insert to the db")
-            let user= new QuizzResultSchema({
-                userID: userid,
-                userAns: userans,
-                partnerID: partnerID
-            });
-            await user.save();
-            let result={Status:quizzStatus.WAIT_FOR_PARTNER,data:user}
-            return result
         }
         else{
-            let result={Status: quizzStatus.ALREADY_EXIST,data: alreadyexist}
+            //UPDATE THE RESULT INFO TO SEND IN THE RESPONE
+            infoResult.ans2=userans;
+            console.log(infoResult)
+            //START GRADING
+            let total=0;
+            let ans1=infoResult.ans1,ans2=infoResult.ans2;
+            for (let i=0; i < 5; i++)
+            {
+                if(ans1[i]==ans2[i]){
+                    total++
+                }
+            }
+            //UPDATE GRADES TO SEND IN RESUT INFO
+            infoResult.grades=total;
+            let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
+            await infoResult.remove();
             return result;
         }
+        
+    }
+    else{
+        //they havent' sent their ans
+        //check if we created before
+        infoResult== QuizzResultSchema.findOne({userID: userid,partnerID: partnerid})
+        if(infoResult)
+        {
+            //WE DID CREATE BEFORE
+            let result = {Status: quizzStatus.WAIT_FOR_PARTNER,data: infoResult}
+            return result;
+        }
+        //ELSE
+        console.log("Create new Result Info")
+        const model={
+            userID: userid,
+            partnerID: partnerid,
+            ans1: userans,
+        }
+        infoResult = new QuizzResultSchema(model);
+        await infoResult.save();
+        let result = {Status: quizzStatus.WAIT_FOR_PARTNER,data: infoResult}
+        return result;
     }
 }
 
