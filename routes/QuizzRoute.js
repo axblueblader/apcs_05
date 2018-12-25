@@ -10,7 +10,7 @@ const storage=multer.diskStorage({//định dạng công cụ lưu
         cb(null,'./uploads/');
     },
     filename: function(req,file,cb){//định dạng tên file dể lưu
-        cb(null, new Date().toISOString()+file.originalname);
+        cb(null,file.originalname);
     }
 })
 
@@ -30,10 +30,9 @@ const upload=multer({storage: storage,//công cụ lưu
 route.use(upload.any());
 route.use(bodyParser.urlencoded({ extended: false }))
 
-route.use(UserMiddlewares.BasicAuthenciation)
-route.get('/startquizz',controllers.getGrades);
-route.post('/updatedatabase',UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
-route.get('/loadquestion',controllers.loadQuestions);
-route.put('/terminatequizz',controllers.TerminateQuizz)
+route.get('/startquizz',UserMiddlewares.BasicAuthenciation,controllers.getGrades);
+route.post('/updatedatabase',UserMiddlewares.BasicAuthenciation,UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
+route.get('/loadquestion',UserMiddlewares.BasicAuthenciation,   controllers.loadQuestions);
+route.put('/terminatequizz',UserMiddlewares.BasicAuthenciation,controllers.TerminateQuizz)
 module.exports=route;
 

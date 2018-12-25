@@ -16,6 +16,7 @@ exports.loadQuestions=async function (req,res,next){
 
     exports.uploadQuestions=async function (req,res,next){
         let picArr=req.files;
+        console.log(picArr)
         const output= await service.uploadQuestions(picArr);
         return res.json(output);
     }

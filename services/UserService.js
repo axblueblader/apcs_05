@@ -68,6 +68,7 @@ exports.CheckForSignIn= async function(userphone,userPass)
 
 exports.UserSignUp= async function (Name,Phone,Pass,Gender)
 {
+    console.log("Run sign up")
     let newUser= new userSchema({
         _id: mongoose.Types.ObjectId(),
         userName:Name,

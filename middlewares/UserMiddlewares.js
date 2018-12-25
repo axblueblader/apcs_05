@@ -53,24 +53,32 @@ const tokenStatus=require('../models/TokenStatus')
     }
 
     exports.BasicAuthenciation = async function (req,res,done){
+    console.log("Token:")
+    console.log(req.headers['token'])
     let userToken = await AccessTokenSchema.findOne({token: req.headers['token']});
+    console.log(userToken)
     if (userToken) {
       if (Math.round((Date.now() - userToken.createdDate)/1000) > config.TOKEN_LIFE)  
       {
         res.send({Status:tokenStatus.TOKEN_EXPIRED})
       }
-      console.log("User token: ")
-      console.log(userToken)
-      let userID = userToken.userID;
-      if(userID)
-      {
-        let currentuser=  await UserModel.findOne({_id: userID});
-        req.user=currentuser
-        done();
+      else{
+        console.log("User token: ")
+        console.log(userToken)
+        let userID = userToken.userID;
+        if(userID)
+        {
+          let currentuser=  await UserModel.findOne({_id: userID});
+          req.user=currentuser
+          done();
+        }
       }
     }
     else
-        res.send({Status: UserStatus.NO_TOKEN_FOUND})
+        {
+            console.log("No token")
+            res.send({Status: tokenStatus.NO_TOKEN_FOUND})
+        }
 }
 
 

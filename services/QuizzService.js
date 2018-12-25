@@ -7,8 +7,8 @@ var fs = require('fs');
 exports.loadDatabase= async function(){
     console.log("Running Load database - SERVICE")
     let result= await ImgQuestionSchema.find({});
-    console.log("Throw back the RESULTS - SERVICE with "+result)
-    return result;
+    console.log("Throw back the RESULTS - SERVICE with "+result[0])
+    return {Status:quizzStatus.LOAD_DATABASE_SUCCESS,data: result}
 
 }
 
