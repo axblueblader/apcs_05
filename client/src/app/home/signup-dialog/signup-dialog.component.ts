@@ -23,23 +23,6 @@ export class SignupDialogComponent implements OnInit {
   ngOnInit() {
   }
 
-  onAccessAccount() {
-      const enteredValuesIn = {
-      enteredPhonenumber: this.phoneIn.setValue('enteredPhonenumberIn'),
-      enteredPassword: this.passwordIn.setValue('enteredPasswordIn')
-    };
-    this.dialogRef.close(enteredValuesIn);
-  }
-
-  onCreateAccount() {
-      const enteredValuesUp = {
-      enteredUsername:  this.usernameUp.setValue('enteredPhonenumberUp'),
-      enteredPhonenumber: this.phoneUp.setValue('enteredPhonenumberUp'),
-      enteredPassword: this.passwordUp.setValue('enteredPasswordUp')
-    };
-    this.dialogRef.close(enteredValuesUp);
-  }
-
   getErrorMessagePhoneIn() {
     return this.phoneIn.hasError('required') ? 'Enter phone number' : '';
   }
@@ -58,5 +41,30 @@ export class SignupDialogComponent implements OnInit {
 
   getErrorMessagePasswordUp() {
     return this.phoneUp.hasError('required') ? 'Enter password' : '';
+  }
+
+  onAccessAccount() {
+    if (this.phoneIn.invalid || this.passwordIn.invalid) {
+      return console.log('Not enough Sign In information');
+    } else {
+        const enteredValuesIn = {
+        enteredPhonenumber: this.phoneIn.value,
+        enteredPassword: this.passwordIn.value
+      };
+      this.dialogRef.close(enteredValuesIn);
+    }
+  }
+
+  onCreateAccount() {
+    if (this.usernameUp.invalid || this.phoneUp.invalid || this.passwordUp.invalid) {
+      return console.log('Not enough Sign Up information');
+    } else {
+      const enteredValuesUp = {
+        enteredUsername:  this.usernameUp.value,
+        enteredPhonenumber: this.phoneUp.value,
+        enteredPassword: this.passwordUp.value
+      };
+      this.dialogRef.close(enteredValuesUp);
+    }
   }
 }
