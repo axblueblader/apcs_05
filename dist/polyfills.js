@@ -5486,11 +5486,13 @@ __webpack_require__.r(__webpack_exports__);
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+// This fixes 'global is not defined' bug with socket.io client
+window.global = window;
 
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!***************************************************************************************************************************!*\
   !*** multi ./src/polyfills.ts ./node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/jit-polyfills.js ***!
   \***************************************************************************************************************************/
@@ -5503,5 +5505,5 @@ module.exports = __webpack_require__(/*! /home/lap10490/apcs/apcs_05/client/node
 
 /***/ })
 
-},[[1,"runtime"]]]);
+},[[2,"runtime"]]]);
 //# sourceMappingURL=polyfills.js.map

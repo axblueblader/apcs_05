@@ -16,7 +16,8 @@ $(function () {
     userid = token;
     socket.emit('register', userid);
   })
-
+  $('#messages').append($('<li>').text('Write on of these types in chat box then press FIND'));
+  $('#messages').append($('<li>').text('quick | malemale | femalemale | femalefemale | malefemale'));
   $('#sendMess').click(function () {
     if (inChat == true) {
       $('#messages').append($('<li>').text($('#m').val()))
@@ -31,10 +32,12 @@ $(function () {
   // Can apply state pattern to this shit (Idle,Finding,Matched)
   $('#findMatch').click(function () {
     if (finding == false) {
+      console.log($('#m').val());
       socket.emit('start search', {
         'userid': userid,
-        'queueType': 'quick'
+        'queueType': $('#m').val()
       });
+      $('#m').val('');
       console.log('Finding a match');
       finding = true;
       $('#messages').append($('<li>').text('Waiting for a match'));

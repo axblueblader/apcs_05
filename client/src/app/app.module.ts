@@ -12,7 +12,6 @@ import {
   MatTabsModule,
   MatProgressSpinnerModule
 } from '@angular/material';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuizComponent } from './quiz/quiz.component';
