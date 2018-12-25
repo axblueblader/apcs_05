@@ -1,6 +1,6 @@
 const express=require('express');
 let route=express.Router();
-const controllers = require('../controllers/quizzControllers')
+const controllers = require('../controllers/QuizzControllers')
 const bodyParser=require('body-parser'); 
 const UserMiddlewares=require('../middlewares/UserMiddlewares')
 let multer = require('multer');
@@ -10,7 +10,7 @@ const storage=multer.diskStorage({//định dạng công cụ lưu
         cb(null,'./uploads/');
     },
     filename: function(req,file,cb){//định dạng tên file dể lưu
-        cb(null, new Date().toISOString()+file.originalname);
+        cb(null,file.originalname);
     }
 })
 
@@ -30,15 +30,9 @@ const upload=multer({storage: storage,//công cụ lưu
 route.use(upload.any());
 route.use(bodyParser.urlencoded({ extended: false }))
 
-route.get('/startquizz',UserMiddlewares.AlreadySignedIn,controllers.getGrades);
-route.post('/updatedatabase',UserMiddlewares.AlreadySignedIn,UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
-route.get('/loadquestion',UserMiddlewares.AlreadySignedIn,controllers.loadQuestions);
-route.put('/terminatequizz',UserMiddlewares.AlreadySignedIn,controllers.TerminateQuizz)
+route.get('/startquizz',UserMiddlewares.BasicAuthenciation,controllers.getGrades);
+route.post('/updatedatabase',UserMiddlewares.BasicAuthenciation,UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
+route.get('/loadquestion',UserMiddlewares.BasicAuthenciation,   controllers.loadQuestions);
+route.put('/terminatequizz',UserMiddlewares.BasicAuthenciation,controllers.TerminateQuizz)
 module.exports=route;
 
-//real time & trigger
-//socket io
-//body socket io
-
-//1: step by step request
-//2: all request 
