@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -22,6 +23,8 @@ import { ChatComponent } from './chat/chat.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthService } from './authentication/auth.service';
+import { UserInfoService } from './authentication/userInfo.service';
 
 
 @NgModule({
@@ -37,6 +40,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -52,7 +56,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatProgressSpinnerModule
   ],
   entryComponents: [SignupDialogComponent],
-  providers: [],
+  providers: [AuthService,UserInfoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

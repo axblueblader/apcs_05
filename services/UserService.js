@@ -31,11 +31,11 @@ exports.CheckForSignIn= async function(userphone,userPass)
              console.log("Checking passwords");
              console.log("Login successfully with User:");
              console.log(user)
-           if(user.userStatus==userStatus.ONLINE)
-           {
-               let json={Status: userStatus.ALREADY_SIGNED_IN, token:null}
-               return json;
-           }
+        //    if(user.userStatus==userStatus.ONLINE)
+        //    {
+        //        let json={Status: userStatus.ALREADY_SIGNED_IN, token:null}
+        //        return json;
+        //    }
                 status=userStatus.SIGNED_IN;
                 user.userStatus=userStatus.ONLINE;
                 await userSchema.update({_id:user._id},{$set:{userStatus:userStatus.ONLINE}});

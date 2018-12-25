@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SocketService } from './socketio/socketio.service';
-import { UserService } from './socketio/user.service';
+import { AuthService } from './authentication/auth.service';
+import { UserInfoService } from './authentication/userInfo.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,10 @@ import { UserService } from './socketio/user.service';
   styleUrls: ['./app.component.css'],
   providers: [
     SocketService,
-    UserService
+    AuthService,
+    UserInfoService
   ]
 })
 export class AppComponent {
-  title = 'client';
+  title = 'Tale Chat';
 }

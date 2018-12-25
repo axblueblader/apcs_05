@@ -1,6 +1,6 @@
 const express=require('express');
 let route=express.Router();
-let controllers= require('../controllers/userControllers');
+let controllers= require('../controllers/UserControllers');
 let bodyParser=require('body-parser');
 let urlencoded= bodyParser.urlencoded({ extended: false })
 const UserStatus=require('../models/UserStatus')

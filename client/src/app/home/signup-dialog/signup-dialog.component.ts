@@ -1,6 +1,8 @@
-import { Component, OnInit, Inject} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../../authentication/auth.service';
+import { UserInfoService } from '../../authentication/userInfo.service';
 
 @Component({
   selector: 'app-signup-dialog',
@@ -18,7 +20,9 @@ export class SignupDialogComponent implements OnInit {
   passwordUp = new FormControl('', [Validators.required]);
 
   constructor(public dialogRef: MatDialogRef<SignupDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private authService: AuthService,
+    private userInfoService: UserInfoService) { }
 
   ngOnInit() {
   }
@@ -47,11 +51,29 @@ export class SignupDialogComponent implements OnInit {
     if (this.phoneIn.invalid || this.passwordIn.invalid) {
       return console.log('Not enough Sign In information');
     } else {
-        const enteredValuesIn = {
+      const enteredValuesIn = {
         enteredPhonenumber: this.phoneIn.value,
         enteredPassword: this.passwordIn.value
       };
-      this.dialogRef.close(enteredValuesIn);
+
+      // Sign in using userInfoService
+      // user info are stored in userInfoService
+      let signInData = {
+        userPhone: this.phoneIn.value,
+        userPass: this.passwordIn.value
+      }
+
+      this.authService.requestSignIn(signInData)
+        .subscribe(
+          (data: any) => {
+            console.log("POST Request is successful ", data);
+            this.dialogRef.close(data);
+          },
+          error => {
+            console.log("Error", error);
+          }
+        );;
+
     }
   }
 
@@ -60,7 +82,7 @@ export class SignupDialogComponent implements OnInit {
       return console.log('Not enough Sign Up information');
     } else {
       const enteredValuesUp = {
-        enteredUsername:  this.usernameUp.value,
+        enteredUsername: this.usernameUp.value,
         enteredPhonenumber: this.phoneUp.value,
         enteredPassword: this.passwordUp.value
       };

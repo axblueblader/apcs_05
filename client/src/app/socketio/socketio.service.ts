@@ -20,7 +20,7 @@ export class SocketService {
     /*  REGISTER SOCKET SECTION
     *   register to link userID with socket on server
     */
-    public register(userID: String): void {
+    public register(userID): void {
         this.socket.emit('register',userID);
     }
     /*  END REGISTER SOCKET SECTION */
