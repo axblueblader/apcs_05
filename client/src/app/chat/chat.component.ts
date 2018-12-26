@@ -1,4 +1,6 @@
 import {AfterViewChecked, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import { SocketService } from '../socketio/socketio.service';
+import { UserInfoService } from '../authentication/userInfo.service';
 
 @Component({
   selector: 'app-chat',
@@ -16,12 +18,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     owner: string,
   }[] = [];
 
+  private userID;
+
   ngOnInit() {
-    setInterval(
-      () => {
-        this.msg_list.push({msg: 'partner send', owner: 'partner'});
-      }
-      , 10000);
+    // setInterval(
+    //   () => {
+    //     this.msg_list.push({msg: 'partner send', owner: 'partner'});
+    //   }
+    //   , 10000);
+
+    this.userID = this.userInfoService.getToken();
+
+    this.socketService.onNewMessage().subscribe((data) => {
+      console.log('recieved message: ', data);
+      this.msg_list.push({msg: data, owner: 'partner'});
+    });
   }
 
   addMsg(value: string) {
@@ -30,12 +41,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     console.log( this.msgbox.nativeElement.clientHeight);
     console.log(this.msgbox.nativeElement.scrollTop);
     console.log(this.msgbox.nativeElement.scrollHeight);
+
+    let data = {
+      userid: this.userID,
+      msg: value
+    }
+    this.socketService.sendMessage(data);
   }
 
   ngAfterViewChecked(): void {
     this.msgbox.nativeElement.scrollTop = this.msgbox.nativeElement.scrollHeight - this.msgbox.nativeElement.clientHeight;
   }
 
+  constructor(private socketService: SocketService,
+              private userInfoService: UserInfoService) {
+  }
 }
 
 

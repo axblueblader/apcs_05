@@ -3,6 +3,7 @@ import {MatDialog} from '@angular/material';
 import { SignupDialogComponent } from './signup-dialog/signup-dialog.component';
 import { SocketService } from '../socketio/socketio.service';
 import { UserInfoService } from '../authentication/userInfo.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,8 @@ export class HomeComponent implements OnInit {
   }
 
   constructor(public dialog: MatDialog,
+              private router: Router,
+              private route: ActivatedRoute,
               private socketService: SocketService,
               private userInfoService: UserInfoService) { }
 
@@ -84,6 +87,8 @@ export class HomeComponent implements OnInit {
 
     this.socketService.onFoundMatch().subscribe((data) => {
       // Show found match and navigate to quiz page
+      console.log('Found a match');
+      this.router.navigate(['../chat'],{relativeTo: this.route});
     });
   }
 
