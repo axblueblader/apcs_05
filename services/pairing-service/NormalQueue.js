@@ -22,7 +22,7 @@ class NormalQueue {
 
     leaveQueue(userid){
         // if he is waiting, then remove him
-        if (this.userdata_who_waiting.userid == userid){
+        if (this.userdata_who_waiting != null && this.userdata_who_waiting.userid == userid){
             this.userdata_who_waiting = null;
         }
     }
