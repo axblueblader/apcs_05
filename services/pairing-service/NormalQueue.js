@@ -20,12 +20,11 @@ class NormalQueue {
         }
     }
 
-    leaveQueue(userdata_who_leaves){
+    leaveQueue(userid){
         // if he is waiting, then remove him
-        if (this.userdata_who_waiting == userdata_who_leaves) {
+        if (this.userdata_who_waiting.userid == userid){
             this.userdata_who_waiting = null;
         }
-        return 'leave queue'
     }
 }
 

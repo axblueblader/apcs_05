@@ -39,11 +39,9 @@ class MaleFemaleQueue {
         return ret
     }
 
-    leaveQueue(data){
-        if (data.queueType == this.queueType){
-            this.waitingQueue.remove(data.userid)
-        }
-        return 'leave queue'
+    leaveQueue(userid){
+        //remove the user from the queue
+        this.waitingQueue.remove(userid)
     }
 }
 
