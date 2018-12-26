@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
       this.socketService.register(this.userID);
       this.registered = true;
     }
-    console.log('REGISTERED ID: ',this.token);
+    console.log('REGISTERED ID: ',this.userID);
   }
   initSocketEventHandler() {
     this.socketService.onWaitingInQueue().subscribe((data) => {
