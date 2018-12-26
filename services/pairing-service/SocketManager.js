@@ -36,7 +36,7 @@ class SocketManager{
     }
 
     getIdBySocket(socket){
-        return Object.keys(ActiveConnection).find(key => ActiveConnection[key] === socket)
+        return Object.keys(this.ActiveConnection).find(key => this.ActiveConnection[key] === socket)
     }
 }
 
