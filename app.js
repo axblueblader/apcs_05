@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //conect the db
 
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 mongoose.connect("mongodb://admin:admin123@ds247430.mlab.com:47430/talechattest")
 
 //mongoose.connect("mongodb://localhost:27017/quizzDB")
@@ -25,35 +25,42 @@ mongoose.connect("mongodb://admin:admin123@ds247430.mlab.com:47430/talechattest"
 //app.use(express.static(path.join(__dirname, 'public')));
 
 //QUIZZ ROUTE
-const quizzRoute=require('./routes/QuizzRoute');
-app.use('/quizz',quizzRoute);
+const quizzRoute = require('./routes/QuizzRoute');
+app.use('/quizz', quizzRoute);
 
 const searchRoute = require('./routes/searchRoute');
-app.use('/api/search',searchRoute);
+app.use('/api/search', searchRoute);
 
-const user=require('./routes/UserRoute');
-app.use('/user',user);
+const user = require('./routes/UserRoute');
+app.use('/user', user);
 
-const block=require('./routes/BlockRoute');
-app.use('/block',block)
+const block = require('./routes/BlockRoute');
+app.use('/block', block)
 
-app.use('/api/chat', function (req,res,next) {
-    res.sendFile(path.join(__dirname, 'public/views','chat.html'));
+app.use('/api/chat', function (req, res, next) {
+    res.sendFile(path.join(__dirname, 'public/views', 'chat.html'));
 })
 
-const allowed = [
+const views = [
     '.js',
-    '.css',
+    '.css'
+];
+
+const imgs = [
     '.png',
     '.jpg'
-  ];
+];
 
-app.get('*', function (req,res) {
-    if (allowed.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
+app.get('*', function (req, res) {
+    if (views.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
         res.sendFile(path.resolve(`./dist/${req.url}`));
     }
     else {
-        res.sendFile(path.join(__dirname,'/dist/index.html'));
+        if (imgs.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
+            res.sendFile(path.resolve(`./${req.url}`));
+        } else {
+            res.sendFile(path.join(__dirname, '/dist/index.html'));
+        }
     }
 })
 
@@ -61,7 +68,7 @@ app.get('*', function (req,res) {
 
 // 404 ERROR HANDLER
 app.use(function (req, res, next) {
-    res.status(404).sendFile(path.join(__dirname, 'public/views','error404.html'));
+    res.status(404).sendFile(path.join(__dirname, 'public/views', 'error404.html'));
 });
 
 
