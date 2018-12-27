@@ -73,11 +73,14 @@ const initialize = function (server) {
         })
 
         socket.on('disconnect',()=>{
-            // TODO implement unexepected disconnect handler
+            let userId = socketManager.getIdBySocket(socket)
+            console.log('removing userid ', userId)
+            queueManager.leaveQueue(userId)
+            socketManager.removeConnection(userId)
         })
-        socket.on('manual disconnect',(userID)=>{
-            queueManager.leaveQueue(userID);
-            socketManager.removeConnection(userID);
+        socket.on('manual disconnect',(userId)=>{
+            queueManager.leaveQueue(userId);
+            socketManager.removeConnection(userId);
         })
     })        
 }

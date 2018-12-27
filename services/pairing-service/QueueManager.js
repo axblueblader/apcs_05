@@ -29,24 +29,12 @@ class QueueManager{
         return ret
     }
 
-    leaveQueue(data){
-        let ret = undefined
-        switch (data.queueType){
-            case 'quick':
-                ret = this.quickQueue.leaveQueue(data)
-                break
-            case 'malemale':
-                ret = this.maleMaleQueue.leaveQueue(data)
-                break
-            case 'femalefemale':
-                ret = this.femaleFemaleQueue.leaveQueue(data)
-                break
-            case 'malefemale':
-            case 'femalemale':
-                ret = this.maleFemaleQueue.leaveQueue(data)
-        }
-
-        return ret
+    leaveQueue(userid){
+        this.quickQueue.leaveQueue(userid)
+        this.maleFemaleQueue.leaveQueue(userid)
+        this.femaleFemaleQueue.leaveQueue(userid)
+        this.maleFemaleQueue.leaveQueue(userid)
+        return 'leave queue'
     }
 }
 

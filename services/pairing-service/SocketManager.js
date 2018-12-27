@@ -34,6 +34,10 @@ class SocketManager{
         }
         return ret
     }
+
+    getIdBySocket(socket){
+        return Object.keys(this.ActiveConnection).find(key => this.ActiveConnection[key] == socket)
+    }
 }
 
 module.exports = SocketManager;
