@@ -20,7 +20,7 @@ exports.getGrades=async function(userid,userans,partnerid){
     if(infoResult)
     {
         //They sent their ans
-        if(infoResult==quizzStatus.TERMINATED)//TIME OUT
+        if(infoResult.quizzStatus==quizzStatus.TERMINATED)//TIME OUT
         {
             await infoResult.remove();
             let result = {Status: quizzStatus.TIME_OUT}
