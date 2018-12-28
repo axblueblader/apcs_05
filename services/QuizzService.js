@@ -13,10 +13,6 @@ exports.loadDatabase= async function(){
 }
 
 exports.getGrades=async function(userid,userans,partnerid){
-    console.log("Running Get grades - SERVICES")
-    console.log("User Id: "+userid);
-    console.log("User ans: "+userans);
-    console.log("Partner ID: "+partnerid);
 
     //Find the Result Info 
     //Check if our partner sent their ans
@@ -32,7 +28,12 @@ exports.getGrades=async function(userid,userans,partnerid){
         }
         else{
             //UPDATE THE RESULT INFO TO SEND IN THE RESPONE
+           if(infoResult.ans2=="Nothing")
+           {
+               console.log("Ans 2 is NULL")
             infoResult.ans2=userans;
+            await QuizzResultSchema.update({_id: infoResult._id},{$set:{ans2: userans}})
+            console.log("Ans 2 = NULL | INFO RESULT")
             console.log(infoResult)
             //START GRADING
             let total=0;
@@ -45,19 +46,28 @@ exports.getGrades=async function(userid,userans,partnerid){
             }
             //UPDATE GRADES TO SEND IN RESUT INFO
             infoResult.grades=total;
+            await QuizzResultSchema.update({_id: infoResult._id},{$set:{grades: total}})
+            let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
+            return result;
+           }
+           else{
+               console.log("Ans 2 != Nothing")
             let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
             await infoResult.remove();
             return result;
+           }
         }
         
     }
     else{
         //they havent' sent their ans
         //check if we created before
-        infoResult== QuizzResultSchema.findOne({userID: userid,partnerID: partnerid})
+        console.log("YOUR PARTNER HASNT SENT THEIR DATA")
+        infoResult= await  QuizzResultSchema.findOne({userID: userid,partnerID: partnerid})
         if(infoResult)
         {
             //WE DID CREATE BEFORE
+            console.log("YOU CREATED BEFORE")
             let result = {Status: quizzStatus.WAIT_FOR_PARTNER,data: infoResult}
             return result;
         }

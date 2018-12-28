@@ -32,7 +32,8 @@ route.use(bodyParser.urlencoded({ extended: false }))
 
 route.put('/startquizz',UserMiddlewares.BasicAuthenciation,controllers.getGrades);
 route.post('/updatedatabase',UserMiddlewares.BasicAuthenciation,UserMiddlewares.CheckForPemission,controllers.uploadQuestions);
-route.get('/loadquestion',UserMiddlewares.BasicAuthenciation,   controllers.loadQuestions);
+route.put('/loadquestion',UserMiddlewares.BasicAuthenciation,   controllers.loadQuestions);
 route.put('/terminatequizz',UserMiddlewares.BasicAuthenciation,controllers.TerminateQuizz)
+
 module.exports=route;
 
