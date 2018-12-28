@@ -30,11 +30,9 @@ exports.getGrades=async function(userid,userans,partnerid){
             //UPDATE THE RESULT INFO TO SEND IN THE RESPONE
            if(infoResult.ans2=="Nothing")
            {
-               console.log("Ans 2 is NULL")
             infoResult.ans2=userans;
             await QuizzResultSchema.update({_id: infoResult._id},{$set:{ans2: userans}})
-            console.log("Ans 2 = NULL | INFO RESULT")
-            console.log(infoResult)
+            
             //START GRADING
             let total=0;
             let ans1=infoResult.ans1,ans2=infoResult.ans2;
@@ -51,7 +49,6 @@ exports.getGrades=async function(userid,userans,partnerid){
             return result;
            }
            else{
-               console.log("Ans 2 != Nothing")
             let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
             await infoResult.remove();
             return result;
