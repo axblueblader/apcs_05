@@ -1,7 +1,7 @@
-import {AfterViewChecked, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild, OnDestroy} from '@angular/core';
 import { SocketService } from '../socketio/socketio.service';
 import { UserInfoService } from '../authentication/userInfo.service';
-
+import {ActivatedRoute, Router} from '@angular/router';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -10,7 +10,7 @@ import { UserInfoService } from '../authentication/userInfo.service';
 
 
 
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('msgbox') msgbox: ElementRef;
   @ViewChild('newMsg') inputfield: ElementRef;
   msg_list: {
@@ -33,6 +33,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       console.log('recieved message: ', data);
       this.msg_list.push({msg: data, owner: 'partner'});
     });
+
+    this.socketService.onLeftChat().subscribe((data) => {
+      alert("Partner left the chat");
+      this.router.navigate(['../home'],{relativeTo: this.route});
+    })
   }
 
   addMsg(value: string) {
@@ -49,12 +54,23 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.socketService.sendMessage(data);
   }
 
+  leaveChat() {
+    this.socketService.leaveChat(this.userID);
+    this.router.navigate(['../home'],{relativeTo: this.route});
+  }
+
   ngAfterViewChecked(): void {
     this.msgbox.nativeElement.scrollTop = this.msgbox.nativeElement.scrollHeight - this.msgbox.nativeElement.clientHeight;
   }
 
   constructor(private socketService: SocketService,
+              private router: Router,
+              private route: ActivatedRoute,
               private userInfoService: UserInfoService) {
+  }
+
+  ngOnDestroy() {
+    this.socketService.leaveChat(this.userID);
   }
 }
 

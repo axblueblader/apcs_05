@@ -1,6 +1,7 @@
 export class UserInfoService {
     private userInfo;
     private token;
+    private registeredSocket = false;
 
     setUserInfo(userInfo) {
         this.userInfo = userInfo;
@@ -13,5 +14,13 @@ export class UserInfoService {
 
     getUserInfO() {
         return this.userInfo;
+    }
+
+    setRegisteredSocket(bool) {
+        this.registeredSocket = bool;
+    }
+
+    getRegisteredSocket() {
+        return this.registeredSocket;
     }
 }

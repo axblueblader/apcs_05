@@ -38,9 +38,8 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-
-      this.initUserID(result);
+      console.log('The dialog was closed', result);
+      if(result != "") {this.initUserID(result)};
     });
   }
 
@@ -60,6 +59,7 @@ export class HomeComponent implements OnInit {
   }
 
   startSearch() {
+    
     this.registerID();
 
     const data = {
@@ -77,6 +77,7 @@ export class HomeComponent implements OnInit {
     if (this.registered == false) {
       this.socketService.register(this.userID);
       this.registered = true;
+      this.userInfoService.setRegisteredSocket(true);
     }
     console.log('REGISTERED ID: ',this.userID);
   }
@@ -93,8 +94,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socketService.initSocket();
+    if(this.socketService.isUndefined) {
+      this.socketService.initSocket();
+    }
     this.initSocketEventHandler();
+    this.registered = this.userInfoService.getRegisteredSocket();
   }
 
 }

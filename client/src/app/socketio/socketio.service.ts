@@ -7,7 +7,7 @@ const SERVER_URL = environment.production? '':'http://localhost:3000';
 
 //@Injectable()
 export class SocketService {
-    private socket;
+    private socket = undefined;
 
     // Initalize the socket
     public initSocket(): void {
@@ -17,6 +17,13 @@ export class SocketService {
         console.log('Server url: ',SERVER_URL);
     }
 
+    public isUndefined() {
+        if (this.socket == undefined) {
+            return true;
+        }else {
+            return false;
+        }
+    }
     /*  REGISTER SOCKET SECTION
     *   register to link userID with socket on server
     */
@@ -81,4 +88,21 @@ export class SocketService {
         })
     }
     /*  END MESSAGING SECTION   */
+
+    /*  MESSAGING SECTION 
+    *   leave chat
+    *   exit event
+    */
+    public leaveChat(data): void {
+        this.socket.emit('leave chat',data);
+        console.log('Leaving chat');
+    }
+
+    public onLeftChat(): Observable<any> {
+        return new Observable<any>(observer => {
+            // TODO: time as data
+            this.socket.on('message seen',(data) => observer.next(data));
+        })
+    }
+    /*  END LEAVING SECTION     */
 }
