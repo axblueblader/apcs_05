@@ -41,6 +41,9 @@ route.put('/signup',UserMiddlewares.CheckPhoneNumber,controllers.signup);
 route.post('/signin',controllers.signin);
 route.put('/changepass',controllers.changePassword);
 route.put('/signout',UserMiddlewares.BasicAuthenciation,controllers.logout);
+
+
+
 route.get('/testtoken',UserMiddlewares.BasicAuthenciation)
 module.exports=route;
 
