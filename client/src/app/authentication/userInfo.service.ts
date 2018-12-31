@@ -10,4 +10,8 @@ export class UserInfoService {
     getToken() {
         return this.token;
     }
+
+    getUserInfO() {
+        return this.userInfo;
+    }
 }

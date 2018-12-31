@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../authentication/auth.service';
-import { UserInfoService } from '../../authentication/userInfo.service';
 
 @Component({
   selector: 'app-signup-dialog',
@@ -18,11 +17,11 @@ export class SignupDialogComponent implements OnInit {
   usernameUp = new FormControl('', [Validators.required]);
   phoneUp = new FormControl('', [Validators.required]);
   passwordUp = new FormControl('', [Validators.required]);
+  genderUp = new FormControl('',[Validators.required]);
 
   constructor(public dialogRef: MatDialogRef<SignupDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private authService: AuthService,
-    private userInfoService: UserInfoService) { }
+    private authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -67,26 +66,55 @@ export class SignupDialogComponent implements OnInit {
         .subscribe(
           (data: any) => {
             console.log("POST Request is successful ", data);
-            this.dialogRef.close(data);
+            if (data.Token != null) {
+              this.dialogRef.close(data);
+            }
+            else {
+              alert ("User phone or password is wrong");
+            }
           },
           error => {
             console.log("Error", error);
           }
-        );;
+        );
 
     }
   }
 
   onCreateAccount() {
-    if (this.usernameUp.invalid || this.phoneUp.invalid || this.passwordUp.invalid) {
+    if (this.usernameUp.invalid || this.phoneUp.invalid || this.passwordUp.invalid || this.genderUp.invalid) {
       return console.log('Not enough Sign Up information');
     } else {
       const enteredValuesUp = {
         enteredUsername: this.usernameUp.value,
         enteredPhonenumber: this.phoneUp.value,
-        enteredPassword: this.passwordUp.value
+        enteredPassword: this.passwordUp.value,
+        enteredGender: this.genderUp.value
       };
-      this.dialogRef.close(enteredValuesUp);
+
+      let signUpData = {
+        userName: this.usernameUp.value,
+        userPhone: this.phoneUp.value,
+        userPass: this.passwordUp.value,
+        userGender: this.genderUp.value
+      }
+
+      this.authService.requestSignUp(signUpData)
+        .subscribe(
+          (data: any) => {
+            console.log("PUT Request is successful ", data);
+            if (data.Status == "Sign up successfully") {
+              alert("Sign up successful, you can now sign in with new account");
+              //this.dialogRef.close(data);
+            }
+            else {
+              alert ("Sign up unsuccessful");
+            }
+          },
+          error => {
+            console.log("Error", error);
+          }
+        );
     }
   }
 }

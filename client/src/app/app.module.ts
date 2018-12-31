@@ -56,7 +56,7 @@ import { UserInfoService } from './authentication/userInfo.service';
     MatProgressSpinnerModule
   ],
   entryComponents: [SignupDialogComponent],
-  providers: [AuthService,UserInfoService],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

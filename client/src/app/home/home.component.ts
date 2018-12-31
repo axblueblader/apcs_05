@@ -14,7 +14,8 @@ export class HomeComponent implements OnInit {
 
   clicked = false;
   registered = false;
-  userID;
+  userID = undefined;
+  userPhone = undefined;
 
   onClick() {
     if (this.clicked) {
@@ -38,7 +39,6 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      console.log(result);
 
       this.initUserID(result);
     });
@@ -46,16 +46,16 @@ export class HomeComponent implements OnInit {
 
   initUserID(data) {
     if (this.userID == undefined){
-    let userInfo = data;
 
-    this.userInfoService.setUserInfo(userInfo);
+    this.userInfoService.setUserInfo(data);
 
     let token = this.userInfoService.getToken();
-    console.log(token);
+    console.log("Get token in home component",token);
 
     /* NAMING INCONSISTENCY
     TODO : REFACTOR NAMES */
     this.userID = token;
+    this.userPhone = this.userInfoService.getUserInfO().data.userPhone;
     }
   }
 

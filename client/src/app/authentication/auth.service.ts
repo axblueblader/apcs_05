@@ -16,4 +16,13 @@ export class AuthService {
             userPass: data.userPass
         })        
     }
+
+    requestSignUp(data) {
+        return this.http.put(SERVER_URL+"/user/signup", {
+            userName: data.userName,
+            userPhone: data.userPhone,
+            userPass: data.userPass,
+            userGender: data.userGender
+        })
+    }
 }

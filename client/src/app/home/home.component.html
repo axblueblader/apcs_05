@@ -3,7 +3,12 @@
     <tr>
       <td id="colLeft"><button mat-flat-button color="primary" class="flbutton">≡</button></td>
       <td id="colMid">Tale</td>
-      <td id="colRight"><button mat-flat-button color="primary" class="flbutton" (click)="openDialog()">Sign In</button></td>
+      <td id="colRight">      
+        <button *ngIf = "userID == undefined" 
+        mat-flat-button color="primary" class="flbutton" (click)="openDialog()">Sign In</button>
+        <button *ngIf = "userID != undefined" 
+        mat-flat-button color="primary" class="flbutton" (click)="openDifferentDialog()">{{userPhone}}</button>
+      </td>
     </tr>
   </table>
 </div>

@@ -9,11 +9,11 @@
         <input matInput placeholder="Password" type="password" [formControl]="passwordIn">
         <mat-error *ngIf="passwordIn.invalid">{{getErrorMessagePasswordIn()}}</mat-error>
       </mat-form-field>
-      <mat-radio-group>
+      <!-- <mat-radio-group>
         <p id="gender">Gender</p>
         <mat-radio-button class="radio-button" value="1" color="primary">Male</mat-radio-button>
         <mat-radio-button class="radio-button" value="2" color="primary">Female</mat-radio-button>
-      </mat-radio-group>
+      </mat-radio-group> -->
     </div>
     <div class="dialog-actions">
       <button mat-button mat-dialog-close>Cancel</button>
@@ -34,6 +34,11 @@
         <input matInput placeholder="Password" type="password" [formControl]="passwordUp">
         <mat-error *ngIf="passwordUp.invalid">{{getErrorMessagePasswordUp()}}</mat-error>
       </mat-form-field>
+      <mat-radio-group matInput placeholder="Gender" type="radio-button" [formControl]="genderUp">
+        <p id="gender">Gender</p>
+        <mat-radio-button class="radio-button" value="male" color="primary">Male</mat-radio-button>
+        <mat-radio-button class="radio-button" value="female" color="primary">Female</mat-radio-button>
+      </mat-radio-group>
     </div>
     <div class="dialog-actions">
       <button mat-button mat-dialog-close>Cancel</button>
