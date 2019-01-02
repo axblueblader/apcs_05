@@ -25,6 +25,7 @@ import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.compon
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthService } from './authentication/auth.service';
 import { UserInfoService } from './authentication/userInfo.service';
+import {QuizdataService} from './quiz/quizdata.service';
 
 
 @NgModule({
@@ -56,7 +57,7 @@ import { UserInfoService } from './authentication/userInfo.service';
     MatProgressSpinnerModule
   ],
   entryComponents: [SignupDialogComponent],
-  providers: [AuthService],
+  providers: [AuthService, UserInfoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
