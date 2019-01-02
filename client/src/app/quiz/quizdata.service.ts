@@ -1,4 +1,4 @@
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
@@ -41,9 +41,23 @@ export  class  QuizdataService {
     return this.partnerRes;
   }
 
-  getQuiz(): Observable<HttpResponse<Server>> {
-    return this.http
-      .get<Server>('http://127.0.0.1:3000/loadquestion', {observe: 'response'} );
+  getQuiz() {
+    const headers = new HttpHeaders()
+      .set('token', 'da0dbbf8faa976fe18ca33c95efb05b968b21b3f8786875dd08065687ed3853f');
+    this.http
+      .put('http://localhost:3000/quizz/loadquestionn', {headers})
+      .subscribe(
+        val => {
+          console.log('PUT call successful value returned in body',
+            val);
+        },
+        response => {
+          console.log('PUT call in error', response);
+        },
+        () => {
+          console.log('The PUT observable is now completed.');
+        }
+      );
 
   }
 }

@@ -20,12 +20,7 @@ export class QuizdoComponent implements OnInit {
     this.quizList  = this.quizDataService.getList();
     this.currQuest = 0 ;
     console.log(this.quizList.length);
-    this.quizDataService.getQuiz()
-      .subscribe( resp => {
-        const keys = resp.headers.keys();
-        console.log(keys);
-        console.log(resp.body);
-      });
+    this.quizDataService.getQuiz();
   }
 
   imgClick(color: string) {
