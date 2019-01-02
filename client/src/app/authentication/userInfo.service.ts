@@ -12,7 +12,7 @@ export class UserInfoService {
         return this.token;
     }
 
-    getUserInfO() {
+    getUserInfo() {
         return this.userInfo;
     }
 

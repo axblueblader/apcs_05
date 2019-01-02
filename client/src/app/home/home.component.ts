@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
     /* NAMING INCONSISTENCY
     TODO : REFACTOR NAMES */
     this.userID = token;
-    this.userPhone = this.userInfoService.getUserInfO().data.userPhone;
+    this.userPhone = this.userInfoService.getUserInfo().data.userPhone;
     }
   }
 
@@ -89,16 +89,22 @@ export class HomeComponent implements OnInit {
     this.socketService.onFoundMatch().subscribe((data) => {
       // Show found match and navigate to quiz page
       console.log('Found a match');
-      this.router.navigate(['../chat'],{relativeTo: this.route});
+      this.clicked = false;
+      this.router.navigate(['chat']); 
     });
   }
 
   ngOnInit() {
-    if(this.socketService.isUndefined) {
+    if(this.socketService.isUndefined()) {
       this.socketService.initSocket();
+      this.initSocketEventHandler();
     }
-    this.initSocketEventHandler();
+    else {
+      this.userID = this.userInfoService.getToken();
+      this.userPhone = this.userInfoService.getUserInfo().data.userPhone;
+    }
     this.registered = this.userInfoService.getRegisteredSocket();
+    this.clicked = false;
   }
 
 }

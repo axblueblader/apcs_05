@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   }[] = [];
 
   private userID;
-
+  private leftChat;
   ngOnInit() {
     // setInterval(
     //   () => {
@@ -29,15 +29,22 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     this.userID = this.userInfoService.getToken();
 
-    this.socketService.onNewMessage().subscribe((data) => {
-      console.log('recieved message: ', data);
-      this.msg_list.push({msg: data, owner: 'partner'});
-    });
+    this.leftChat = false;
 
-    this.socketService.onLeftChat().subscribe((data) => {
-      alert("Partner left the chat");
-      this.router.navigate(['../home'],{relativeTo: this.route});
-    })
+    if (!this.socketService.alreadyInitInChat()) {
+      this.socketService.onNewMessage().subscribe((data) => {
+        console.log('recieved message: ', data);
+        this.msg_list.push({msg: data, owner: 'partner'});
+      });
+  
+      this.socketService.onLeftChat().subscribe((data) => {
+        alert("Partner left the chat");
+        this.leftChat = true;
+        this.router.navigate(['']);
+      })
+
+      this.socketService.setAlreadyInit(true);
+    }
   }
 
   addMsg(value: string) {
@@ -56,7 +63,8 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   leaveChat() {
     this.socketService.leaveChat(this.userID);
-    this.router.navigate(['../home'],{relativeTo: this.route});
+    this.leftChat = true;
+    this.router.navigate(['']);
   }
 
   ngAfterViewChecked(): void {
@@ -70,7 +78,9 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.socketService.leaveChat(this.userID);
+    if(this.leftChat == false) {
+      this.socketService.leaveChat(this.userID);
+    }
   }
 }
 
