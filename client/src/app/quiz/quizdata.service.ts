@@ -42,20 +42,22 @@ export  class  QuizdataService {
   }
 
   getQuiz() {
-    const headers = new HttpHeaders()
-      .set('token', 'da0dbbf8faa976fe18ca33c95efb05b968b21b3f8786875dd08065687ed3853f');
+    // let headers = new HttpHeaders();
+    // headers = headers.set('token', 'da0dbbf8faa976fe18ca33c95efb05b968b21b3f8786875dd08065687ed3853f');
+    // console.log(headers);
+    const headers = new HttpHeaders({'token': 'da0dbbf8faa976fe18ca33c95efb05b968b21b3f8786875dd08065687ed3853f'});
     this.http
-      .put('http://localhost:3000/quizz/loadquestionn', {headers})
+      .put('http://localhost:3000/quizz/loadquestion', { } , {headers})
       .subscribe(
         val => {
-          console.log('PUT call successful value returned in body',
+          console.log('Get call successful value returned in body',
             val);
         },
         response => {
-          console.log('PUT call in error', response);
+          console.log('Get call in error', response);
         },
         () => {
-          console.log('The PUT observable is now completed.');
+          console.log('The Get observable is now completed.');
         }
       );
 
