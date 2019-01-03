@@ -8,6 +8,7 @@ const SERVER_URL = environment.production? '':'http://localhost:3000';
 //@Injectable()
 export class SocketService {
     private socket = undefined;
+    private alreadyInit = false;
 
     // Initalize the socket
     public initSocket(): void {
@@ -23,6 +24,14 @@ export class SocketService {
         }else {
             return false;
         }
+    }
+
+    public alreadyInitInChat() {
+        return this.alreadyInit;
+    }
+
+    public setAlreadyInit(bool) {
+        this.alreadyInit = bool;
     }
     /*  REGISTER SOCKET SECTION
     *   register to link userID with socket on server
@@ -101,7 +110,10 @@ export class SocketService {
     public onLeftChat(): Observable<any> {
         return new Observable<any>(observer => {
             // TODO: time as data
-            this.socket.on('message seen',(data) => observer.next(data));
+            this.socket.on('left chat',(data,fn) => {
+                fn('Recieved partner left chat event');
+                observer.next(data);
+            });
         })
     }
     /*  END LEAVING SECTION     */

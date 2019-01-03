@@ -2,6 +2,7 @@ export class UserInfoService {
     private userInfo;
     private token;
     private registeredSocket = false;
+    private partnerId = "";
 
     setUserInfo(userInfo) {
         this.userInfo = userInfo;
@@ -12,7 +13,7 @@ export class UserInfoService {
         return this.token;
     }
 
-    getUserInfO() {
+    getUserInfo() {
         return this.userInfo;
     }
 
@@ -22,5 +23,13 @@ export class UserInfoService {
 
     getRegisteredSocket() {
         return this.registeredSocket;
+    }
+
+    getPartnerId() {
+        return this.partnerId;
+    }
+
+    setPartnerId(partnerId) {
+        this.partnerId = partnerId;
     }
 }

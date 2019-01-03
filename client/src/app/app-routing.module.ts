@@ -9,7 +9,8 @@ import {QuizresultComponent} from './quiz/quizresult/quizresult.component';
 
 
 const routes: Routes = [
-    {path: '', component: HomeComponent},
+    {path: '', component: HomeComponent,
+    pathMatch: 'full'},
     {path: 'quiz', component: QuizComponent, children: [
             {path: 'do', component: QuizdoComponent},
             {path: 'result', component: QuizresultComponent}
