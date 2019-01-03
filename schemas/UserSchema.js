@@ -2,6 +2,7 @@ const mongoose=require('mongoose');
 let schema= mongoose.Schema;
 const Schemaname=require('../schemas/SchemaNames')
 const UserStatus=require('../models/UserStatus')
+
 const userSchema=new schema({
     _id:{type: String, required: true},
     userName: {type: String, required: true},

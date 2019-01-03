@@ -44,7 +44,8 @@ exports.getGrades=async function(userid,userans,partnerid){
             }
             //UPDATE GRADES TO SEND IN RESUT INFO
             infoResult.grades=total;
-            await QuizzResultSchema.update({_id: infoResult._id},{$set:{grades: total}})
+            infoResult.quizzStatus=quizzStatus.GET_GRADES_SUCCESS;
+            await QuizzResultSchema.update({_id: infoResult._id},{$set:{grades: total,quizzStatus:quizzStatus.GET_GRADES_SUCCESS}})
             let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
             return result;
            }
