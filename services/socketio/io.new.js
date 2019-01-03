@@ -41,9 +41,9 @@ const initialize = function (server) {
                 conversations.newConversation(pair.userid1,pair.userid2);
                 console.log(pair);
                 let socket1 = (socketManager.getSocketByID(pair.userid1))
-                socket1.emit('found match');
+                socket1.emit('found match',pair.userid2);
                 let socket2 = (socketManager.getSocketByID(pair.userid2))
-                socket2.emit('found match');
+                socket2.emit('found match',pair.userid1);
             }
             else{
                 // waiting in queue

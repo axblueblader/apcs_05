@@ -4,6 +4,7 @@ import { SignupDialogComponent } from './signup-dialog/signup-dialog.component';
 import { SocketService } from '../socketio/socketio.service';
 import { UserInfoService } from '../authentication/userInfo.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,9 @@ export class HomeComponent implements OnInit {
   clicked = false;
   registered = false;
   userID = undefined;
-  userPhone = undefined;
+  userName = undefined;
+  private _onWaitingQueueSub: Subscription;
+  private _onFoundMatchSub: Subscription;
 
   onClick() {
     if (this.clicked) {
@@ -53,8 +56,8 @@ export class HomeComponent implements OnInit {
 
     /* NAMING INCONSISTENCY
     TODO : REFACTOR NAMES */
-    this.userID = token;
-    this.userPhone = this.userInfoService.getUserInfo().data.userPhone;
+    this.userID = this.userInfoService.getUserInfo().data._id;
+    this.userName = this.userInfoService.getUserInfo().data.userName;
     }
   }
 
@@ -82,14 +85,15 @@ export class HomeComponent implements OnInit {
     console.log('REGISTERED ID: ',this.userID);
   }
   initSocketEventHandler() {
-    this.socketService.onWaitingInQueue().subscribe((data) => {
+    this._onWaitingQueueSub = this.socketService.onWaitingInQueue().subscribe((data) => {
       // Show waiting animation and message
     });
 
-    this.socketService.onFoundMatch().subscribe((data) => {
+    this._onFoundMatchSub = this.socketService.onFoundMatch().subscribe((data) => {
       // Show found match and navigate to quiz page
       console.log('Found a match');
       this.clicked = false;
+      this.userInfoService.setPartnerId(data);
       this.router.navigate(['chat']); 
     });
   }
@@ -97,14 +101,20 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     if(this.socketService.isUndefined()) {
       this.socketService.initSocket();
-      this.initSocketEventHandler();
     }
     else {
-      this.userID = this.userInfoService.getToken();
-      this.userPhone = this.userInfoService.getUserInfo().data.userPhone;
+      this.userID = this.userInfoService.getUserInfo().data._id;
+      this.userName = this.userInfoService.getUserInfo().data.userName;
     }
+
+    this.initSocketEventHandler();
     this.registered = this.userInfoService.getRegisteredSocket();
     this.clicked = false;
+  }
+
+  ngOnDestroy() {
+    this._onFoundMatchSub.unsubscribe();
+    this._onWaitingQueueSub.unsubscribe();
   }
 
 }
