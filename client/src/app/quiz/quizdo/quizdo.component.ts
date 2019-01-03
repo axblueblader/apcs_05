@@ -2,11 +2,29 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {QuizdataService} from '../quizdata.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
+
+interface Answer {
+  ans1: string;
+  ans2: string;
+  quizzStatus: string;
+  grades: number;
+  id: string;
+  userID: string;
+  partnerID: string;
+  __v;
+}
+
+interface QuizzSubmitResp {
+  Status: string;
+  data: Answer;
+}
+
 @Component({
   selector: 'app-quizdo',
   templateUrl: './quizdo.component.html',
   styleUrls: ['./quizdo.component.css']
 })
+
 export class QuizdoComponent implements OnInit {
   private quizList;
   private currQuest: number;
@@ -31,7 +49,23 @@ export class QuizdoComponent implements OnInit {
       this.quizDataService.addResult(color);
     } else {
       this.quizDataService.addResult(color);
-      this.router.navigate(['../result'], {relativeTo: this.route});
+      this.quizDataService.submitQuizz()
+        .subscribe(
+          val => {
+            console.log('Return status: ', val.Status);
+            console.log('Data: ', val.data);
+            if (val.data.quizzStatus === 'Get Grades Success') {
+              this.router.navigate(['../result'], {relativeTo: this.route});
+            }
+          },
+          response => {
+            console.log('PUT call in error', response);
+          },
+          () => {
+            console.log('The PUT observable is now completed.');
+          }
+        ) ;
+
     }
 
   }

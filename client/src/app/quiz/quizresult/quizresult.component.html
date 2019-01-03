@@ -2,13 +2,13 @@
   <div  *ngFor="let currQuiz of quizList; let i = index" class="row flex-row topbuffer" >
     <div class="col-md d-flex justify-content-center">
       <div class="answer">
-        <img  class="img-fluid" src="{{currQuiz.left}}" [ngClass]="{match: (resultList[i] ==='left')&&(resultList[i] == partnerRes[i]), notmatch: (resultList[i] ==='left')&&(resultList[i] != partnerRes[i])}" >
+        <img  class="img-fluid" src="{{currQuiz.left}}" [ngClass]="{match: (resultList[i] ==='0')&&(resultList[i] == partnerRes[i]), notmatch: (resultList[i] ==='0')&&(resultList[i] != partnerRes[i])}" >
         <!--<input type="image" src="http://homepages.neiu.edu/~ejgore/cs300/images/red.png" (click)="imgClick('red')">-->
       </div>
     </div>
     <div class="col-md d-flex justify-content-center">
       <div class="answer">
-        <img class="img-fluid" src="{{currQuiz.right}}" [ngClass]="{match: (resultList[i] ==='right')&&(resultList[i] == partnerRes[i]), notmatch: (resultList[i] ==='right')&&(resultList[i] != partnerRes[i])}" >
+        <img class="img-fluid" src="{{currQuiz.right}}" [ngClass]="{match: (resultList[i] ==='1')&&(resultList[i] == partnerRes[i]), notmatch: (resultList[i] ==='1')&&(resultList[i] != partnerRes[i])}" >
         <!--<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Blue_%28film%29.jpg" (click)="imgClick('blue')">-->
       </div>
     </div>
