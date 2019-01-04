@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
       console.log('Found a match');
       this.clicked = false;
       this.userInfoService.setPartnerId(data);
-      this.router.navigate(['chat']); 
+      this.router.navigate(['quiz']);
     });
   }
 

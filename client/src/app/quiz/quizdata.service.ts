@@ -2,6 +2,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
+import {UserInfoService} from '../authentication/userInfo.service';
 
 interface Question {
   firstchoice: {imgName: string, imgPath: string};
@@ -43,7 +44,7 @@ export  class  QuizdataService {
 
 
 
-  constructor (private http: HttpClient) { }
+  constructor (private http: HttpClient, private userInfo: UserInfoService) { }
 
   addResult (result: string) {
     console.log(this.quizRes);
@@ -64,7 +65,7 @@ export  class  QuizdataService {
     // let headers = new HttpHeaders();
     // headers = headers.set('token', 'da0dbbf8faa976fe18ca33c95efb05b968b21b3f8786875dd08065687ed3853f');
     // console.log(headers);
-    const token = 'fb0a28bb7e690e362be22c7e6f6b942b2220df8be7fdbc2199f3d63338757097'
+    const token = this.userInfo.getToken();
     const headers = new HttpHeaders({'token': token});
     this.http
       .put<LoadQuizzResp>('http://localhost:3000/quizz/loadquestion', { } , {headers})
@@ -101,9 +102,10 @@ export  class  QuizdataService {
   }
 
   submitQuizz(): Observable<QuizzSubmitResp> {
-    const id = '5c2652ac1fd432393cfdcad4';
-    const partnerid = '5c2652861fd432393cfdcad3';
-    const token = 'fb0a28bb7e690e362be22c7e6f6b942b2220df8be7fdbc2199f3d63338757097';
+    const partnerid = this.userInfo.getPartnerId();
+    const token = this.userInfo.getToken();
+
+    console.log(partnerid);
 
     const headers = new HttpHeaders({'token': token});
 

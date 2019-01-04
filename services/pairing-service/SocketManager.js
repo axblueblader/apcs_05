@@ -4,15 +4,7 @@ class SocketManager{
     }
 
     addActiveConnection(userid, socket){
-        //if the map did not has this user token
-        /*let ret = 'existed';
-        if (!this.ActiveConnection.has(userid)){
-            this.ActiveConnection.set(userid, socketID)
-            ret = 'success'
-        }
-
-        return ret;*/
-
+    
         this.ActiveConnection.set(userid, socket)
         //console.log(this.ActiveConnection);
         return 'active connection added'
