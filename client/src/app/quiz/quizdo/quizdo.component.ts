@@ -1,6 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {QuizdataService} from '../quizdata.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {UserInfoService} from '../../authentication/userInfo.service';
+import {CanComponentDeactivate} from './can-deactivate.guard';
+import {Observable} from 'rxjs';
 
 
 interface Answer {
@@ -25,20 +28,29 @@ interface QuizzSubmitResp {
   styleUrls: ['./quizdo.component.css']
 })
 
-export class QuizdoComponent implements OnInit {
+export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivate, OnChanges {
   private quizList;
   private currQuest: number;
-  @Output() private changeState = new EventEmitter<void>();
+  private alive: boolean;
+  private interval;
+  private finished: boolean;
 
   constructor(private quizDataService: QuizdataService,
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private userInfoService: UserInfoService) { }
 
   ngOnInit() {
     this.quizList  = this.quizDataService.getList();
-    this.currQuest = 0 ;
-    console.log(this.quizList.length);
     this.quizDataService.getQuiz();
+    this.currQuest = 0 ;
+    this.alive = true;
+    this.finished = false;
+    console.log(this.quizList);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.interval);
   }
 
   imgClick(color: string) {
@@ -49,24 +61,79 @@ export class QuizdoComponent implements OnInit {
       this.quizDataService.addResult(color);
     } else {
       this.quizDataService.addResult(color);
-      this.quizDataService.submitQuizz()
-        .subscribe(
-          val => {
-            console.log('Return status: ', val.Status);
-            console.log('Data: ', val.data);
-            if (val.data.quizzStatus === 'Get Grades Success') {
-              this.router.navigate(['../result'], {relativeTo: this.route});
-            }
-          },
-          response => {
-            console.log('PUT call in error', response);
-          },
-          () => {
-            console.log('The PUT observable is now completed.');
-          }
-        ) ;
+
+    if (this.userInfoService.getToken() != null) {
+
+      this.interval = setInterval(
+        () => {
+          this.quizDataService.submitQuizz()
+            .subscribe(
+              val => {
+                console.log('Return status: ', val.Status);
+                console.log('Data: ', val.data);
+                if (val.Status === 'Get Grades Success') {
+                  this.finished = true;
+                  this.quizDataService.setPartnerRes(val.data.ans2);
+                  this.router.navigate(['../result'], {relativeTo: this.route});
+                }
+              },
+              response => {
+                console.log('PUT call in error', response);
+              },
+              () => {
+                console.log('The PUT observable is now completed.');
+              }
+            );
+        }, 3000
+      );
+    } else {
+      this.finished = true;
+      this.quizDataService.setPartnerRes('0');
+      this.router.navigate(['../result'], {relativeTo: this.route});
+    }
+
+
+      // this.quizDataService.submitQuizz()
+      //   .subscribe(
+      //     val => {
+      //       console.log('Return status: ', val.Status);
+      //       console.log('Data: ', val.data);
+      //       if (val.Status === 'Get Grades Success') {
+      //         this.quizDataService.setPartnerRes(val.data.ans2);
+      //         this.router.navigate(['../result'], {relativeTo: this.route});
+      //       }
+      //     },
+      //     response => {
+      //       console.log('PUT call in error', response);
+      //     },
+      //     () => {
+      //       console.log('The PUT observable is now completed.');
+      //     }
+      //   ) ;
 
     }
 
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.finished) {
+      if (confirm('Are you sure you want to quit ?')) {
+          this.quizDataService.terminateQuizz()
+            .subscribe(
+              value => {
+                console.log(value);
+              }
+            );
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.quizList);
   }
 }

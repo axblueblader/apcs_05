@@ -26,6 +26,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthService } from './authentication/auth.service';
 import { UserInfoService } from './authentication/userInfo.service';
 import {QuizdataService} from './quiz/quizdata.service';
+import {CanDeactivateGuard} from './quiz/quizdo/can-deactivate.guard';
 
 
 @NgModule({
@@ -57,7 +58,7 @@ import {QuizdataService} from './quiz/quizdata.service';
     MatProgressSpinnerModule
   ],
   entryComponents: [SignupDialogComponent],
-  providers: [AuthService, UserInfoService],
+  providers: [AuthService, UserInfoService, CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

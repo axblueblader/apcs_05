@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {QuizdataService} from '../quizdata.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-quizresult',
@@ -11,7 +12,9 @@ export class QuizresultComponent implements OnInit {
   private quizList;
   private resultList;
   private partnerRes;
-  constructor(private quizDataService: QuizdataService) { }
+  constructor(
+    private quizDataService: QuizdataService,
+    private router: Router) { }
 
   ngOnInit() {
     this.quizList = this.quizDataService.getList();
@@ -21,4 +24,11 @@ export class QuizresultComponent implements OnInit {
     console.log(this.partnerRes);
   }
 
+  onToChatClicked() {
+    this.router.navigate(['chat']);
+  }
+
+  onLeaveClicked() {
+    this.router.navigate(['/']);
+  }
 }
