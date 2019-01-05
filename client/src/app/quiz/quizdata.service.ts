@@ -67,8 +67,8 @@ export  class  QuizdataService {
     return this.partnerRes;
   }
 
-  setPartnerRes(inRes: string) {
-    this.partnerRes = inRes;
+  setPartnerRes(inRes1: string, inRes2: string) {
+    inRes1 === this.quizRes ? this.partnerRes = inRes2 : this.partnerRes = inRes1;
   }
 
   getQuiz() {
