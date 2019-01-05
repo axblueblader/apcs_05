@@ -4,20 +4,32 @@
       <h3 class="text-center">Choose the picture you prefer</h3>
     </div>
   </div>
-  <div class="row flex-row">
+  <div class="row flex-row" *ngIf="quizList.length > 2">
     <div class="col-md d-flex justify-content-center">
       <div class="answer">
-         <img  class="img-fluid" src="{{quizList[currQuest].left}}" (click)="imgClick('0') ">
-        <!--<input type="image" src="http://homepages.neiu.edu/~ejgore/cs300/images/red.png" (click)="imgClick('red')">-->
+        <img class="img-fluid" src="{{quizList[currQuest].left}}" (click)="imgClick('0') ">
       </div>
     </div>
     <div class="col-md d-flex justify-content-center">
       <div class="answer">
-         <img class="img-fluid" src="{{quizList[currQuest].right}}" (click)="imgClick('1')">
-        <!--<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Blue_%28film%29.jpg" (click)="imgClick('blue')">-->
+        <img class="img-fluid" src="{{quizList[currQuest].right}}" (click)="imgClick('1')">
       </div>
     </div>
   </div>
+
+  <div class="row flex-row" *ngIf="quizList.length < 2">
+    <div class="col-md d-flex justify-content-center">
+      <div class="skeleton">
+        <p></p>
+      </div>
+    </div>
+    <div class="col-md d-flex justify-content-center">
+      <div class="skeleton">
+        <p></p>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 

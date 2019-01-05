@@ -25,10 +25,10 @@ interface QuizzSubmitResp {
 @Component({
   selector: 'app-quizdo',
   templateUrl: './quizdo.component.html',
-  styleUrls: ['./quizdo.component.css']
+  styleUrls: ['./quizdo.component.css', './skeleton.scss']
 })
 
-export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivate, OnChanges {
+export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivate {
   private quizList;
   private currQuest: number;
   private alive: boolean;
@@ -62,35 +62,38 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
     } else {
       this.quizDataService.addResult(color);
 
-    if (this.userInfoService.getToken() != null) {
-
-      this.interval = setInterval(
-        () => {
-          this.quizDataService.submitQuizz()
-            .subscribe(
-              val => {
-                console.log('Return status: ', val.Status);
-                console.log('Data: ', val.data);
-                if (val.Status === 'Get Grades Success') {
-                  this.finished = true;
-                  this.quizDataService.setPartnerRes(val.data.ans2);
-                  this.router.navigate(['../result'], {relativeTo: this.route});
+      if (this.userInfoService.getToken() != null) {
+        this.interval = setInterval(
+          () => {
+            this.quizDataService.submitQuizz()
+              .subscribe(
+                val => {
+                  console.log('Return status: ', val.Status);
+                  console.log('Data: ', val.data);
+                  if (val.Status === 'Get Grades Success') {
+                    this.finished = true;
+                    this.quizDataService.setPartnerRes(val.data.ans2);
+                    this.router.navigate(['../result'], {relativeTo: this.route});
+                  } else if ((val.data.quizzStatus === 'Terminated') || (val.Status === 'Time Out')) {
+                    alert('Your partner has left');
+                    this.finished = true;
+                    this.router.navigate(['/']);
+                  }
+                },
+                response => {
+                  console.log('PUT call in error', response);
+                },
+                () => {
+                  console.log('The PUT observable is now completed.');
                 }
-              },
-              response => {
-                console.log('PUT call in error', response);
-              },
-              () => {
-                console.log('The PUT observable is now completed.');
-              }
-            );
-        }, 3000
-      );
-    } else {
-      this.finished = true;
-      this.quizDataService.setPartnerRes('0');
-      this.router.navigate(['../result'], {relativeTo: this.route});
-    }
+              );
+          }, 3000
+        );
+      } else {
+        this.finished = true;
+        this.quizDataService.setPartnerRes('0');
+        this.router.navigate(['../result'], {relativeTo: this.route});
+      }
 
 
       // this.quizDataService.submitQuizz()
@@ -116,7 +119,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.finished) {
+    if (!this.finished && (this.quizList.length > 2)) {
       if (confirm('Are you sure you want to quit ?')) {
           this.quizDataService.terminateQuizz()
             .subscribe(
@@ -131,9 +134,5 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
     } else {
       return true;
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.quizList);
   }
 }
