@@ -26,7 +26,7 @@ exports.getGrades=async function(userid,userans,partnerid){
         //They sent their ans
         if(infoResult.quizzStatus==quizzStatus.TERMINATED)//TIME OUT
         {
-            //await infoResult.remove();
+            await infoResult.remove();
             let result = {Status: quizzStatus.TIME_OUT}
             return result;
         }
@@ -53,7 +53,7 @@ exports.getGrades=async function(userid,userans,partnerid){
            }
            else{
             let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
-           // await infoResult.remove();
+            await infoResult.remove();
             return result;
            }
         }
@@ -71,10 +71,13 @@ exports.getGrades=async function(userid,userans,partnerid){
             let result;
             if(infoResult.quizzStatus!=quizzStatus.GET_GRADES_SUCCESS)
             {
-                result = {Status: quizzStatus.WAIT_FOR_PARTNER,data: infoResult};   
+                result = {Status: quizzStatus.WAIT_FOR_PARTNER,data: infoResult}; 
+                return result;  
             }
-            else result ={Status:quizzStatus.GET_GRADES_SUCCESS,data: infoResult};
-            return result;
+            else {
+                result ={Status:quizzStatus.GET_GRADES_SUCCESS,data: infoResult};
+                return result;
+            }
 
         }
         //ELSE
