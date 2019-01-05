@@ -53,14 +53,13 @@ exports.getGrades=async function(userid,userans,partnerid){
            }
            else{
             let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
-            await infoResult.remove();
             return result;
            }
         }
         
     }
     else{
-        //they havent' sent their ans
+        //they havent' sent their ans - we start first
         //check if we created before
         console.log("YOUR PARTNER HASNT SENT THEIR DATA")
         infoResult= await  QuizzResultSchema.findOne({userID: userid,partnerID: partnerid})
@@ -76,6 +75,7 @@ exports.getGrades=async function(userid,userans,partnerid){
             }
             else {
                 result ={Status:quizzStatus.GET_GRADES_SUCCESS,data: infoResult};
+                await infoResult.remove();
                 return result;
             }
 
