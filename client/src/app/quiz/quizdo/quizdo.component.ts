@@ -96,7 +96,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
                   console.log('Data: ', val.data);
                   if (val.Status === 'Get Grades Success') {
                     this.finished = true;
-                    this.quizDataService.setPartnerRes(val.data.ans2);
+                    this.quizDataService.setPartnerRes(val.data.ans1, val.data.ans2);
                     this.router.navigate(['../result'], {relativeTo: this.route});
                   } else if ((val.data.quizzStatus === 'Terminated') || (val.Status === 'Time Out')) {
                     alert('Your partner has left');
