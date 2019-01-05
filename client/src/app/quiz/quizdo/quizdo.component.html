@@ -4,20 +4,24 @@
       <h3 class="text-center">Choose the picture you prefer</h3>
     </div>
   </div>
-  <div class="row flex-row" *ngIf="quizList.length > 2">
+  <div class="row flex-row" *ngIf="quizList.length >= 1">
     <div class="col-md d-flex justify-content-center">
-      <div class="answer">
-        <img class="img-fluid" src="{{quizList[currQuest].left}}" (click)="imgClick('0') ">
+      <div class="answer" [@nextQuestion] = "animState">
+        <img class="img-fluid"
+             src="{{quizList[currQuest].left}}"
+             (click)="imgClick('0')">
       </div>
     </div>
     <div class="col-md d-flex justify-content-center">
-      <div class="answer">
-        <img class="img-fluid" src="{{quizList[currQuest].right}}" (click)="imgClick('1')">
+      <div class="answer" [@nextQuestion] = "animState">
+        <img class="img-fluid"
+             src="{{quizList[currQuest].right}}"
+             (click)="imgClick('1')">
       </div>
     </div>
   </div>
 
-  <div class="row flex-row" *ngIf="quizList.length < 2">
+  <div class="row flex-row" *ngIf="quizList.length < 1">
     <div class="col-md d-flex justify-content-center">
       <div class="skeleton">
         <p></p>
@@ -43,5 +47,11 @@
   .answer img{
     width: 100%;
     height: 100%;
+  }
+  .answer img:hover{
+    transform: scale(0.95,0.95)
+  }
+  .answer img:active{
+    transform: scale(0.90,0.90)
   }
 </style>

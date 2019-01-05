@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UserInfoService} from '../../authentication/userInfo.service';
 import {CanComponentDeactivate} from './can-deactivate.guard';
 import {Observable} from 'rxjs';
+import {animate, query, state, style, transition, trigger} from '@angular/animations';
+import {delay} from 'q';
 
 
 interface Answer {
@@ -25,7 +27,23 @@ interface QuizzSubmitResp {
 @Component({
   selector: 'app-quizdo',
   templateUrl: './quizdo.component.html',
-  styleUrls: ['./quizdo.component.css', './skeleton.scss']
+  styleUrls: ['./quizdo.component.css', './skeleton.scss'],
+  animations: [
+    trigger('nextQuestion', [
+      state('gone', style({
+        opacity: 0
+      })),
+      state('full', style({
+        opacity: 1
+      })),
+      transition('full => gone', [
+        query('img', animate(300))
+      ]),
+      transition('gone => full', [
+        query('img', animate(300))
+      ])
+    ])
+  ]
 })
 
 export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivate {
@@ -34,6 +52,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
   private alive: boolean;
   private interval;
   private finished: boolean;
+  private animState: string;
 
   constructor(private quizDataService: QuizdataService,
               private router: Router,
@@ -47,6 +66,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
     this.alive = true;
     this.finished = false;
     console.log(this.quizList);
+    this.animState = 'full';
   }
 
   ngOnDestroy() {
@@ -54,11 +74,15 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
   }
 
   imgClick(color: string) {
+    this.animState = 'gone';
     console.log(color);
     console.log(this.currQuest);
     if (this.currQuest < (this.quizList.length - 1)) {
-      this.currQuest++;
-      this.quizDataService.addResult(color);
+      setTimeout(() => {
+        this.currQuest++;
+        this.quizDataService.addResult(color);
+         this.animState = 'full';
+      }, 300);
     } else {
       this.quizDataService.addResult(color);
 
@@ -135,4 +159,5 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
       return true;
     }
   }
+
 }
