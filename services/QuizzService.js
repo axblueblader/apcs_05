@@ -16,13 +16,17 @@ exports.getGrades=async function(userid,userans,partnerid){
 
     //Find the Result Info 
     //Check if our partner sent their ans
+    console.log("User: "+userid)
+    console.log("Partner:"+partnerid)
     let infoResult = await QuizzResultSchema.findOne({userID: partnerid,partnerID: userid})
+    console.log("Info Result:")
+    console.log(infoResult)
     if(infoResult)
     {
         //They sent their ans
         if(infoResult.quizzStatus==quizzStatus.TERMINATED)//TIME OUT
         {
-            await infoResult.remove();
+            //await infoResult.remove();
             let result = {Status: quizzStatus.TIME_OUT}
             return result;
         }
@@ -31,8 +35,6 @@ exports.getGrades=async function(userid,userans,partnerid){
            if(infoResult.ans2=="Nothing")
            {
             infoResult.ans2=userans;
-            await QuizzResultSchema.update({_id: infoResult._id},{$set:{ans2: userans}})
-            
             //START GRADING
             let total=0;
             let ans1=infoResult.ans1,ans2=infoResult.ans2;
@@ -45,13 +47,13 @@ exports.getGrades=async function(userid,userans,partnerid){
             //UPDATE GRADES TO SEND IN RESUT INFO
             infoResult.grades=total;
             infoResult.quizzStatus=quizzStatus.GET_GRADES_SUCCESS;
-            await QuizzResultSchema.update({_id: infoResult._id},{$set:{grades: total,quizzStatus:quizzStatus.GET_GRADES_SUCCESS}})
+            await QuizzResultSchema.update({_id: infoResult._id},{$set:{grades: total,quizzStatus:quizzStatus.GET_GRADES_SUCCESS,ans2: userans}})
             let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
             return result;
            }
            else{
             let result = {Status:quizzStatus.GET_GRADES_SUCCESS,data:infoResult};
-            await infoResult.remove();
+           // await infoResult.remove();
             return result;
            }
         }
@@ -66,8 +68,14 @@ exports.getGrades=async function(userid,userans,partnerid){
         {
             //WE DID CREATE BEFORE
             console.log("YOU CREATED BEFORE")
-            let result = {Status: quizzStatus.WAIT_FOR_PARTNER,data: infoResult}
+            let result;
+            if(infoResult.quizzStatus!=quizzStatus.GET_GRADES_SUCCESS)
+            {
+                result = {Status: quizzStatus.WAIT_FOR_PARTNER,data: infoResult};   
+            }
+            else result ={Status:quizzStatus.GET_GRADES_SUCCESS,data: infoResult};
             return result;
+
         }
         //ELSE
         console.log("Create new Result Info")
