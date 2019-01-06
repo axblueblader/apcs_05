@@ -27,7 +27,7 @@ interface QuizzSubmitResp {
 @Component({
   selector: 'app-quizdo',
   templateUrl: './quizdo.component.html',
-  styleUrls: ['./quizdo.component.css', './skeleton.scss'],
+  styleUrls: ['./quizdo.component.css', './skeleton.scss', './loading.css'],
   animations: [
     trigger('nextQuestion', [
       state('gone', style({
@@ -53,6 +53,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
   private interval;
   private finished: boolean;
   private animState: string;
+  private waiting: boolean;
 
   constructor(private quizDataService: QuizdataService,
               private router: Router,
@@ -65,6 +66,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
     this.currQuest = 0 ;
     this.alive = true;
     this.finished = false;
+    this.waiting = false;
     console.log(this.quizList);
     this.animState = 'full';
   }
@@ -84,8 +86,8 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
          this.animState = 'full';
       }, 300);
     } else {
+      this.waiting = true;
       this.quizDataService.addResult(color);
-
       if (this.userInfoService.getToken() != null) {
         this.interval = setInterval(
           () => {
@@ -98,7 +100,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
                     this.finished = true;
                     this.quizDataService.setPartnerRes(val.data.ans1, val.data.ans2);
                     this.router.navigate(['../result'], {relativeTo: this.route});
-                  } else if ((val.data.quizzStatus === 'Terminated') || (val.Status === 'Time Out')) {
+                  } else if ((val.Status === 'Time Out') || (val.data.quizzStatus === 'Terminated')) {
                     alert('Your partner has left');
                     this.finished = true;
                     this.router.navigate(['/']);
@@ -115,7 +117,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
         );
       } else {
         this.finished = true;
-        this.quizDataService.setPartnerRes('0');
+        this.quizDataService.setPartnerRes('0', '0');
         this.router.navigate(['../result'], {relativeTo: this.route});
       }
 
