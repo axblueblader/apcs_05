@@ -21,6 +21,10 @@ export class HomeComponent implements OnInit {
   private _onFoundMatchSub: Subscription;
 
   onClick() {
+    if (this.userID == undefined) {
+      this.openDialog();
+      return;
+    }
     if (this.clicked) {
       this.clicked = false;
       this.stopSearch();
@@ -94,7 +98,7 @@ export class HomeComponent implements OnInit {
       console.log('Found a match');
       this.clicked = false;
       this.userInfoService.setPartnerId(data);
-      this.router.navigate(['quiz']);
+      this.router.navigate(['quiz/do']);
     });
   }
 
@@ -105,6 +109,10 @@ export class HomeComponent implements OnInit {
     else {
       this.userID = this.userInfoService.getUserInfo().data._id;
       this.userName = this.userInfoService.getUserInfo().data.userName;
+    }
+
+    if (this.userID == undefined) {
+      this.openDialog();
     }
 
     this.initSocketEventHandler();

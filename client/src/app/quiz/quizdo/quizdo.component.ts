@@ -53,7 +53,7 @@ export class QuizdoComponent implements OnInit, OnDestroy, CanComponentDeactivat
   private interval;
   private finished: boolean;
   private animState: string;
-  private waiting: boolean;
+  public waiting: boolean;
 
   constructor(private quizDataService: QuizdataService,
               private router: Router,

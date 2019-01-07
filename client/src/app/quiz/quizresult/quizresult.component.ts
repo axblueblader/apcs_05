@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class QuizresultComponent implements OnInit {
 
-  private quizList;
+  public quizList;
   private resultList;
   private partnerRes;
   constructor(

@@ -28,7 +28,10 @@ class SocketManager{
     }
 
     getIdBySocket(socket){
-        return Object.keys(this.ActiveConnection).find(key => this.ActiveConnection[key] == socket)
+        let objKeys = Array.from( this.ActiveConnection.keys() );
+        let found = objKeys.find(key => this.ActiveConnection.get(key).id == socket.id)
+        console.log('found: ',found);
+        return found;
     }
 }
 

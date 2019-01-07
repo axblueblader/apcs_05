@@ -36,7 +36,7 @@ const initialize = function (server) {
         socket.on('start search',(data)=>{
             pair = queueManager.joinQueue(data);
             // call pairing service
-            if (pair != null) {
+            if (pair != undefined) {
                 // if match success, pair will be a pair of userid from pairing serive
                 conversations.newConversation(pair.userid1,pair.userid2);
                 console.log(pair);
@@ -73,6 +73,7 @@ const initialize = function (server) {
         })
 
         socket.on('disconnect',()=>{
+            console.log('disconnecting ',socket.id);
             let userId = socketManager.getIdBySocket(socket)
             console.log('removing userid ', userId)
             queueManager.leaveQueue(userId)
