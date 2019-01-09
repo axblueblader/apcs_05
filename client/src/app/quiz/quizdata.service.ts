@@ -41,7 +41,7 @@ export  class  QuizdataService {
   private quizList = [];
   private quizRes = '';
   private partnerRes = '';
-  private url = 'http://localhost:3000';
+  private url = '';
 
 
 
