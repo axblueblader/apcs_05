@@ -16,7 +16,7 @@ const routes: Routes = [
         ]},
     {path: 'chat', component: ChatComponent},
     {path: 'not-found', component: NotFoundComponent},
-    {path: '**', redirectTo: '/not-found'}
+    {path: '**', redirectTo: '/not-found'},
 ];
 
 @NgModule({

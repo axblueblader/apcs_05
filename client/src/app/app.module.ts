@@ -25,6 +25,8 @@ import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.compon
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthService } from './authentication/auth.service';
 import { UserInfoService } from './authentication/userInfo.service';
+import { VoiceCallDialogComponent } from './voice-call-dialog/voice-call-dialog.component';
+import { CallRecieveDialogComponent } from './call-recieve-dialog/call-recieve-dialog.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { UserInfoService } from './authentication/userInfo.service';
     QuizComponent,
     QuizdoComponent,
     QuizresultComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    VoiceCallDialogComponent,
+    CallRecieveDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +57,9 @@ import { UserInfoService } from './authentication/userInfo.service';
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
-  entryComponents: [SignupDialogComponent],
+  entryComponents: [SignupDialogComponent,CallRecieveDialogComponent,VoiceCallDialogComponent],
   providers: [AuthService,UserInfoService],
   bootstrap: [AppComponent]
 })
