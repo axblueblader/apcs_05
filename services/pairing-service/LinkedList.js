@@ -103,8 +103,8 @@ class LinkedList {
         let ret = 'no value found'
 
         if (currentNode != null && currentNode.value == value){
-            this.prevNode.nextNode = this.nextNode
-            this.nextNode.prevNode = this.prevNode
+            currentNode.prevNode.nextNode = currentNode.nextNode
+            currentNode.nextNode.prevNode = currentNode.prevNode
 
             ret = 'remove value sucess'
         }

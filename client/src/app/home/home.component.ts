@@ -5,6 +5,7 @@ import { SocketService } from '../socketio/socketio.service';
 import { UserInfoService } from '../authentication/userInfo.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
 
+  searchGender = new FormControl('none');
   clicked = false;
   registered = false;
   userID = undefined;
@@ -50,6 +52,17 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  logOut(): void {
+    if (this.userID != undefined){
+    this.socketService.disconnect(this.userID);
+    this.userID = undefined;
+    this.registered = false;
+    this.userName = false;
+    this.userInfoService.reset();
+    this.clicked = false;
+    }
+  }
+
   initUserID(data) {
     if (this.userID == undefined){
 
@@ -68,11 +81,23 @@ export class HomeComponent implements OnInit {
   startSearch() {
     
     this.registerID();
+    let data;
+    if(this.searchGender.value == "none") {
+        data = {
+        userid: this.userID, // userid from db
+        queueType: 'quick'  // queueType from options chose in screen
+      };
+    }
+    else {
+      let queueType = this.userInfoService.getUserInfo().data.userGender + this.searchGender.value
+      console.log('Param queue type: ',queueType)
+      data = {
+        userid: this.userID,
+        queueType: queueType
+      }
+    }
 
-    const data = {
-      userid: this.userID, // userid from db
-      queueType: 'quick'  // queueType from options chose in screen
-    };
+    
     this.socketService.startSearch(data);
   }
 
