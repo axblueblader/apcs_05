@@ -1,5 +1,9 @@
 # apcs_05
 Repository for CS300 Software Engineering course project
+
+## Demo
+talechat.herokuapp.com
+
 ## Member
 + Nguyen Quoc Viet
 + Huynh Ha Mai Trinh
