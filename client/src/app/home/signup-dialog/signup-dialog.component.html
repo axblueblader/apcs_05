@@ -1,0 +1,51 @@
+<mat-tab-group dynamicHeight>
+  <mat-tab label="Sign In">
+    <div class="dialog-content">
+      <mat-form-field>
+        <input matInput placeholder="Phone number" type="tel" [formControl]="phoneIn">
+        <mat-error *ngIf="phoneIn.invalid">{{getErrorMessagePhoneIn()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" [formControl]="passwordIn">
+        <mat-error *ngIf="passwordIn.invalid">{{getErrorMessagePasswordIn()}}</mat-error>
+      </mat-form-field>
+      <!-- <mat-radio-group>
+        <p id="gender">Gender</p>
+        <mat-radio-button class="radio-button" value="1" color="primary">Male</mat-radio-button>
+        <mat-radio-button class="radio-button" value="2" color="primary">Female</mat-radio-button>
+      </mat-radio-group> -->
+    </div>
+    <div class="dialog-actions">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" (click)="onAccessAccount()">Sign In</button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Sign Up">
+    <div class="dialog-content">
+      <mat-form-field>
+        <input matInput placeholder="Username" type="text" [formControl]="usernameUp">
+        <mat-error *ngIf="usernameUp.invalid">{{getErrorMessageUsernameUp()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Phone number" type="tel" [formControl]="phoneUp">
+        <mat-error *ngIf="phoneUp.invalid">{{getErrorMessagePhoneUp()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" [formControl]="passwordUp">
+        <mat-error *ngIf="passwordUp.invalid">{{getErrorMessagePasswordUp()}}</mat-error>
+      </mat-form-field>
+      <mat-radio-group matInput placeholder="Gender" type="radio-button" [formControl]="genderUp">
+        <p id="gender">Gender</p>
+        <mat-radio-button class="radio-button" value="male" color="primary">Male</mat-radio-button>
+        <mat-radio-button class="radio-button" value="female" color="primary">Female</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="dialog-actions">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" (click)="onCreateAccount()">Sign Up</button>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
+

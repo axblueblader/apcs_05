@@ -1,0 +1,20 @@
+.skeleton {
+   p {
+    animation: loading 1.7s infinite linear;
+    background: #f6f7f8;
+    background-image: -webkit-linear-gradient(to left, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-image: linear-gradient(to left, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-repeat: no-repeat;
+     width: 300px;
+     height: 300px;
+  }
+}
+
+  @keyframes loading {
+    0% {
+      background-position: -200px;
+    }
+    100% {
+      background-position: 300px;
+    }
+  }

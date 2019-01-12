@@ -1,0 +1,54 @@
+<div id="first-line">
+  <table id="tableTop">
+    <tr>
+      <td id="colLeft"><button mat-flat-button color="primary" class="flbutton">≡</button></td>
+      <td id="colMid">Tale</td>
+      <td id="colRight">      
+        <button *ngIf = "userID == undefined" 
+        mat-flat-button color="primary" class="flbutton" (click)="openDialog()">Sign In</button>
+        <button *ngIf = "userID != undefined" 
+        mat-flat-button color="primary" class="flbutton" (click)="openDifferentDialog()">{{userName}}</button>
+        <button *ngIf = "userID != undefined" 
+        mat-flat-button color="primary" class="flbutton" (click)="logOut()">Log out</button>
+      </td>
+    </tr>
+  </table>
+</div>
+<body>
+  <div id="search-button">
+    <mat-spinner diameter="180" strokeWidth="5" *ngIf="clicked"></mat-spinner>
+    <button mat-raised-button class="raised-button" color="accent" (click) = "onClick()">
+      {{clicked ? "×" : "+"}}
+    </button>
+  </div>
+
+  <div id="search">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <p id="search-option">Searching options</p>
+        </mat-expansion-panel-header>
+        <div id="table-outside"><table id="tableSearch">
+          <tr>
+            <td class="title">Gender</td>
+            <td>
+              <mat-radio-group id="gender-align" [formControl]="searchGender">
+                  <mat-radio-button class="radio-button" value="male">Male</mat-radio-button>
+                  <mat-radio-button class="radio-button" value="female">Female</mat-radio-button>
+                  <mat-radio-button class="radio-button" value="none">Any</mat-radio-button>
+              </mat-radio-group>
+            </td>
+          </tr>
+          <!-- <tr>
+            <td class="title">Age</td>
+            <td>
+              <mat-radio-group>
+                <mat-slider thumbLabel min="18" max="99" tickInterval="5"></mat-slider>
+              </mat-radio-group>
+            </td>
+          </tr> -->
+        </table></div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</body>
