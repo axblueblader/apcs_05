@@ -39,6 +39,10 @@ export class SocketService {
     public register(userID): void {
         this.socket.emit('register',userID);
     }
+
+    public disconnect(userID): void {
+        this.socket.emit('manual disconnect', userID);
+    }
     /*  END REGISTER SOCKET SECTION */
 
     /*  MATCHING SECTION

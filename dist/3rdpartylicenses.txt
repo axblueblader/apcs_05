@@ -776,8 +776,6 @@ MIT
 
 @angular/material/radio
 
-@angular/material/slider
-
 @angular/material/form-field
 
 @angular/material/dialog

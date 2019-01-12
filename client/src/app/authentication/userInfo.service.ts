@@ -32,4 +32,11 @@ export class UserInfoService {
     setPartnerId(partnerId) {
         this.partnerId = partnerId;
     }
+
+    reset() {
+        this.token = undefined;
+        this.partnerId = undefined;
+        this.registeredSocket = undefined;
+        this.userInfo = undefined;
+    }
 }

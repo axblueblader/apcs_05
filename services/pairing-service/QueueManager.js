@@ -30,10 +30,11 @@ class QueueManager{
     }
 
     leaveQueue(userid){
+        console.log('User is leaving queue: ',userid);
         this.quickQueue.leaveQueue(userid)
         this.maleFemaleQueue.leaveQueue(userid)
         this.femaleFemaleQueue.leaveQueue(userid)
-        this.maleFemaleQueue.leaveQueue(userid)
+        this.maleMaleQueue.leaveQueue(userid)
         return 'leave queue'
     }
 }

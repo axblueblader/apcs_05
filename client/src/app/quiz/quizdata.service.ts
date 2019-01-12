@@ -3,6 +3,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {UserInfoService} from '../authentication/userInfo.service';
+import { environment } from 'src/environments/environment';
 
 interface Question {
   firstchoice: {imgName: string, imgPath: string};
@@ -41,7 +42,7 @@ export  class  QuizdataService {
   private quizList = [];
   private quizRes = '';
   private partnerRes = '';
-  private url = '';
+  private url = environment.production? '':'http://localhost:3000';
 
 
 

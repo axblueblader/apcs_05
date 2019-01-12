@@ -8,6 +8,8 @@
         mat-flat-button color="primary" class="flbutton" (click)="openDialog()">Sign In</button>
         <button *ngIf = "userID != undefined" 
         mat-flat-button color="primary" class="flbutton" (click)="openDifferentDialog()">{{userName}}</button>
+        <button *ngIf = "userID != undefined" 
+        mat-flat-button color="primary" class="flbutton" (click)="logOut()">Log out</button>
       </td>
     </tr>
   </table>
@@ -30,20 +32,21 @@
           <tr>
             <td class="title">Gender</td>
             <td>
-              <mat-radio-group id="gender-align">
-                  <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
-                  <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
+              <mat-radio-group id="gender-align" [formControl]="searchGender">
+                  <mat-radio-button class="radio-button" value="male">Male</mat-radio-button>
+                  <mat-radio-button class="radio-button" value="female">Female</mat-radio-button>
+                  <mat-radio-button class="radio-button" value="none">Any</mat-radio-button>
               </mat-radio-group>
             </td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td class="title">Age</td>
             <td>
               <mat-radio-group>
                 <mat-slider thumbLabel min="18" max="99" tickInterval="5"></mat-slider>
               </mat-radio-group>
             </td>
-          </tr>
+          </tr> -->
         </table></div>
       </mat-expansion-panel>
     </mat-accordion>
