@@ -2,7 +2,7 @@
 Repository for CS300 Software Engineering course project
 
 ## Demo
-talechat.herokuapp.com
+http://talechat.herokuapp.com/
 
 ## Member
 + Nguyen Quoc Viet
