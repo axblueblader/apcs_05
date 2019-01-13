@@ -7,12 +7,12 @@ import {CallRecieveDialogComponent} from '../call-recieve-dialog/call-recieve-di
 
 
 
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-
 
 
 export class ChatComponent implements OnInit, AfterViewChecked {
@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   private userID;
 
+
   ngOnInit() {
     // setInterval(
     //   () => {
@@ -35,19 +36,35 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.userID = this.userInfoService.getToken();
 
     this.socketService.onNewMessage().subscribe((data) => {
-      if (data === 'voicecall') {
-        console.log('coming call', data);
-        this.openDialog();
-        return;
-      }
-      if (data === 'videocall') {
-        console.log('coming call', data);
-        return;
-      }
       console.log('recieved message: ', data);
       this.msg_list.push({msg: data, owner: 'partner'});
     });
+
+    this.socketService.onCallComing().subscribe((data) => {
+      console.log('on call coming', 'on');
+      if (data === 'voice') {
+        this.openDialog(data);
+        console.log('on voice call', 'on');
+        return;
+      }
+      if (data === 'video') {
+        this.openDialog(data);
+        return;
+      }
+    });
+
+    this.socketService.onCallAccepted().subscribe((data) => {
+      console.log('data', data);
+      console.log('on call accepted', 'on');
+      if (data.type === 'voice') {
+        this.openVideoCallWindow(data.toUserid);
+      }
+      else {
+        this.openVideoCallWindow(data.toUserid);
+      }
+    });
   }
+
 
   addMsg(value: string) {
     this.msg_list.push({msg: value, owner: 'me'});
@@ -74,27 +91,69 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   startVoiceCall(value: string) {
     let data = {
       userid: this.userID,
-      msg: 'voicecall'
-    }
-
-    this.socketService.sendMessage(data);
+      type: 'voice'
+    };
+    this.socketService.sendCallRequest(data);
 
   }
   startVideoCall(value: string) {
     let data = {
       userid: this.userID,
-      msg: 'videocall'
-    }
-    this.socketService.sendMessage(data);
+      type: 'video'
+    };
+
+    this.socketService.sendCallRequest(data);
 
   }
-  openDialog(): void {
-    const dialogRef = this.dialog.open(CallRecieveDialogComponent,{});
+  openDialog(value): void {
+
+    const dialogRef = this.dialog.open(CallRecieveDialogComponent, {
+      data: {
+        calltype: value
+      }
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'decline')
+        return;
+      let data = {
+        userid: this.userID,
+        type: value
+      }
+      this.socketService.sendCallResponse(data);
+      console.log('value',value);
+      if (value === 'voice')
+        this.openVoiceCallWindow('null');
+      else
+        this.openVideoCallWindow('null');
+    });
+  }
+
+  openVoiceCallWindow(partnerid: string): void {
+    const dialogRef = this.dialog.open(VoiceCallDialogComponent,{
+      data: {
+        userid: this.userID,
+        partnerid: partnerid}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+  });
+  }
+
+  openVideoCallWindow(partnerid: string): void {
+    const dialogRef = this.dialog.open(VoiceCallDialogComponent,{
+      data: {
+        userid: this.userID,
+        partnerid: partnerid}
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     });
   }
+
 }
 
 

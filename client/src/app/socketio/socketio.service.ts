@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import {observable, Observable, Observer} from 'rxjs';
 import * as socketIo from 'socket.io-client';
 import { environment } from '../../environments/environment';
 
@@ -81,4 +81,34 @@ export class SocketService {
         })
     }
     /*  END MESSAGING SECTION   */
+
+
+
+
+    /* CALL SECTION
+
+     */
+  public sendCallRequest(data): void {
+    console.log('send call request', 'on');
+    this.socket.emit('send call request', data);
+  }
+
+  public sendCallResponse(data): void {
+    console.log('send call response', data);
+    this.socket.emit('send call response', data);
+  }
+
+  public onCallComing(): Observable<any> {
+    return new Observable<any>(observer => {
+      this.socket.on('call coming', (data) => observer.next(data));
+    });
+  }
+
+  public onCallAccepted(): Observable<any> {
+    return new Observable<any>(observer => {
+      this.socket.on('call accepted', (data) => observer.next(data));
+    });
+  }
+
+
 }
