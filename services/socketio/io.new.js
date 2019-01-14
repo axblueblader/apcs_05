@@ -83,6 +83,16 @@ const initialize = function (server) {
             queueManager.leaveQueue(userId);
             socketManager.removeConnection(userId);
         })
+
+        socket.on('send call request', (data)=>{
+            conversations.callRequestSent(data.userid, data.type);
+        })
+
+        socket.on('send call response', (data)=>{
+            console.log('send call response', 'on');
+            conversations.callAccepted(data.userid, data.type);
+        })
+
     })        
 }
 

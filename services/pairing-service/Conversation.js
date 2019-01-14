@@ -65,6 +65,35 @@ class Conversation {
 
         return 'seen message sent'
     }
+
+    callRequestSent(callFromId, type){
+
+        let toId = this.Conversations.get(callFromId)
+
+
+        let socket = this.socketManager.getSocketByID(toId)
+
+
+        console.log('call coming to:',socket.id)
+
+        socket.emit('call coming', type)
+
+        return 'call coming'
+
+    }
+
+    callAccepted(callToId, type){
+        let callFromId = this.Conversations.get(callToId);
+
+        let socket = this.socketManager.getSocketByID(callFromId);
+
+        console.log('call accepted map', 'on');
+
+        socket.emit('call accepted', { toUserid: callToId, type: type })
+
+
+        return 'call accepted'
+    }
 }
 
 module.exports = Conversation;
