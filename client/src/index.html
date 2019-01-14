@@ -27,25 +27,6 @@
       ssl: true
     });
 
-    pubnub.subscribe({
-      channel    : "TaleCall",
-      message    : function (message) { console.log("callback: ", message)},
-      connect    : function() {
-
-        console.log("Connected")
-        pubnub.publish({
-          channel: 'my_channel',
-          message: { "color" : "blue" },
-          success : function(details) {
-            console.log(details)
-          }
-        });
-      },
-      disconnect : function() { console.log("Disconnected") },
-      reconnect  : function() { console.log("Reconnected") },
-      error      : function() { console.log("Network Error") },
-      restore    : true
-    })
     window.ctrl = CONTROLLER(window.phone, get_xirsys_servers);
     window.ctrl.ready(function () {
       console.log('ready',' to phone ');
