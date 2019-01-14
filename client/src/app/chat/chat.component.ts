@@ -59,11 +59,10 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.router.navigate(['']);
       })
 
-    this.userID = this.userInfoService.getToken();
     window['audio_out'] = document.getElementById('aud-box')
 
     this.socketService.onNewMessage().subscribe((data) => {
-      console.log('recieved message: ', data);
+
       this.msg_list.push({msg: data, owner: 'partner'});
     });
 
@@ -71,7 +70,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
       console.log('on call coming', 'on');
       if (data === 'voice') {
         this.openDialog(data);
-        console.log('on voice call', 'on');
+
         return;
       }
       if (data === 'video') {
@@ -81,10 +80,9 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
 
     this.socketService.onCallAccepted().subscribe((data) => {
-      console.log('data', data);
-      console.log('on call accepted', 'on');
+
       if (data.type === 'voice') {
-        console.log('test','test');
+
         this.openVoiceCallWindow(data.toUserid);
       }
       else {
@@ -121,10 +119,10 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   constructor(private socketService: SocketService,
-
               private router: Router,
               private route: ActivatedRoute,
-              private userInfoService: UserInfoService, private dialog: MatDialog) {
+              private userInfoService: UserInfoService,
+              public dialog: MatDialog) {
   }
 
   ngOnDestroy() {
@@ -165,23 +163,26 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 'decline')
+      if (result === 'decline') {
         return;
+      }
       let data = {
         userid: this.userID,
         type: value
       }
       this.socketService.sendCallResponse(data);
-      console.log('value',value);
-      if (value === 'voice')
+
+      if (value === 'voice'){
         this.openVoiceCallWindow('null');
+      }
       else
+
         this.openVideoCallWindow('null');
     });
   }
 
   openVoiceCallWindow(partnerid: string): void {
-    console.log('on open voice call', 'on');
+
     const dialogRef = this.dialog.open(VoiceCallDialogComponent,{
       data: {
         userid: this.userID,
@@ -189,7 +190,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+
   });
   }
 
@@ -201,7 +202,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+
     });
   }
 

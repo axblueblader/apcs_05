@@ -130,12 +130,12 @@ export class SocketService {
 
      */
   public sendCallRequest(data): void {
-    console.log('send call request', 'on');
+
     this.socket.emit('send call request', data);
   }
 
   public sendCallResponse(data): void {
-    console.log('send call response', data);
+
     this.socket.emit('send call response', data);
   }
 

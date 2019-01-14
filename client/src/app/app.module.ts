@@ -65,8 +65,6 @@ import { CallRecieveDialogComponent } from './call-recieve-dialog/call-recieve-d
     MatProgressSpinnerModule,
   ],
 
-  entryComponents: [SignupDialogComponent],
-  providers: [AuthService, UserInfoService, CanDeactivateGuard],
 
   entryComponents: [SignupDialogComponent,CallRecieveDialogComponent,VoiceCallDialogComponent],
   providers: [AuthService,UserInfoService, CanDeactivateGuard],
