@@ -1,12 +1,7 @@
 <html>
 <head>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
-  <script src="https://codepen.io/hunh-h-mai-trinh/pen/VqbvJp.js" ></script>
-  <script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>
-  <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
-  <script src="https://cdn.pubnub.com/pubnub-dev.js"></script>
+
 
 </head>
 <body ng-app="myApp" ng-controller="myCtrl">
@@ -15,94 +10,8 @@
 
 <div id="inCall" class="ptext">
   <button id="end" onclick="hangUp()" >Hang Up</button>
-  <button id="mute" onclick="mute()">Mute</button>
+  <button id="mute" onclick="init()">Mute</button>
 </div>
-
-
-<script type="text/javascript">
-  var app = angular.module('myApp', []);
-  app.controller('myCtrl', function() {
-    console.log('test','test');
-
-
-    var audio_out = document.getElementById('aud-box')
-    var ctrl
-
-    var phone = window.phone = PHONE({
-      number: this.data.userid || "Anonymous", // listen on username line else Anonymous
-      publish_key: 'pub-c-7198594f-afc9-41c6-90d5-0550167baa42', // Your Pub Key
-      subscribe_key: 'sub-c-19694406-fd5f-11e8-849f-127435af060e', // Your Sub Key
-      ssl: true
-    });
-
-
-    ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
-    ctrl.ready(function () {
-    });
-    ctrl.receive(function (session) {
-
-      console.log("voice call")
-      session.connected(function (session) {
-        audio_out.appendChild(session.audio);
-      });
-      session.ended(function (session) {
-        audio_out.innerHTML = '';
-      });
-      ctrl.videoToggled(function (session, isEnabled) {
-        ctrl.getVideoElement(session.number).toggle(isEnabled);
-      })
-      ctrl.audioToggled(function (session, isEnabled) {
-        ctrl.getVideoElement(session.number).css("opacity", isEnabled ? 1 : 0.75);
-      })
-
-
-    });
-    if (this.data.partnerid != 'null')
-      ctrl.dial(this.data.parnerid, get_xirsys_servers());
-
-
-    function get_xirsys_servers() {
-      var servers;
-      $.ajax({
-        type: 'POST',
-        url: 'https://service.xirsys.com/ice',
-        data: {
-          room: 'default',
-          application: 'default',
-          domain: 'talecall.herokuapp.com',
-          chanel: 'Tale',
-          ident: 'hhmtcpp',
-          secret: '6ab48d88-05fd-11e9-9b6e-0242ac110003',
-          secure: 1,
-        },
-        success: function (res) {
-          console.log(res);
-          var newData = JSON.stringify(res)
-          res = JSON.parse(newData);
-          if (!res.e) servers = res.d.iceServers;
-        },
-        async: false
-      });
-      return servers;
-    }
-
-    function hangUp() {
-      phone.hangup()
-      console.log("hang up")
-    }
-
-
-    function mute() {
-      var audio = ctrl.toggleAudio();
-      console.log("mute")
-      if (!audio) $("#mute").html("Unmute");
-      else $("#mute").html("Mute");
-    }
-  }
-
-
-</script>
-
 </body>
 </html>
 

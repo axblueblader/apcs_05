@@ -34,6 +34,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     //   , 10000);
 
     this.userID = this.userInfoService.getToken();
+    window['audio_out'] = document.getElementById('aud-box')
 
     this.socketService.onNewMessage().subscribe((data) => {
       console.log('recieved message: ', data);
@@ -57,7 +58,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       console.log('data', data);
       console.log('on call accepted', 'on');
       if (data.type === 'voice') {
-        this.openVideoCallWindow(data.toUserid);
+        console.log('test','test');
+        this.openVoiceCallWindow(data.toUserid);
       }
       else {
         this.openVideoCallWindow(data.toUserid);
@@ -131,6 +133,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   openVoiceCallWindow(partnerid: string): void {
+    console.log('on open voice call', 'on');
     const dialogRef = this.dialog.open(VoiceCallDialogComponent,{
       data: {
         userid: this.userID,

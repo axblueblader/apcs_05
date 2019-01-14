@@ -16,6 +16,9 @@ export class VoiceCallDialogComponent implements OnInit {
     private elementRef: ElementRef,
     @Inject(MAT_DIALOG_DATA) public data: any){}
 
-    ngOnInit(){}
+    ngOnInit(){
+      window['userid'] = this.data.userid;
+      window['partnerid'] = this.data.partnerid;
+    }
 
   }
