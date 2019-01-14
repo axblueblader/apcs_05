@@ -1,10 +1,10 @@
 import {AfterViewChecked, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild, OnDestroy} from '@angular/core';
 import { SocketService } from '../socketio/socketio.service';
 import { UserInfoService } from '../authentication/userInfo.service';
-<<<<<<< HEAD
+
 import {ActivatedRoute, Router} from '@angular/router';
 import { observable, Subscription } from 'rxjs';
-=======
+
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {VoiceCallDialogComponent} from '../voice-call-dialog/voice-call-dialog.component';
 import {CallRecieveDialogComponent} from '../call-recieve-dialog/call-recieve-dialog.component';
@@ -12,7 +12,7 @@ import {CallRecieveDialogComponent} from '../call-recieve-dialog/call-recieve-di
 
 
 
->>>>>>> feature-call
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -20,12 +20,10 @@ import {CallRecieveDialogComponent} from '../call-recieve-dialog/call-recieve-di
 })
 
 
-<<<<<<< HEAD
+
 
 export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
-=======
-export class ChatComponent implements OnInit, AfterViewChecked {
->>>>>>> feature-call
+
   @ViewChild('msgbox') msgbox: ElementRef;
   @ViewChild('newMsg') inputfield: ElementRef;
   msg_list: {
@@ -46,7 +44,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     //   }
     //   , 10000);
 
-<<<<<<< HEAD
+
     this.userID = this.userInfoService.getUserInfo().data._id;
 
     this.leftChat = false;
@@ -62,7 +60,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.router.navigate(['']);
       })
     
-=======
+
     this.userID = this.userInfoService.getToken();
     window['audio_out'] = document.getElementById('aud-box')
 
@@ -95,7 +93,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.openVideoCallWindow(data.toUserid);
       }
     });
->>>>>>> feature-call
+
   }
 
 
@@ -125,7 +123,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   constructor(private socketService: SocketService,
-<<<<<<< HEAD
+
               private router: Router,
               private route: ActivatedRoute,
               private userInfoService: UserInfoService) {
@@ -139,8 +137,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.userInfoService.setPartnerId("");
     }
   }
-=======
-              private userInfoService: UserInfoService, public dialog: MatDialog){}
+
 
 
   startVoiceCall(value: string) {
@@ -210,7 +207,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     });
   }
 
->>>>>>> feature-call
+
 }
 
 

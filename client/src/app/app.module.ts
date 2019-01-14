@@ -25,13 +25,13 @@ import { SignupDialogComponent } from './home/signup-dialog/signup-dialog.compon
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthService } from './authentication/auth.service';
 import { UserInfoService } from './authentication/userInfo.service';
-<<<<<<< HEAD
+
 import {QuizdataService} from './quiz/quizdata.service';
 import {CanDeactivateGuard} from './quiz/quizdo/can-deactivate.guard';
-=======
+
 import { VoiceCallDialogComponent } from './voice-call-dialog/voice-call-dialog.component';
 import { CallRecieveDialogComponent } from './call-recieve-dialog/call-recieve-dialog.component';
->>>>>>> feature-call
+
 
 
 @NgModule({
@@ -64,13 +64,13 @@ import { CallRecieveDialogComponent } from './call-recieve-dialog/call-recieve-d
     MatTabsModule,
     MatProgressSpinnerModule,
   ],
-<<<<<<< HEAD
+
   entryComponents: [SignupDialogComponent],
   providers: [AuthService, UserInfoService, CanDeactivateGuard],
-=======
+
   entryComponents: [SignupDialogComponent,CallRecieveDialogComponent,VoiceCallDialogComponent],
-  providers: [AuthService,UserInfoService],
->>>>>>> feature-call
+  providers: [AuthService,UserInfoService, CanDeactivateGuard],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
