@@ -53,13 +53,11 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
         console.log('recieved message: ', data);
         this.msg_list.push({msg: data, owner: 'partner'});
       });
-  
       this._onLeftChatSub = this.socketService.onLeftChat().subscribe((data) => {
         alert("Partner left the chat");
         this.leftChat = true;
         this.router.navigate(['']);
       })
-    
 
     this.userID = this.userInfoService.getToken();
     window['audio_out'] = document.getElementById('aud-box')
@@ -126,7 +124,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
               private router: Router,
               private route: ActivatedRoute,
-              private userInfoService: UserInfoService) {
+              private userInfoService: UserInfoService, private dialog: MatDialog) {
   }
 
   ngOnDestroy() {
